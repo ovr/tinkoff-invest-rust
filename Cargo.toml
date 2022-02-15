@@ -2,6 +2,9 @@
 name = "tinkoff-invest-api"
 version = "0.1.0"
 edition = "2021"
+description = "gRPC Клиент для Тинькофф Инвестиций (протокол v2)"
+license = "MIT"
+repository = "https://github.com/ovr/tinkoff-invest-rust"
 
 [dependencies]
 prost = "0.9"
