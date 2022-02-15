@@ -17,7 +17,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             &["contracts/"],
         )?;
 
-    std::fs::rename("./src/tinkoff.public.invest.api.contract.v1.rs", "./src/tcs.rs")?;
+    std::fs::rename(
+        "./src/tinkoff.public.invest.api.contract.v1.rs",
+        "./src/tcs.rs",
+    )?;
 
     Ok(())
 }
