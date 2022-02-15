@@ -1,5 +1,5 @@
 [package]
-name = "tinkoff-invest-rust"
+name = "tinkoff-invest-api"
 version = "0.1.0"
 edition = "2021"
 
