@@ -1,6 +1,7 @@
 use tcs::{
     instruments_service_client::InstrumentsServiceClient,
     market_data_service_client::MarketDataServiceClient,
+    market_data_stream_service_client::MarketDataStreamServiceClient,
     operations_service_client::OperationsServiceClient,
     sandbox_service_client::SandboxServiceClient,
     stop_orders_service_client::StopOrdersServiceClient, users_service_client::UsersServiceClient,
@@ -127,6 +128,21 @@ impl TinkoffInvestService {
         channel: Channel,
     ) -> TIResult<MarketDataServiceClient<InterceptedService<Channel, DefaultInterceptor>>> {
         let client = MarketDataServiceClient::with_interceptor(
+            channel,
+            DefaultInterceptor {
+                token: self.token.clone(),
+            },
+        );
+
+        Ok(client)
+    }
+
+    pub async fn marketdata_stream(
+        &self,
+        channel: Channel,
+    ) -> TIResult<MarketDataStreamServiceClient<InterceptedService<Channel, DefaultInterceptor>>>
+    {
+        let client = MarketDataStreamServiceClient::with_interceptor(
             channel,
             DefaultInterceptor {
                 token: self.token.clone(),

@@ -4,7 +4,7 @@ mod tests {
     use tinkoff_invest_api::{TIResult, TinkoffInvestService};
 
     #[tokio::test]
-    async fn test() -> TIResult<()> {
+    async fn test_get_accounts() -> TIResult<()> {
         let service = TinkoffInvestService::new(env::var("TINKOFF_SDK_TESTING_ENV").unwrap());
         let channel = service.create_channel().await?;
         let mut users = service.users(channel).await?;

@@ -17,6 +17,7 @@ async-stream = "0.3"
 futures = {version = "0.3", default-features = false, features = ["alloc"]}
 tokio = {version = "1.0", features = ["rt-multi-thread", "time", "fs", "macros", "net"]}
 tokio-stream = {version = "0.1", features = ["net"]}
+futures-util = {version = "0.3.21"}
 
 [build-dependencies]
 tonic-build = { version = "0.6.2", features = ["rustfmt"] }
