@@ -1,7 +1,7 @@
 mod tests {
     use std::env;
 
-    use tinkoff_invest_rust::{TinkoffInvestService, TIResult};
+    use tinkoff_invest_api::{TIResult, TinkoffInvestService};
 
     #[tokio::test]
     async fn test() -> TIResult<()> {
@@ -11,7 +11,7 @@ mod tests {
 
         let accounts = users
             .get_accounts(tonic::Request::new(
-                tinkoff_invest_rust::tcs::GetAccountsRequest {},
+                tinkoff_invest_api::tcs::GetAccountsRequest {},
             ))
             .await?;
 

@@ -8,7 +8,7 @@ use tcs::{
 use tonic::{
     codegen::InterceptedService,
     service::Interceptor,
-    transport::{Channel, ClientTlsConfig, self},
+    transport::{self, Channel, ClientTlsConfig},
     Status,
 };
 
@@ -31,6 +31,12 @@ impl Interceptor for DefaultInterceptor {
             "authorization",
             format!("bearer {}", self.token).parse().unwrap(),
         );
+        req.metadata_mut().append(
+            "x-tracking-id",
+            uuid::Uuid::new_v4().to_string().parse().unwrap(),
+        );
+        req.metadata_mut()
+            .append("x-app-name", "ovr.tinkoffInvestRust".parse().unwrap());
 
         Ok(req)
     }
@@ -147,7 +153,7 @@ impl TinkoffInvestService {
     pub async fn sandbox(
         &self,
         channel: Channel,
-    ) -> TIResult<SandboxServiceClient<InterceptedService<Channel, DefaultInterceptor>>,> {
+    ) -> TIResult<SandboxServiceClient<InterceptedService<Channel, DefaultInterceptor>>> {
         let client = SandboxServiceClient::with_interceptor(
             channel,
             DefaultInterceptor {

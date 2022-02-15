@@ -12,6 +12,7 @@ tokio-stream = {version = "0.1", features = ["net"]}
 # Awaiting release with https://github.com/hyperium/tonic/commit/468e4221f0c496d9ffb4de24d3658b9267e884b1
 tonic = { git = "https://github.com/hyperium/tonic", rev = "d6c0fc112b2288a080fd0a727453b24d666e3d79", features = ["tls", "compression", "tls-roots"]}
 prost-types = "0.9.0"
+uuid = { version = "0.8", features = ["v4"] }
 
 [build-dependencies]
 tonic-build = "0.6.2"
