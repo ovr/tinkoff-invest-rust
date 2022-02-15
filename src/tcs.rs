@@ -278,10 +278,10 @@ pub struct Bond {
     ///Значение НКД (накопленного купонного дохода) на дату.
     #[prost(message, optional, tag = "24")]
     pub aci_value: ::core::option::Option<MoneyValue>,
-    ///Код страны эмитента.
+    ///Код страны риска, т.е. страны, в которой компания ведёт основной бизнес.
     #[prost(string, tag = "25")]
     pub country_of_risk: ::prost::alloc::string::String,
-    ///Наименование страны эмитента.
+    ///Наименование страны риска, т.е. страны, в которой компания ведёт основной бизнес.
     #[prost(string, tag = "26")]
     pub country_of_risk_name: ::prost::alloc::string::String,
     ///Сектор экономики.
@@ -375,10 +375,10 @@ pub struct Currency {
     ///Номинал.
     #[prost(message, optional, tag = "17")]
     pub nominal: ::core::option::Option<MoneyValue>,
-    ///Код страны эмитента.
+    ///Код страны риска, т.е. страны, в которой компания ведёт основной бизнес.
     #[prost(string, tag = "18")]
     pub country_of_risk: ::prost::alloc::string::String,
-    ///Наименование страны эмитента.
+    ///Наименование страны риска, т.е. страны, в которой компания ведёт основной бизнес.
     #[prost(string, tag = "19")]
     pub country_of_risk_name: ::prost::alloc::string::String,
     ///Текущий режим торгов инструмента.
@@ -463,10 +463,10 @@ pub struct Etf {
     ///Количество акций фонда в обращении.
     #[prost(message, optional, tag = "20")]
     pub num_shares: ::core::option::Option<Quotation>,
-    ///Код страны эмитента.
+    ///Код страны риска, т.е. страны, в которой компания ведёт основной бизнес.
     #[prost(string, tag = "21")]
     pub country_of_risk: ::prost::alloc::string::String,
-    ///Наименование страны эмитента.
+    ///Наименование страны риска, т.е. страны, в которой компания ведёт основной бизнес.
     #[prost(string, tag = "22")]
     pub country_of_risk_name: ::prost::alloc::string::String,
     ///Сектор экономики.
@@ -557,10 +557,10 @@ pub struct Future {
     ///Размер основного актива.
     #[prost(message, optional, tag = "20")]
     pub basic_asset_size: ::core::option::Option<Quotation>,
-    ///Код страны эмитента.
+    ///Код страны риска, т.е. страны, в которой компания ведёт основной бизнес.
     #[prost(string, tag = "21")]
     pub country_of_risk: ::prost::alloc::string::String,
-    ///Наименование страны эмитента.
+    ///Наименование страны риска, т.е. страны, в которой компания ведёт основной бизнес.
     #[prost(string, tag = "22")]
     pub country_of_risk_name: ::prost::alloc::string::String,
     ///Сектор экономики.
@@ -642,10 +642,10 @@ pub struct Share {
     ///Размер выпуска.
     #[prost(int64, tag = "18")]
     pub issue_size: i64,
-    ///Код страны эмитента.
+    ///Код страны риска, т.е. страны, в которой компания ведёт основной бизнес.
     #[prost(string, tag = "19")]
     pub country_of_risk: ::prost::alloc::string::String,
-    ///Наименование страны эмитента.
+    ///Наименование страны риска, т.е. страны, в которой компания ведёт основной бизнес.
     #[prost(string, tag = "20")]
     pub country_of_risk_name: ::prost::alloc::string::String,
     ///Сектор экономики.
@@ -796,10 +796,10 @@ pub struct Instrument {
     ///Торговая площадка.
     #[prost(string, tag = "15")]
     pub exchange: ::prost::alloc::string::String,
-    ///Код страны эмитента.
+    ///Код страны риска, т.е. страны, в которой компания ведёт основной бизнес.
     #[prost(string, tag = "16")]
     pub country_of_risk: ::prost::alloc::string::String,
-    ///Наименование страны эмитента.
+    ///Наименование страны риска, т.е. страны, в которой компания ведёт основной бизнес.
     #[prost(string, tag = "17")]
     pub country_of_risk_name: ::prost::alloc::string::String,
     ///Тип инструмента.
@@ -1715,7 +1715,7 @@ pub enum SubscriptionStatus {
     InstrumentNotFound = 2,
     ///Некорректный статус подписки, список возможных значений: \[SubscriptionAction\](<https://tinkoff.github.io/investAPI/marketdata#subscriptionaction>)
     SubscriptionActionIsInvalid = 3,
-    ///Некорректная глубина стакана, доступные значения: 10, 20, 30, 40, 50.
+    ///Некорректная глубина стакана, доступные значения: 1, 10, 20, 30, 40, 50.
     DepthIsInvalid = 4,
     ///Некорректный интервал свечей, список возможных значений: \[SubscriptionInterval\](<https://tinkoff.github.io/investAPI/marketdata#subscriptioninterval>)
     IntervalIsInvalid = 5,
