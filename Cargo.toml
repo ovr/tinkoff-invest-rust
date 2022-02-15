@@ -19,7 +19,7 @@ tokio = {version = "1.0", features = ["rt-multi-thread", "time", "fs", "macros",
 tokio-stream = {version = "0.1", features = ["net"]}
 
 [build-dependencies]
-tonic-build = "0.6.2"
+tonic-build = { version = "0.6.2", features = ["rustfmt"] }
 
 [patch.crates-io]
 # Awaiting release with https://github.com/hyperium/tonic/commit/468e4221f0c496d9ffb4de24d3658b9267e884b1
