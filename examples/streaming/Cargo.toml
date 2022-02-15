@@ -1,0 +1,18 @@
+[package]
+name = "streaming"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tinkoff-invest-api = { path = "../../"}
+async-stream = "0.3"
+futures = {version = "0.3", default-features = false, features = ["alloc"]}
+tokio = {version = "1.0", features = ["rt-multi-thread", "time", "fs", "macros", "net"]}
+tokio-stream = {version = "0.1", features = ["net"]}
+futures-util = {version = "0.3.21"}
+
+[patch.crates-io]
+# Awaiting release with https://github.com/hyperium/tonic/commit/468e4221f0c496d9ffb4de24d3658b9267e884b1
+tonic = { git = "https://github.com/hyperium/tonic", rev = "d6c0fc112b2288a080fd0a727453b24d666e3d79" }
