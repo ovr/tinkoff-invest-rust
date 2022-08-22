@@ -3,7 +3,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .build_client(true)
         .build_server(false)
         .out_dir("src")
-        .format(true)
         .compile(
             &[
                 "contracts/instruments.proto",
