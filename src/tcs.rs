@@ -67,7 +67,7 @@ pub enum SecurityTradingStatus {
     ///Недоступна торговля в режиме внутренней ликвидности брокера
     DealerNotAvailableForTrading = 16,
 }
-///Запрос расписания торгов
+///Запрос расписания торгов.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TradingSchedulesRequest {
     ///Наименование биржи или расчетного календаря. </br>Если не передаётся, возвращается информация по всем доступным торговым площадкам.
@@ -80,7 +80,7 @@ pub struct TradingSchedulesRequest {
     #[prost(message, optional, tag = "3")]
     pub to: ::core::option::Option<::prost_types::Timestamp>,
 }
-///Список торговых площадок
+///Список торговых площадок.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TradingSchedulesResponse {
     /// Список торговых площадок и режимов торгов.
@@ -112,12 +112,33 @@ pub struct TradingDay {
     /// Время окончания торгов по часовому поясу UTC.
     #[prost(message, optional, tag = "4")]
     pub end_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Время начала подачи заявки по часовому поясу UTC.
-    #[prost(message, optional, tag = "5")]
-    pub market_order_start_time: ::core::option::Option<::prost_types::Timestamp>,
-    /// Время окончания подачи заявки по часовому поясу UTC.
-    #[prost(message, optional, tag = "6")]
-    pub market_order_end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Время начала аукциона открытия в часовом поясе UTC.
+    #[prost(message, optional, tag = "7")]
+    pub opening_auction_start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Время окончания аукциона закрытия в часовом поясе UTC.
+    #[prost(message, optional, tag = "8")]
+    pub closing_auction_end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Время начала аукциона открытия вечерней сессии в часовом поясе UTC.
+    #[prost(message, optional, tag = "9")]
+    pub evening_opening_auction_start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Время начала вечерней сессии в часовом поясе UTC.
+    #[prost(message, optional, tag = "10")]
+    pub evening_start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Время окончания вечерней сессии в часовом поясе UTC.
+    #[prost(message, optional, tag = "11")]
+    pub evening_end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Время начала основного клиринга в часовом поясе UTC.
+    #[prost(message, optional, tag = "12")]
+    pub clearing_start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Время окончания основного клиринга в часовом поясе UTC.
+    #[prost(message, optional, tag = "13")]
+    pub clearing_end_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Время начала премаркета в часовом поясе UTC.
+    #[prost(message, optional, tag = "14")]
+    pub premarket_start_time: ::core::option::Option<::prost_types::Timestamp>,
+    /// Время окончания премаркета в часовом поясе UTC.
+    #[prost(message, optional, tag = "15")]
+    pub premarket_end_time: ::core::option::Option<::prost_types::Timestamp>,
 }
 ///Запрос получения инструмента по идентификатору.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -152,6 +173,56 @@ pub struct BondsResponse {
     ///Массив облигаций.
     #[prost(message, repeated, tag = "1")]
     pub instruments: ::prost::alloc::vec::Vec<Bond>,
+}
+///Запрос купонов по облигации.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetBondCouponsRequest {
+    ///Figi-идентификатор инструмента.
+    #[prost(string, tag = "1")]
+    pub figi: ::prost::alloc::string::String,
+    ///Начало запрашиваемого периода в часовом поясе UTC. Фильтрация по coupon_date (дата выплаты купона)
+    #[prost(message, optional, tag = "2")]
+    pub from: ::core::option::Option<::prost_types::Timestamp>,
+    ///Окончание запрашиваемого периода в часовом поясе UTC. Фильтрация по coupon_date (дата выплаты купона)
+    #[prost(message, optional, tag = "3")]
+    pub to: ::core::option::Option<::prost_types::Timestamp>,
+}
+///Купоны по облигации.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetBondCouponsResponse {
+    #[prost(message, repeated, tag = "1")]
+    pub events: ::prost::alloc::vec::Vec<Coupon>,
+}
+///Объект передачи информации о купоне облигации.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Coupon {
+    ///Figi-идентификатор инструмента.
+    #[prost(string, tag = "1")]
+    pub figi: ::prost::alloc::string::String,
+    ///Дата выплаты купона.
+    #[prost(message, optional, tag = "2")]
+    pub coupon_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Номер купона.
+    #[prost(int64, tag = "3")]
+    pub coupon_number: i64,
+    ///(Опционально) Дата фиксации реестра для выплаты купона.
+    #[prost(message, optional, tag = "4")]
+    pub fix_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Выплата на одну облигацию.
+    #[prost(message, optional, tag = "5")]
+    pub pay_one_bond: ::core::option::Option<MoneyValue>,
+    ///Тип купона.
+    #[prost(enumeration = "CouponType", tag = "6")]
+    pub coupon_type: i32,
+    ///Начало купонного периода.
+    #[prost(message, optional, tag = "7")]
+    pub coupon_start_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Окончание купонного периода.
+    #[prost(message, optional, tag = "8")]
+    pub coupon_end_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Купонный период в днях.
+    #[prost(int32, tag = "9")]
+    pub coupon_period: i32,
 }
 ///Данные по валюте.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -323,6 +394,24 @@ pub struct Bond {
     ///Признак доступности торгов через API.
     #[prost(bool, tag = "39")]
     pub api_trade_available_flag: bool,
+    ///Уникальный идентификатор инструмента.
+    #[prost(string, tag = "40")]
+    pub uid: ::prost::alloc::string::String,
+    ///Реальная площадка исполнения расчётов.
+    #[prost(enumeration = "RealExchange", tag = "41")]
+    pub real_exchange: i32,
+    ///Уникальный идентификатор позиции инструмента.
+    #[prost(string, tag = "42")]
+    pub position_uid: ::prost::alloc::string::String,
+    ///Признак доступности для ИИС.
+    #[prost(bool, tag = "51")]
+    pub for_iis_flag: bool,
+    ///Дата первой минутной свечи.
+    #[prost(message, optional, tag = "61")]
+    pub first_1min_candle_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Дата первой дневной свечи.
+    #[prost(message, optional, tag = "62")]
+    pub first_1day_candle_date: ::core::option::Option<::prost_types::Timestamp>,
 }
 ///Объект передачи информации о валюте.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -402,6 +491,24 @@ pub struct Currency {
     ///Признак доступности торгов через API.
     #[prost(bool, tag = "26")]
     pub api_trade_available_flag: bool,
+    ///Уникальный идентификатор инструмента.
+    #[prost(string, tag = "27")]
+    pub uid: ::prost::alloc::string::String,
+    ///Реальная площадка исполнения расчётов.
+    #[prost(enumeration = "RealExchange", tag = "28")]
+    pub real_exchange: i32,
+    ///Уникальный идентификатор позиции инструмента.
+    #[prost(string, tag = "29")]
+    pub position_uid: ::prost::alloc::string::String,
+    ///Признак доступности для ИИС.
+    #[prost(bool, tag = "41")]
+    pub for_iis_flag: bool,
+    ///Дата первой минутной свечи.
+    #[prost(message, optional, tag = "56")]
+    pub first_1min_candle_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Дата первой дневной свечи.
+    #[prost(message, optional, tag = "57")]
+    pub first_1day_candle_date: ::core::option::Option<::prost_types::Timestamp>,
 }
 ///Объект передачи информации об инвестиционном фонде.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -493,6 +600,24 @@ pub struct Etf {
     ///Признак доступности торгов через API.
     #[prost(bool, tag = "30")]
     pub api_trade_available_flag: bool,
+    ///Уникальный идентификатор инструмента.
+    #[prost(string, tag = "31")]
+    pub uid: ::prost::alloc::string::String,
+    ///Реальная площадка исполнения расчётов.
+    #[prost(enumeration = "RealExchange", tag = "32")]
+    pub real_exchange: i32,
+    ///Уникальный идентификатор позиции инструмента.
+    #[prost(string, tag = "33")]
+    pub position_uid: ::prost::alloc::string::String,
+    ///Признак доступности для ИИС.
+    #[prost(bool, tag = "41")]
+    pub for_iis_flag: bool,
+    ///Дата первой минутной свечи.
+    #[prost(message, optional, tag = "56")]
+    pub first_1min_candle_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Дата первой дневной свечи.
+    #[prost(message, optional, tag = "57")]
+    pub first_1day_candle_date: ::core::option::Option<::prost_types::Timestamp>,
 }
 ///Объект передачи информации о фьючерсе.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -587,6 +712,27 @@ pub struct Future {
     ///Признак доступности торгов через API.
     #[prost(bool, tag = "30")]
     pub api_trade_available_flag: bool,
+    ///Уникальный идентификатор инструмента.
+    #[prost(string, tag = "31")]
+    pub uid: ::prost::alloc::string::String,
+    ///Реальная площадка исполнения расчётов.
+    #[prost(enumeration = "RealExchange", tag = "32")]
+    pub real_exchange: i32,
+    ///Уникальный идентификатор позиции инструмента.
+    #[prost(string, tag = "33")]
+    pub position_uid: ::prost::alloc::string::String,
+    ///Уникальный идентификатор позиции основного инструмента.
+    #[prost(string, tag = "34")]
+    pub basic_asset_position_uid: ::prost::alloc::string::String,
+    ///Признак доступности для ИИС.
+    #[prost(bool, tag = "41")]
+    pub for_iis_flag: bool,
+    ///Дата первой минутной свечи.
+    #[prost(message, optional, tag = "56")]
+    pub first_1min_candle_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Дата первой дневной свечи.
+    #[prost(message, optional, tag = "57")]
+    pub first_1day_candle_date: ::core::option::Option<::prost_types::Timestamp>,
 }
 ///Объект передачи информации об акции.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -681,6 +827,24 @@ pub struct Share {
     ///Признак доступности торгов через API.
     #[prost(bool, tag = "32")]
     pub api_trade_available_flag: bool,
+    ///Уникальный идентификатор инструмента.
+    #[prost(string, tag = "33")]
+    pub uid: ::prost::alloc::string::String,
+    ///Реальная площадка исполнения расчётов.
+    #[prost(enumeration = "RealExchange", tag = "34")]
+    pub real_exchange: i32,
+    ///Уникальный идентификатор позиции инструмента.
+    #[prost(string, tag = "35")]
+    pub position_uid: ::prost::alloc::string::String,
+    ///Признак доступности для ИИС.
+    #[prost(bool, tag = "46")]
+    pub for_iis_flag: bool,
+    ///Дата первой минутной свечи.
+    #[prost(message, optional, tag = "56")]
+    pub first_1min_candle_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Дата первой дневной свечи.
+    #[prost(message, optional, tag = "57")]
+    pub first_1day_candle_date: ::core::option::Option<::prost_types::Timestamp>,
 }
 ///Запрос НКД по облигации
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -823,6 +987,24 @@ pub struct Instrument {
     ///Признак доступности торгов через API.
     #[prost(bool, tag = "24")]
     pub api_trade_available_flag: bool,
+    ///Уникальный идентификатор инструмента.
+    #[prost(string, tag = "25")]
+    pub uid: ::prost::alloc::string::String,
+    ///Реальная площадка исполнения расчётов.
+    #[prost(enumeration = "RealExchange", tag = "26")]
+    pub real_exchange: i32,
+    ///Уникальный идентификатор позиции инструмента.
+    #[prost(string, tag = "27")]
+    pub position_uid: ::prost::alloc::string::String,
+    ///Признак доступности для ИИС.
+    #[prost(bool, tag = "36")]
+    pub for_iis_flag: bool,
+    ///Дата первой минутной свечи.
+    #[prost(message, optional, tag = "56")]
+    pub first_1min_candle_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Дата первой дневной свечи.
+    #[prost(message, optional, tag = "57")]
+    pub first_1day_candle_date: ::core::option::Option<::prost_types::Timestamp>,
 }
 ///Запрос дивидендов.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -830,10 +1012,10 @@ pub struct GetDividendsRequest {
     ///Figi-идентификатор инструмента.
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
-    ///Начало запрашиваемого периода в часовом поясе UTC.
+    ///Начало запрашиваемого периода в часовом поясе UTC. Фильтрация происходит по параметру *record_date* (дата фиксации реестра).
     #[prost(message, optional, tag = "2")]
     pub from: ::core::option::Option<::prost_types::Timestamp>,
-    ///Окончание запрашиваемого периода в часовом поясе UTC.
+    ///Окончание запрашиваемого периода в часовом поясе UTC. Фильтрация происходит по параметру *record_date* (дата фиксации реестра).
     #[prost(message, optional, tag = "3")]
     pub to: ::core::option::Option<::prost_types::Timestamp>,
 }
@@ -877,6 +1059,654 @@ pub struct Dividend {
     #[prost(message, optional, tag = "10")]
     pub created_at: ::core::option::Option<::prost_types::Timestamp>,
 }
+///Запрос актива по идентификатору.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssetRequest {
+    ///uid-идентификатор актива.
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+}
+///Данные по активу.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssetResponse {
+    ///Актив.
+    #[prost(message, optional, tag = "1")]
+    pub asset: ::core::option::Option<AssetFull>,
+}
+///Запрос списка активов.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssetsRequest {}
+///Список активов.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssetsResponse {
+    ///Активы.
+    #[prost(message, repeated, tag = "1")]
+    pub assets: ::prost::alloc::vec::Vec<Asset>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssetFull {
+    ///Уникальный идентификатор актива.
+    #[prost(string, tag = "1")]
+    pub uid: ::prost::alloc::string::String,
+    ///Тип актива.
+    #[prost(enumeration = "AssetType", tag = "2")]
+    pub r#type: i32,
+    ///Наименование актива.
+    #[prost(string, tag = "3")]
+    pub name: ::prost::alloc::string::String,
+    ///Короткое наименование актива.
+    #[prost(string, tag = "4")]
+    pub name_brief: ::prost::alloc::string::String,
+    ///Описание актива.
+    #[prost(string, tag = "5")]
+    pub description: ::prost::alloc::string::String,
+    ///Дата и время удаления актива.
+    #[prost(message, optional, tag = "6")]
+    pub deleted_at: ::core::option::Option<::prost_types::Timestamp>,
+    ///Тестирование клиентов.
+    #[prost(string, repeated, tag = "7")]
+    pub required_tests: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    ///Номер государственной регистрации.
+    #[prost(string, tag = "10")]
+    pub gos_reg_code: ::prost::alloc::string::String,
+    ///Код CFI.
+    #[prost(string, tag = "11")]
+    pub cfi: ::prost::alloc::string::String,
+    ///Код НРД инструмента.
+    #[prost(string, tag = "12")]
+    pub code_nsd: ::prost::alloc::string::String,
+    ///Статус актива.
+    #[prost(string, tag = "13")]
+    pub status: ::prost::alloc::string::String,
+    ///Бренд.
+    #[prost(message, optional, tag = "14")]
+    pub brand: ::core::option::Option<Brand>,
+    ///Дата и время последнего обновления записи.
+    #[prost(message, optional, tag = "15")]
+    pub updated_at: ::core::option::Option<::prost_types::Timestamp>,
+    ///Код типа ц.б. по классификации Банка России.
+    #[prost(string, tag = "16")]
+    pub br_code: ::prost::alloc::string::String,
+    ///Наименование кода типа ц.б. по классификации Банка России.
+    #[prost(string, tag = "17")]
+    pub br_code_name: ::prost::alloc::string::String,
+    ///Массив идентификаторов инструментов.
+    #[prost(message, repeated, tag = "18")]
+    pub instruments: ::prost::alloc::vec::Vec<AssetInstrument>,
+    #[prost(oneof = "asset_full::Ext", tags = "8, 9")]
+    pub ext: ::core::option::Option<asset_full::Ext>,
+}
+/// Nested message and enum types in `AssetFull`.
+pub mod asset_full {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Ext {
+        ///Валюта. Обязательно и заполняется только для type = "ASSET_TYPE_CURRENCY".
+        #[prost(message, tag = "8")]
+        Currency(super::AssetCurrency),
+        ///Ценная бумага. Обязательно и заполняется только для type = "ASSET_TYPE_SECURITY".
+        #[prost(message, tag = "9")]
+        Security(super::AssetSecurity),
+    }
+}
+///Информация об активе.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Asset {
+    ///Уникальный идентификатор актива.
+    #[prost(string, tag = "1")]
+    pub uid: ::prost::alloc::string::String,
+    ///Тип актива.
+    #[prost(enumeration = "AssetType", tag = "2")]
+    pub r#type: i32,
+    ///Наименование актива.
+    #[prost(string, tag = "3")]
+    pub name: ::prost::alloc::string::String,
+    ///Массив идентификаторов инструментов.
+    #[prost(message, repeated, tag = "4")]
+    pub instruments: ::prost::alloc::vec::Vec<AssetInstrument>,
+}
+///Валюта.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssetCurrency {
+    ///ISO-код валюты.
+    #[prost(string, tag = "1")]
+    pub base_currency: ::prost::alloc::string::String,
+}
+///Ценная бумага.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssetSecurity {
+    ///ISIN-идентификатор ценной бумаги.
+    #[prost(string, tag = "1")]
+    pub isin: ::prost::alloc::string::String,
+    ///Тип ценной бумаги.
+    #[prost(string, tag = "2")]
+    pub r#type: ::prost::alloc::string::String,
+    #[prost(oneof = "asset_security::Ext", tags = "3, 4, 5, 6, 7")]
+    pub ext: ::core::option::Option<asset_security::Ext>,
+}
+/// Nested message and enum types in `AssetSecurity`.
+pub mod asset_security {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Ext {
+        ///Акция. Заполняется только для акций (тип актива asset.type = "ASSET_TYPE_SECURITY" и security.type = share).
+        #[prost(message, tag = "3")]
+        Share(super::AssetShare),
+        ///Облигация. Заполняется только для облигаций (тип актива asset.type = "ASSET_TYPE_SECURITY" и security.type = bond).
+        #[prost(message, tag = "4")]
+        Bond(super::AssetBond),
+        ///Структурная нота. Заполняется только для структурных продуктов (тип актива asset.type = "ASSET_TYPE_SECURITY" и security.type = sp).
+        #[prost(message, tag = "5")]
+        Sp(super::AssetStructuredProduct),
+        /// Фонд. Заполняется только для фондов (тип актива asset.type = "ASSET_TYPE_SECURITY" и security.type = etf).
+        #[prost(message, tag = "6")]
+        Etf(super::AssetEtf),
+        /// Клиринговый сертификат участия. Заполняется только для клиринговых сертификатов (тип актива asset.type = "ASSET_TYPE_SECURITY" и security.type = clearing_certificate).
+        #[prost(message, tag = "7")]
+        ClearingCertificate(super::AssetClearingCertificate),
+    }
+}
+///Акция.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssetShare {
+    ///Тип акции.
+    #[prost(enumeration = "ShareType", tag = "1")]
+    pub r#type: i32,
+    ///Объем выпуска (шт.).
+    #[prost(message, optional, tag = "2")]
+    pub issue_size: ::core::option::Option<Quotation>,
+    ///Номинал.
+    #[prost(message, optional, tag = "3")]
+    pub nominal: ::core::option::Option<Quotation>,
+    ///Валюта номинала.
+    #[prost(string, tag = "4")]
+    pub nominal_currency: ::prost::alloc::string::String,
+    ///Индекс (Bloomberg).
+    #[prost(string, tag = "5")]
+    pub primary_index: ::prost::alloc::string::String,
+    ///Ставка дивиденда (для привилегированных акций).
+    #[prost(message, optional, tag = "6")]
+    pub dividend_rate: ::core::option::Option<Quotation>,
+    ///Тип привилегированных акций.
+    #[prost(string, tag = "7")]
+    pub preferred_share_type: ::prost::alloc::string::String,
+    ///Дата IPO.
+    #[prost(message, optional, tag = "8")]
+    pub ipo_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Дата регистрации.
+    #[prost(message, optional, tag = "9")]
+    pub registry_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Признак наличия дивидендной доходности.
+    #[prost(bool, tag = "10")]
+    pub div_yield_flag: bool,
+    ///Форма выпуска ФИ.
+    #[prost(string, tag = "11")]
+    pub issue_kind: ::prost::alloc::string::String,
+    ///Дата размещения акции.
+    #[prost(message, optional, tag = "12")]
+    pub placement_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///ISIN базового актива.
+    #[prost(string, tag = "13")]
+    pub repres_isin: ::prost::alloc::string::String,
+    ///Объявленное количество шт.
+    #[prost(message, optional, tag = "14")]
+    pub issue_size_plan: ::core::option::Option<Quotation>,
+    ///Количество акций в свободном обращении.
+    #[prost(message, optional, tag = "15")]
+    pub total_float: ::core::option::Option<Quotation>,
+}
+///Облигация.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssetBond {
+    ///Текущий номинал.
+    #[prost(message, optional, tag = "1")]
+    pub current_nominal: ::core::option::Option<Quotation>,
+    ///Наименование заемщика.
+    #[prost(string, tag = "2")]
+    pub borrow_name: ::prost::alloc::string::String,
+    ///Объем эмиссии облигации (стоимость).
+    #[prost(message, optional, tag = "3")]
+    pub issue_size: ::core::option::Option<Quotation>,
+    ///Номинал облигации.
+    #[prost(message, optional, tag = "4")]
+    pub nominal: ::core::option::Option<Quotation>,
+    ///Валюта номинала.
+    #[prost(string, tag = "5")]
+    pub nominal_currency: ::prost::alloc::string::String,
+    ///Форма выпуска облигации.
+    #[prost(string, tag = "6")]
+    pub issue_kind: ::prost::alloc::string::String,
+    ///Форма дохода облигации.
+    #[prost(string, tag = "7")]
+    pub interest_kind: ::prost::alloc::string::String,
+    ///Количество выплат в год.
+    #[prost(int32, tag = "8")]
+    pub coupon_quantity_per_year: i32,
+    ///Признак облигации с индексируемым номиналом.
+    #[prost(bool, tag = "9")]
+    pub indexed_nominal_flag: bool,
+    ///Признак субординированной облигации.
+    #[prost(bool, tag = "10")]
+    pub subordinated_flag: bool,
+    ///Признак обеспеченной облигации.
+    #[prost(bool, tag = "11")]
+    pub collateral_flag: bool,
+    ///Признак показывает, что купоны облигации не облагаются налогом (для mass market).
+    #[prost(bool, tag = "12")]
+    pub tax_free_flag: bool,
+    ///Признак облигации с амортизацией долга.
+    #[prost(bool, tag = "13")]
+    pub amortization_flag: bool,
+    ///Признак облигации с плавающим купоном.
+    #[prost(bool, tag = "14")]
+    pub floating_coupon_flag: bool,
+    ///Признак бессрочной облигации.
+    #[prost(bool, tag = "15")]
+    pub perpetual_flag: bool,
+    ///Дата погашения облигации.
+    #[prost(message, optional, tag = "16")]
+    pub maturity_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Описание и условия получения дополнительного дохода.
+    #[prost(string, tag = "17")]
+    pub return_condition: ::prost::alloc::string::String,
+    ///Дата выпуска облигации.
+    #[prost(message, optional, tag = "18")]
+    pub state_reg_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Дата размещения облигации.
+    #[prost(message, optional, tag = "19")]
+    pub placement_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Цена размещения облигации.
+    #[prost(message, optional, tag = "20")]
+    pub placement_price: ::core::option::Option<Quotation>,
+    ///Объявленное количество шт.
+    #[prost(message, optional, tag = "21")]
+    pub issue_size_plan: ::core::option::Option<Quotation>,
+}
+///Структурная нота.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssetStructuredProduct {
+    ///Наименование заемщика.
+    #[prost(string, tag = "1")]
+    pub borrow_name: ::prost::alloc::string::String,
+    ///Номинал.
+    #[prost(message, optional, tag = "2")]
+    pub nominal: ::core::option::Option<Quotation>,
+    ///Валюта номинала.
+    #[prost(string, tag = "3")]
+    pub nominal_currency: ::prost::alloc::string::String,
+    ///Тип структурной ноты.
+    #[prost(enumeration = "StructuredProductType", tag = "4")]
+    pub r#type: i32,
+    ///Стратегия портфеля.
+    #[prost(string, tag = "5")]
+    pub logic_portfolio: ::prost::alloc::string::String,
+    ///Тип базового актива.
+    #[prost(enumeration = "AssetType", tag = "6")]
+    pub asset_type: i32,
+    ///Вид базового актива в зависимости от типа базового актива.
+    #[prost(string, tag = "7")]
+    pub basic_asset: ::prost::alloc::string::String,
+    ///Барьер сохранности (в процентах).
+    #[prost(message, optional, tag = "8")]
+    pub safety_barrier: ::core::option::Option<Quotation>,
+    ///Дата погашения.
+    #[prost(message, optional, tag = "9")]
+    pub maturity_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Объявленное количество шт.
+    #[prost(message, optional, tag = "10")]
+    pub issue_size_plan: ::core::option::Option<Quotation>,
+    ///Объем размещения.
+    #[prost(message, optional, tag = "11")]
+    pub issue_size: ::core::option::Option<Quotation>,
+    ///Дата размещения ноты.
+    #[prost(message, optional, tag = "12")]
+    pub placement_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Форма выпуска.
+    #[prost(string, tag = "13")]
+    pub issue_kind: ::prost::alloc::string::String,
+}
+///Фонд.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssetEtf {
+    ///Суммарные расходы фонда (в %).
+    #[prost(message, optional, tag = "1")]
+    pub total_expense: ::core::option::Option<Quotation>,
+    ///Барьерная ставка доходности после которой фонд имеет право на perfomance fee (в процентах).
+    #[prost(message, optional, tag = "2")]
+    pub hurdle_rate: ::core::option::Option<Quotation>,
+    ///Комиссия за успешные результаты фонда (в процентах).
+    #[prost(message, optional, tag = "3")]
+    pub performance_fee: ::core::option::Option<Quotation>,
+    ///Фиксированная комиссия за управление (в процентах).
+    #[prost(message, optional, tag = "4")]
+    pub fixed_commission: ::core::option::Option<Quotation>,
+    ///Тип распределения доходов от выплат по бумагам.
+    #[prost(string, tag = "5")]
+    pub payment_type: ::prost::alloc::string::String,
+    ///Признак необходимости выхода фонда в плюс для получения комиссии.
+    #[prost(bool, tag = "6")]
+    pub watermark_flag: bool,
+    ///Премия (надбавка к цене) при покупке доли в фонде (в процентах).
+    #[prost(message, optional, tag = "7")]
+    pub buy_premium: ::core::option::Option<Quotation>,
+    ///Ставка дисконта (вычет из цены) при продаже доли в фонде (в процентах).
+    #[prost(message, optional, tag = "8")]
+    pub sell_discount: ::core::option::Option<Quotation>,
+    ///Признак ребалансируемости портфеля фонда.
+    #[prost(bool, tag = "9")]
+    pub rebalancing_flag: bool,
+    ///Периодичность ребалансировки.
+    #[prost(string, tag = "10")]
+    pub rebalancing_freq: ::prost::alloc::string::String,
+    ///Тип управления.
+    #[prost(string, tag = "11")]
+    pub management_type: ::prost::alloc::string::String,
+    ///Индекс, который реплицирует (старается копировать) фонд.
+    #[prost(string, tag = "12")]
+    pub primary_index: ::prost::alloc::string::String,
+    ///База ETF.
+    #[prost(string, tag = "13")]
+    pub focus_type: ::prost::alloc::string::String,
+    ///Признак использования заемных активов (плечо).
+    #[prost(bool, tag = "14")]
+    pub leveraged_flag: bool,
+    ///Количество акций в обращении.
+    #[prost(message, optional, tag = "15")]
+    pub num_share: ::core::option::Option<Quotation>,
+    ///Признак обязательства по отчетности перед регулятором.
+    #[prost(bool, tag = "16")]
+    pub ucits_flag: bool,
+    ///Дата выпуска.
+    #[prost(message, optional, tag = "17")]
+    pub released_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Описание фонда.
+    #[prost(string, tag = "18")]
+    pub description: ::prost::alloc::string::String,
+    ///Описание индекса, за которым следует фонд.
+    #[prost(string, tag = "19")]
+    pub primary_index_description: ::prost::alloc::string::String,
+    ///Основные компании, в которые вкладывается фонд.
+    #[prost(string, tag = "20")]
+    pub primary_index_company: ::prost::alloc::string::String,
+    ///Срок восстановления индекса (после просадки).
+    #[prost(message, optional, tag = "21")]
+    pub index_recovery_period: ::core::option::Option<Quotation>,
+    ///IVAV-код.
+    #[prost(string, tag = "22")]
+    pub inav_code: ::prost::alloc::string::String,
+    ///Признак наличия дивидендной доходности.
+    #[prost(bool, tag = "23")]
+    pub div_yield_flag: bool,
+    ///Комиссия на покрытие расходов фонда (в процентах).
+    #[prost(message, optional, tag = "24")]
+    pub expense_commission: ::core::option::Option<Quotation>,
+    ///Ошибка следования за индексом (в процентах).
+    #[prost(message, optional, tag = "25")]
+    pub primary_index_tracking_error: ::core::option::Option<Quotation>,
+    ///Плановая ребалансировка портфеля.
+    #[prost(string, tag = "26")]
+    pub rebalancing_plan: ::prost::alloc::string::String,
+    ///Ставки налогообложения дивидендов и купонов.
+    #[prost(string, tag = "27")]
+    pub tax_rate: ::prost::alloc::string::String,
+    ///Даты ребалансировок.
+    #[prost(message, repeated, tag = "28")]
+    pub rebalancing_dates: ::prost::alloc::vec::Vec<::prost_types::Timestamp>,
+    ///Форма выпуска.
+    #[prost(string, tag = "29")]
+    pub issue_kind: ::prost::alloc::string::String,
+    ///Номинал.
+    #[prost(message, optional, tag = "30")]
+    pub nominal: ::core::option::Option<Quotation>,
+    ///Валюта номинала.
+    #[prost(string, tag = "31")]
+    pub nominal_currency: ::prost::alloc::string::String,
+}
+///Клиринговый сертификат участия.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssetClearingCertificate {
+    ///Номинал.
+    #[prost(message, optional, tag = "1")]
+    pub nominal: ::core::option::Option<Quotation>,
+    ///Валюта номинала.
+    #[prost(string, tag = "2")]
+    pub nominal_currency: ::prost::alloc::string::String,
+}
+///Бренд.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Brand {
+    ///uid идентификатор бренда.
+    #[prost(string, tag = "1")]
+    pub uid: ::prost::alloc::string::String,
+    ///Наименование бренда.
+    #[prost(string, tag = "2")]
+    pub name: ::prost::alloc::string::String,
+    ///Описание.
+    #[prost(string, tag = "3")]
+    pub description: ::prost::alloc::string::String,
+    ///Информация о бренде.
+    #[prost(string, tag = "4")]
+    pub info: ::prost::alloc::string::String,
+    ///Компания.
+    #[prost(string, tag = "5")]
+    pub company: ::prost::alloc::string::String,
+    ///Сектор.
+    #[prost(string, tag = "6")]
+    pub sector: ::prost::alloc::string::String,
+    ///Код страны риска.
+    #[prost(string, tag = "7")]
+    pub country_of_risk: ::prost::alloc::string::String,
+    ///Наименование страны риска.
+    #[prost(string, tag = "8")]
+    pub country_of_risk_name: ::prost::alloc::string::String,
+}
+///Идентификаторы инструмента.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AssetInstrument {
+    ///uid идентификатор инструмента.
+    #[prost(string, tag = "1")]
+    pub uid: ::prost::alloc::string::String,
+    ///figi идентификатор инструмента.
+    #[prost(string, tag = "2")]
+    pub figi: ::prost::alloc::string::String,
+    ///Тип инструмента.
+    #[prost(string, tag = "3")]
+    pub instrument_type: ::prost::alloc::string::String,
+    ///Тикер инструмента.
+    #[prost(string, tag = "4")]
+    pub ticker: ::prost::alloc::string::String,
+    ///Класс-код (секция торгов).
+    #[prost(string, tag = "5")]
+    pub class_code: ::prost::alloc::string::String,
+    ///Массив связанных инструментов.
+    #[prost(message, repeated, tag = "6")]
+    pub links: ::prost::alloc::vec::Vec<InstrumentLink>,
+}
+///Связь с другим инструментом.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InstrumentLink {
+    ///Тип связи.
+    #[prost(string, tag = "1")]
+    pub r#type: ::prost::alloc::string::String,
+    ///uid идентификатор связанного инструмента.
+    #[prost(string, tag = "2")]
+    pub instrument_uid: ::prost::alloc::string::String,
+}
+///Запрос списка избранных инструментов, входные параметры не требуются.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetFavoritesRequest {}
+///В ответ передаётся список избранных инструментов в качестве массива.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetFavoritesResponse {
+    ///Массив инструментов
+    #[prost(message, repeated, tag = "1")]
+    pub favorite_instruments: ::prost::alloc::vec::Vec<FavoriteInstrument>,
+}
+///Массив избранных инструментов.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FavoriteInstrument {
+    ///Figi-идентификатор инструмента.
+    #[prost(string, tag = "1")]
+    pub figi: ::prost::alloc::string::String,
+    ///Тикер инструмента.
+    #[prost(string, tag = "2")]
+    pub ticker: ::prost::alloc::string::String,
+    ///Класс-код инструмента.
+    #[prost(string, tag = "3")]
+    pub class_code: ::prost::alloc::string::String,
+    ///Isin-идентификатор инструмента.
+    #[prost(string, tag = "4")]
+    pub isin: ::prost::alloc::string::String,
+    ///Тип инструмента.
+    #[prost(string, tag = "11")]
+    pub instrument_type: ::prost::alloc::string::String,
+    ///Признак внебиржевой ценной бумаги.
+    #[prost(bool, tag = "16")]
+    pub otc_flag: bool,
+    ///Признак доступности торгов через API.
+    #[prost(bool, tag = "17")]
+    pub api_trade_available_flag: bool,
+}
+///Запрос редактирования списка избранных инструментов.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EditFavoritesRequest {
+    ///Массив инструментов.
+    #[prost(message, repeated, tag = "1")]
+    pub instruments: ::prost::alloc::vec::Vec<EditFavoritesRequestInstrument>,
+    ///Тип действия со списком.
+    #[prost(enumeration = "EditFavoritesActionType", tag = "6")]
+    pub action_type: i32,
+}
+///Массив инструментов для редактирования списка избранных инструментов.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EditFavoritesRequestInstrument {
+    ///Figi-идентификатор инструмента.
+    #[prost(string, tag = "1")]
+    pub figi: ::prost::alloc::string::String,
+}
+///Результат редактирования списка избранных инструментов.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EditFavoritesResponse {
+    ///Массив инструментов
+    #[prost(message, repeated, tag = "1")]
+    pub favorite_instruments: ::prost::alloc::vec::Vec<FavoriteInstrument>,
+}
+///Запрос справочника стран.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetCountriesRequest {}
+///Справочник стран.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetCountriesResponse {
+    ///Массив стран.
+    #[prost(message, repeated, tag = "1")]
+    pub countries: ::prost::alloc::vec::Vec<CountryResponse>,
+}
+///Данные о стране.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CountryResponse {
+    ///Двухбуквенный код страны.
+    #[prost(string, tag = "1")]
+    pub alfa_two: ::prost::alloc::string::String,
+    ///Трёхбуквенный код страны.
+    #[prost(string, tag = "2")]
+    pub alfa_three: ::prost::alloc::string::String,
+    ///Наименование страны.
+    #[prost(string, tag = "3")]
+    pub name: ::prost::alloc::string::String,
+    ///Краткое наименование страны.
+    #[prost(string, tag = "4")]
+    pub name_brief: ::prost::alloc::string::String,
+}
+///Запрос на поиск инструментов.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FindInstrumentRequest {
+    ///Строка поиска.
+    #[prost(string, tag = "1")]
+    pub query: ::prost::alloc::string::String,
+}
+///Результат поиска инструментов.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FindInstrumentResponse {
+    ///Массив инструментов, удовлетворяющих условиям поиска.
+    #[prost(message, repeated, tag = "1")]
+    pub instruments: ::prost::alloc::vec::Vec<InstrumentShort>,
+}
+///Краткая информация об инструменте.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct InstrumentShort {
+    ///Isin инструмента.
+    #[prost(string, tag = "1")]
+    pub isin: ::prost::alloc::string::String,
+    ///Figi инструмента.
+    #[prost(string, tag = "2")]
+    pub figi: ::prost::alloc::string::String,
+    ///Ticker инструмента.
+    #[prost(string, tag = "3")]
+    pub ticker: ::prost::alloc::string::String,
+    ///ClassCode инструмента.
+    #[prost(string, tag = "4")]
+    pub class_code: ::prost::alloc::string::String,
+    ///Тип инструмента.
+    #[prost(string, tag = "5")]
+    pub instrument_type: ::prost::alloc::string::String,
+    ///Название инструмента.
+    #[prost(string, tag = "6")]
+    pub name: ::prost::alloc::string::String,
+    ///Уникальный идентификатор инструмента.
+    #[prost(string, tag = "7")]
+    pub uid: ::prost::alloc::string::String,
+    ///Уникальный идентификатор позиции инструмента.
+    #[prost(string, tag = "8")]
+    pub position_uid: ::prost::alloc::string::String,
+    ///Признак доступности торгов через API.
+    #[prost(bool, tag = "11")]
+    pub api_trade_available_flag: bool,
+    ///Признак доступности для ИИС.
+    #[prost(bool, tag = "12")]
+    pub for_iis_flag: bool,
+    ///Дата первой минутной свечи.
+    #[prost(message, optional, tag = "26")]
+    pub first_1min_candle_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Дата первой дневной свечи.
+    #[prost(message, optional, tag = "27")]
+    pub first_1day_candle_date: ::core::option::Option<::prost_types::Timestamp>,
+}
+///Запрос списка брендов.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetBrandsRequest {}
+///Запрос бренда.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetBrandRequest {
+    ///Uid-идентификатор бренда.
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+}
+///Список брендов.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetBrandsResponse {
+    ///Массив брендов.
+    #[prost(message, repeated, tag = "1")]
+    pub brands: ::prost::alloc::vec::Vec<Brand>,
+}
+///Тип купонов.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum CouponType {
+    ///Неопределенное значение
+    Unspecified = 0,
+    ///Постоянный
+    Constant = 1,
+    ///Плавающий
+    Floating = 2,
+    ///Дисконт
+    Discount = 3,
+    ///Ипотечный
+    Mortgage = 4,
+    ///Фиксированный
+    Fix = 5,
+    ///Переменный
+    Variable = 6,
+    ///Прочее
+    Other = 7,
+}
 ///Тип идентификатора инструмента. Подробнее об идентификации инструментов: [Идентификация инструментов](<https://tinkoff.github.io/investAPI/faq_identification/>)
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -887,6 +1717,8 @@ pub enum InstrumentIdType {
     Figi = 1,
     ///Ticker.
     Ticker = 2,
+    ///Уникальный идентификатор.
+    Uid = 3,
 }
 ///Статус запрашиваемых инструментов.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -921,6 +1753,56 @@ pub enum ShareType {
     ClosedEndFund = 7,
     ///Траст недвижимости
     Reit = 8,
+}
+///Тип актива.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum AssetType {
+    ///Тип не определён.
+    Unspecified = 0,
+    ///Валюта.
+    Currency = 1,
+    ///Товар.
+    Commodity = 2,
+    ///Индекс.
+    Index = 3,
+    ///Ценная бумага.
+    Security = 4,
+}
+///Тип структурной ноты.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum StructuredProductType {
+    ///Тип не определён.
+    SpTypeUnspecified = 0,
+    ///Поставочный.
+    SpTypeDeliverable = 1,
+    ///Беспоставочный.
+    SpTypeNonDeliverable = 2,
+}
+///Тип действия со списком избранных инструментов.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EditFavoritesActionType {
+    ///Тип не определён.
+    Unspecified = 0,
+    ///Добавить в список.
+    Add = 1,
+    ///Удалить из списка.
+    Del = 2,
+}
+///Реальная площадка исполнения расчётов.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum RealExchange {
+    ///Тип не определён.
+    Unspecified = 0,
+    ///Московская биржа.
+    Moex = 1,
+    ///Санкт-Петербургская биржа.
+    Rts = 2,
+    ///Внебиржевой инструмент.
+    Otc = 3,
 }
 #[doc = r" Generated client implementations."]
 pub mod instruments_service_client {
@@ -1030,6 +1912,23 @@ pub mod instruments_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tinkoff.public.invest.api.contract.v1.InstrumentsService/Bonds",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = "Метод получения графика выплат купонов по облигации."]
+        pub async fn get_bond_coupons(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetBondCouponsRequest>,
+        ) -> Result<tonic::Response<super::GetBondCouponsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tinkoff.public.invest.api.contract.v1.InstrumentsService/GetBondCoupons",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
@@ -1237,12 +2136,148 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+        #[doc = "Метод получения актива по его идентификатору."]
+        pub async fn get_asset_by(
+            &mut self,
+            request: impl tonic::IntoRequest<super::AssetRequest>,
+        ) -> Result<tonic::Response<super::AssetResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tinkoff.public.invest.api.contract.v1.InstrumentsService/GetAssetBy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = "Метод получения списка активов."]
+        pub async fn get_assets(
+            &mut self,
+            request: impl tonic::IntoRequest<super::AssetsRequest>,
+        ) -> Result<tonic::Response<super::AssetsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tinkoff.public.invest.api.contract.v1.InstrumentsService/GetAssets",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = "Метод получения списка избранных инструментов."]
+        pub async fn get_favorites(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetFavoritesRequest>,
+        ) -> Result<tonic::Response<super::GetFavoritesResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tinkoff.public.invest.api.contract.v1.InstrumentsService/GetFavorites",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = "Метод редактирования списка избранных инструментов."]
+        pub async fn edit_favorites(
+            &mut self,
+            request: impl tonic::IntoRequest<super::EditFavoritesRequest>,
+        ) -> Result<tonic::Response<super::EditFavoritesResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tinkoff.public.invest.api.contract.v1.InstrumentsService/EditFavorites",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = "Метод получения списка стран."]
+        pub async fn get_countries(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetCountriesRequest>,
+        ) -> Result<tonic::Response<super::GetCountriesResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tinkoff.public.invest.api.contract.v1.InstrumentsService/GetCountries",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = "Метод поиска инструмента."]
+        pub async fn find_instrument(
+            &mut self,
+            request: impl tonic::IntoRequest<super::FindInstrumentRequest>,
+        ) -> Result<tonic::Response<super::FindInstrumentResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tinkoff.public.invest.api.contract.v1.InstrumentsService/FindInstrument",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = "Метод получения списка брендов."]
+        pub async fn get_brands(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetBrandsRequest>,
+        ) -> Result<tonic::Response<super::GetBrandsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tinkoff.public.invest.api.contract.v1.InstrumentsService/GetBrands",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = "Метод получения бренда по его идентификатору."]
+        pub async fn get_brand_by(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetBrandRequest>,
+        ) -> Result<tonic::Response<super::Brand>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tinkoff.public.invest.api.contract.v1.InstrumentsService/GetBrandBy",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
     }
 }
 ///Запрос подписки или отписки на определённые биржевые данные.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MarketDataRequest {
-    #[prost(oneof = "market_data_request::Payload", tags = "1, 2, 3, 4")]
+    #[prost(oneof = "market_data_request::Payload", tags = "1, 2, 3, 4, 5, 6")]
     pub payload: ::core::option::Option<market_data_request::Payload>,
 }
 /// Nested message and enum types in `MarketDataRequest`.
@@ -1261,14 +2296,38 @@ pub mod market_data_request {
         ///Запрос подписки на торговые статусы инструментов.
         #[prost(message, tag = "4")]
         SubscribeInfoRequest(super::SubscribeInfoRequest),
+        ///Запрос подписки на последние цены.
+        #[prost(message, tag = "5")]
+        SubscribeLastPriceRequest(super::SubscribeLastPriceRequest),
+        ///Запрос своих подписок.
+        #[prost(message, tag = "6")]
+        GetMySubscriptions(super::GetMySubscriptions),
     }
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MarketDataServerSideStreamRequest {
+    ///Запрос подписки на свечи.
+    #[prost(message, optional, tag = "1")]
+    pub subscribe_candles_request: ::core::option::Option<SubscribeCandlesRequest>,
+    ///Запрос подписки на стаканы.
+    #[prost(message, optional, tag = "2")]
+    pub subscribe_order_book_request: ::core::option::Option<SubscribeOrderBookRequest>,
+    ///Запрос подписки на ленту обезличенных сделок.
+    #[prost(message, optional, tag = "3")]
+    pub subscribe_trades_request: ::core::option::Option<SubscribeTradesRequest>,
+    ///Запрос подписки на торговые статусы инструментов.
+    #[prost(message, optional, tag = "4")]
+    pub subscribe_info_request: ::core::option::Option<SubscribeInfoRequest>,
+    ///Запрос подписки на последние цены.
+    #[prost(message, optional, tag = "5")]
+    pub subscribe_last_price_request: ::core::option::Option<SubscribeLastPriceRequest>,
 }
 ///Пакет биржевой информации по подписке.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MarketDataResponse {
     #[prost(
         oneof = "market_data_response::Payload",
-        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9"
+        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11"
     )]
     pub payload: ::core::option::Option<market_data_response::Payload>,
 }
@@ -1303,6 +2362,12 @@ pub mod market_data_response {
         ///Проверка активности стрима.
         #[prost(message, tag = "9")]
         Ping(super::Ping),
+        ///Результат подписки на последние цены инструментов.
+        #[prost(message, tag = "10")]
+        SubscribeLastPriceResponse(super::SubscribeLastPriceResponse),
+        ///Последняя цена.
+        #[prost(message, tag = "11")]
+        LastPrice(super::LastPrice),
     }
 }
 /// subscribeCandles | Изменения статуса подписки на свечи.
@@ -1314,6 +2379,9 @@ pub struct SubscribeCandlesRequest {
     ///Массив инструментов для подписки на свечи.
     #[prost(message, repeated, tag = "2")]
     pub instruments: ::prost::alloc::vec::Vec<CandleInstrument>,
+    ///Флаг ожидания закрытия временного интервала для отправки свечи, применяется только для минутных свечей.
+    #[prost(bool, tag = "3")]
+    pub waiting_close: bool,
 }
 ///Запрос изменения статус подписки на свечи.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1328,7 +2396,7 @@ pub struct CandleInstrument {
 ///Результат изменения статус подписки на свечи.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SubscribeCandlesResponse {
-    ///Уникальный идентификатор запроса, подробнее: \[tracking_id\](<https://tinkoff.github.io/investAPI/grpc#tracking-id>)
+    ///Уникальный идентификатор запроса, подробнее: \[tracking_id\](<https://tinkoff.github.io/investAPI/grpc#tracking-id>).
     #[prost(string, tag = "1")]
     pub tracking_id: ::prost::alloc::string::String,
     ///Массив статусов подписки на свечи.
@@ -1371,7 +2439,7 @@ pub struct OrderBookInstrument {
 ///Результат изменения статуса подписки на стаканы.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SubscribeOrderBookResponse {
-    ///Уникальный идентификатор запроса, подробнее: \[tracking_id\](<https://tinkoff.github.io/investAPI/grpc#tracking-id>)
+    ///Уникальный идентификатор запроса, подробнее: \[tracking_id\](<https://tinkoff.github.io/investAPI/grpc#tracking-id>).
     #[prost(string, tag = "1")]
     pub tracking_id: ::prost::alloc::string::String,
     ///Массив статусов подписки на стаканы.
@@ -1411,7 +2479,7 @@ pub struct TradeInstrument {
 ///Результат изменения статуса подписки на поток обезличенных сделок.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SubscribeTradesResponse {
-    ///Уникальный идентификатор запроса, подробнее: \[tracking_id\](<https://tinkoff.github.io/investAPI/grpc#tracking-id>)
+    ///Уникальный идентификатор запроса, подробнее: \[tracking_id\](<https://tinkoff.github.io/investAPI/grpc#tracking-id>).
     #[prost(string, tag = "1")]
     pub tracking_id: ::prost::alloc::string::String,
     ///Массив статусов подписки на поток сделок.
@@ -1448,7 +2516,7 @@ pub struct InfoInstrument {
 ///Результат изменения статуса подписки на торговый статус.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SubscribeInfoResponse {
-    ///Уникальный идентификатор запроса, подробнее: \[tracking_id\](<https://tinkoff.github.io/investAPI/grpc#tracking-id>)
+    ///Уникальный идентификатор запроса, подробнее: \[tracking_id\](<https://tinkoff.github.io/investAPI/grpc#tracking-id>).
     #[prost(string, tag = "1")]
     pub tracking_id: ::prost::alloc::string::String,
     ///Массив статусов подписки на торговый статус.
@@ -1465,6 +2533,43 @@ pub struct InfoSubscription {
     #[prost(enumeration = "SubscriptionStatus", tag = "2")]
     pub subscription_status: i32,
 }
+///Изменение статуса подписки на последнюю цену инструмента.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SubscribeLastPriceRequest {
+    ///Изменение статуса подписки.
+    #[prost(enumeration = "SubscriptionAction", tag = "1")]
+    pub subscription_action: i32,
+    ///Массив инструментов для подписки на последнюю цену.
+    #[prost(message, repeated, tag = "2")]
+    pub instruments: ::prost::alloc::vec::Vec<LastPriceInstrument>,
+}
+///Запрос подписки на последнюю цену.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LastPriceInstrument {
+    ///Figi-идентификатор инструмента.
+    #[prost(string, tag = "1")]
+    pub figi: ::prost::alloc::string::String,
+}
+///Результат изменения статуса подписки на последнюю цену.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SubscribeLastPriceResponse {
+    ///Уникальный идентификатор запроса, подробнее: \[tracking_id\](<https://tinkoff.github.io/investAPI/grpc#tracking-id>).
+    #[prost(string, tag = "1")]
+    pub tracking_id: ::prost::alloc::string::String,
+    ///Массив статусов подписки на последнюю цену.
+    #[prost(message, repeated, tag = "2")]
+    pub last_price_subscriptions: ::prost::alloc::vec::Vec<LastPriceSubscription>,
+}
+///Статус подписки на последнюю цену.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct LastPriceSubscription {
+    ///Figi-идентификатор инструмента.
+    #[prost(string, tag = "1")]
+    pub figi: ::prost::alloc::string::String,
+    ///Статус подписки.
+    #[prost(enumeration = "SubscriptionStatus", tag = "2")]
+    pub subscription_status: i32,
+}
 ///Пакет свечей в рамках стрима.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Candle {
@@ -1474,24 +2579,27 @@ pub struct Candle {
     ///Интервал свечи.
     #[prost(enumeration = "SubscriptionInterval", tag = "2")]
     pub interval: i32,
-    ///Цена открытия за 1 лот.
+    ///Цена открытия за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "3")]
     pub open: ::core::option::Option<Quotation>,
-    ///Максимальная цена за 1 лот.
+    ///Максимальная цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "4")]
     pub high: ::core::option::Option<Quotation>,
-    ///Минимальная цена за 1 лот.
+    ///Минимальная цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "5")]
     pub low: ::core::option::Option<Quotation>,
-    ///Цена закрытия за 1 лот.
+    ///Цена закрытия за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "6")]
     pub close: ::core::option::Option<Quotation>,
     ///Объём сделок в лотах.
     #[prost(int64, tag = "7")]
     pub volume: i64,
-    ///Время свечи в часовом поясе UTC.
+    ///Время начала интервала свечи в часовом поясе UTC.
     #[prost(message, optional, tag = "8")]
     pub time: ::core::option::Option<::prost_types::Timestamp>,
+    ///Время последней сделки, вошедшей в свечу в часовом поясе UTC.
+    #[prost(message, optional, tag = "9")]
+    pub last_trade_ts: ::core::option::Option<::prost_types::Timestamp>,
 }
 ///Пакет стаканов в рамках стрима.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1511,14 +2619,20 @@ pub struct OrderBook {
     ///Массив спроса.
     #[prost(message, repeated, tag = "5")]
     pub asks: ::prost::alloc::vec::Vec<Order>,
-    ///Время стакана в часовом поясе UTC.
+    ///Время формирования стакана в часовом поясе UTC по времени биржи.
     #[prost(message, optional, tag = "6")]
     pub time: ::core::option::Option<::prost_types::Timestamp>,
+    ///Верхний лимит цены за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
+    #[prost(message, optional, tag = "7")]
+    pub limit_up: ::core::option::Option<Quotation>,
+    ///Нижний лимит цены за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
+    #[prost(message, optional, tag = "8")]
+    pub limit_down: ::core::option::Option<Quotation>,
 }
 ///Массив предложений/спроса.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Order {
-    ///Цена за 1 лот.
+    ///Цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "1")]
     pub price: ::core::option::Option<Quotation>,
     ///Количество в лотах.
@@ -1534,7 +2648,7 @@ pub struct Trade {
     ///Направление сделки.
     #[prost(enumeration = "TradeDirection", tag = "2")]
     pub direction: i32,
-    ///Цена за 1 лот.
+    ///Цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "3")]
     pub price: ::core::option::Option<Quotation>,
     ///Количество лотов.
@@ -1556,11 +2670,17 @@ pub struct TradingStatus {
     ///Время изменения торгового статуса в часовом поясе UTC.
     #[prost(message, optional, tag = "3")]
     pub time: ::core::option::Option<::prost_types::Timestamp>,
+    ///Признак доступности выставления лимитной заявки по инструменту.
+    #[prost(bool, tag = "4")]
+    pub limit_order_available_flag: bool,
+    ///Признак доступности выставления рыночной заявки по инструменту.
+    #[prost(bool, tag = "5")]
+    pub market_order_available_flag: bool,
 }
 ///Запрос исторических свечей.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetCandlesRequest {
-    ///Figi-идентификатор инструмента
+    ///Figi-идентификатор инструмента.
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
     ///Начало запрашиваемого периода в часовом поясе UTC.
@@ -1583,16 +2703,16 @@ pub struct GetCandlesResponse {
 ///Информация о свече.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct HistoricCandle {
-    ///Цена открытия за 1 лот.
+    ///Цена открытия за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "1")]
     pub open: ::core::option::Option<Quotation>,
-    ///Максимальная цена за 1 лот.
+    ///Максимальная цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "2")]
     pub high: ::core::option::Option<Quotation>,
-    ///Минимальная цена за 1 лот.
+    ///Минимальная цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "3")]
     pub low: ::core::option::Option<Quotation>,
-    ///Цена закрытия за 1 лот.
+    ///Цена закрытия за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "4")]
     pub close: ::core::option::Option<Quotation>,
     ///Объём торгов в лотах.
@@ -1625,7 +2745,7 @@ pub struct LastPrice {
     ///Идентификатор инструмента.
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
-    ///Последняя цена за 1 лот.
+    ///Последняя цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "2")]
     pub price: ::core::option::Option<Quotation>,
     ///Время получения последней цены в часовом поясе UTC по времени биржи.
@@ -1657,12 +2777,18 @@ pub struct GetOrderBookResponse {
     ///Множество пар значений на продажу.
     #[prost(message, repeated, tag = "4")]
     pub asks: ::prost::alloc::vec::Vec<Order>,
-    ///Цена последней сделки.
+    ///Цена последней сделки за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "5")]
     pub last_price: ::core::option::Option<Quotation>,
-    ///Цена закрытия.
+    ///Цена закрытия за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "6")]
     pub close_price: ::core::option::Option<Quotation>,
+    ///Верхний лимит цены за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
+    #[prost(message, optional, tag = "7")]
+    pub limit_up: ::core::option::Option<Quotation>,
+    ///Нижний лимит цены за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
+    #[prost(message, optional, tag = "8")]
+    pub limit_down: ::core::option::Option<Quotation>,
 }
 ///Запрос получения торгового статуса.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1680,7 +2806,39 @@ pub struct GetTradingStatusResponse {
     ///Статус торговли инструментом.
     #[prost(enumeration = "SecurityTradingStatus", tag = "2")]
     pub trading_status: i32,
+    ///Признак доступности выставления лимитной заявки по инструменту.
+    #[prost(bool, tag = "3")]
+    pub limit_order_available_flag: bool,
+    ///Признак доступности выставления рыночной заявки по инструменту.
+    #[prost(bool, tag = "4")]
+    pub market_order_available_flag: bool,
+    ///Признак доступности торгов через API.
+    #[prost(bool, tag = "5")]
+    pub api_trade_available_flag: bool,
 }
+///Запрос обезличенных сделок за последний час.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetLastTradesRequest {
+    ///Figi-идентификатор инструмента
+    #[prost(string, tag = "1")]
+    pub figi: ::prost::alloc::string::String,
+    ///Начало запрашиваемого периода в часовом поясе UTC.
+    #[prost(message, optional, tag = "2")]
+    pub from: ::core::option::Option<::prost_types::Timestamp>,
+    ///Окончание запрашиваемого периода в часовом поясе UTC.
+    #[prost(message, optional, tag = "3")]
+    pub to: ::core::option::Option<::prost_types::Timestamp>,
+}
+///Обезличенных сделок за последний час.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetLastTradesResponse {
+    ///Массив сделок
+    #[prost(message, repeated, tag = "1")]
+    pub trades: ::prost::alloc::vec::Vec<Trade>,
+}
+///Запрос активных подписок.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetMySubscriptions {}
 ///Тип операции со списком подписок.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -1713,16 +2871,18 @@ pub enum SubscriptionStatus {
     Success = 1,
     ///Инструмент не найден.
     InstrumentNotFound = 2,
-    ///Некорректный статус подписки, список возможных значений: \[SubscriptionAction\](<https://tinkoff.github.io/investAPI/marketdata#subscriptionaction>)
+    ///Некорректный статус подписки, список возможных значений: \[SubscriptionAction\](<https://tinkoff.github.io/investAPI/marketdata#subscriptionaction>).
     SubscriptionActionIsInvalid = 3,
     ///Некорректная глубина стакана, доступные значения: 1, 10, 20, 30, 40, 50.
     DepthIsInvalid = 4,
-    ///Некорректный интервал свечей, список возможных значений: \[SubscriptionInterval\](<https://tinkoff.github.io/investAPI/marketdata#subscriptioninterval>)
+    ///Некорректный интервал свечей, список возможных значений: \[SubscriptionInterval\](<https://tinkoff.github.io/investAPI/marketdata#subscriptioninterval>).
     IntervalIsInvalid = 5,
-    ///Превышен лимит подписок в рамках стрима, подробнее: [Лимитная политика](<https://tinkoff.github.io/investAPI/limits/>)
+    ///Превышен лимит на общее количество подписок в рамках стрима, подробнее: [Лимитная политика](<https://tinkoff.github.io/investAPI/limits/>).
     LimitIsExceeded = 6,
     ///Внутренняя ошибка сервиса.
     InternalError = 7,
+    ///Превышен лимит на количество запросов на подписки в течение установленного отрезка времени
+    TooManyRequests = 8,
 }
 ///Направление сделки.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -1880,6 +3040,23 @@ pub mod market_data_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+        #[doc = "Метод запроса обезличенных сделок за последний час."]
+        pub async fn get_last_trades(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetLastTradesRequest>,
+        ) -> Result<tonic::Response<super::GetLastTradesResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tinkoff.public.invest.api.contract.v1.MarketDataService/GetLastTrades",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
     }
 }
 #[doc = r" Generated client implementations."]
@@ -1964,212 +3141,260 @@ pub mod market_data_stream_service_client {
                 .streaming(request.into_streaming_request(), path, codec)
                 .await
         }
+        #[doc = "Server-side стрим предоставления биржевой информации."]
+        pub async fn market_data_server_side_stream(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MarketDataServerSideStreamRequest>,
+        ) -> Result<
+            tonic::Response<tonic::codec::Streaming<super::MarketDataResponse>>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http :: uri :: PathAndQuery :: from_static ("/tinkoff.public.invest.api.contract.v1.MarketDataStreamService/MarketDataServerSideStream") ;
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
+        }
     }
 }
 ///Запрос получения списка операций по счёту.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OperationsRequest {
-    ///Идентификатор счёта клиента
+    ///Идентификатор счёта клиента.
     #[prost(string, tag = "1")]
     pub account_id: ::prost::alloc::string::String,
-    ///Начало периода (по UTC)
+    ///Начало периода (по UTC).
     #[prost(message, optional, tag = "2")]
     pub from: ::core::option::Option<::prost_types::Timestamp>,
-    ///Окончание периода (по UTC)
+    ///Окончание периода (по UTC).
     #[prost(message, optional, tag = "3")]
     pub to: ::core::option::Option<::prost_types::Timestamp>,
-    ///Статус запрашиваемых операций
+    ///Статус запрашиваемых операций.
     #[prost(enumeration = "OperationState", tag = "4")]
     pub state: i32,
-    ///Figi-идентификатор инструмента для фильтрации
+    ///Figi-идентификатор инструмента для фильтрации.
     #[prost(string, tag = "5")]
     pub figi: ::prost::alloc::string::String,
 }
 ///Список операций.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OperationsResponse {
-    ///Массив операций
+    ///Массив операций.
     #[prost(message, repeated, tag = "1")]
     pub operations: ::prost::alloc::vec::Vec<Operation>,
 }
 ///Данные по операции.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Operation {
-    ///Идентификатор операции
+    ///Идентификатор операции.
     #[prost(string, tag = "1")]
     pub id: ::prost::alloc::string::String,
-    ///Идентификатор родительской операции
+    ///Идентификатор родительской операции.
     #[prost(string, tag = "2")]
     pub parent_operation_id: ::prost::alloc::string::String,
-    ///Валюта операции
+    ///Валюта операции.
     #[prost(string, tag = "3")]
     pub currency: ::prost::alloc::string::String,
-    ///Сумма операции
+    ///Сумма операции.
     #[prost(message, optional, tag = "4")]
     pub payment: ::core::option::Option<MoneyValue>,
-    ///Цена операции
+    ///Цена операции за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "5")]
     pub price: ::core::option::Option<MoneyValue>,
-    ///Статус операции
+    ///Статус операции.
     #[prost(enumeration = "OperationState", tag = "6")]
     pub state: i32,
-    ///Количество лотов инструмента
+    ///Количество единиц инструмента.
     #[prost(int64, tag = "7")]
     pub quantity: i64,
-    ///Неисполненный остаток по сделке
+    ///Неисполненный остаток по сделке.
     #[prost(int64, tag = "8")]
     pub quantity_rest: i64,
-    ///Figi-идентификатор инструмента, связанного с операцией
+    ///Figi-идентификатор инструмента, связанного с операцией.
     #[prost(string, tag = "9")]
     pub figi: ::prost::alloc::string::String,
     ///Тип инструмента. Возможные значения: </br>**bond** — облигация; </br>**share** — акция; </br>**currency** — валюта; </br>**etf** — фонд; </br>**futures** — фьючерс.
     #[prost(string, tag = "10")]
     pub instrument_type: ::prost::alloc::string::String,
-    ///Дата и время операции в формате часовом поясе UTC
+    ///Дата и время операции в формате часовом поясе UTC.
     #[prost(message, optional, tag = "11")]
     pub date: ::core::option::Option<::prost_types::Timestamp>,
-    ///Текстовое описание типа операции
+    ///Текстовое описание типа операции.
     #[prost(string, tag = "12")]
     pub r#type: ::prost::alloc::string::String,
-    ///Тип операции
+    ///Тип операции.
     #[prost(enumeration = "OperationType", tag = "13")]
     pub operation_type: i32,
+    ///Массив сделок.
+    #[prost(message, repeated, tag = "14")]
+    pub trades: ::prost::alloc::vec::Vec<OperationTrade>,
+}
+///Сделка по операции.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationTrade {
+    ///Идентификатор сделки.
+    #[prost(string, tag = "1")]
+    pub trade_id: ::prost::alloc::string::String,
+    ///Дата и время сделки в часовом поясе UTC.
+    #[prost(message, optional, tag = "2")]
+    pub date_time: ::core::option::Option<::prost_types::Timestamp>,
+    ///Количество инструментов.
+    #[prost(int64, tag = "3")]
+    pub quantity: i64,
+    ///Цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
+    #[prost(message, optional, tag = "4")]
+    pub price: ::core::option::Option<MoneyValue>,
 }
 ///Запрос получения текущего портфеля по счёту.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PortfolioRequest {
-    ///Идентификатор счёта пользователя
+    ///Идентификатор счёта пользователя.
     #[prost(string, tag = "1")]
     pub account_id: ::prost::alloc::string::String,
 }
 ///Текущий портфель по счёту.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PortfolioResponse {
-    ///Общая стоимость акций в портфеле в рублях
+    ///Общая стоимость акций в портфеле в рублях.
     #[prost(message, optional, tag = "1")]
     pub total_amount_shares: ::core::option::Option<MoneyValue>,
-    ///Общая стоимость облигаций в портфеле в рублях
+    ///Общая стоимость облигаций в портфеле в рублях.
     #[prost(message, optional, tag = "2")]
     pub total_amount_bonds: ::core::option::Option<MoneyValue>,
-    ///Общая стоимость фондов в портфеле в рублях
+    ///Общая стоимость фондов в портфеле в рублях.
     #[prost(message, optional, tag = "3")]
     pub total_amount_etf: ::core::option::Option<MoneyValue>,
-    ///Общая стоимость валют в портфеле в рублях
+    ///Общая стоимость валют в портфеле в рублях.
     #[prost(message, optional, tag = "4")]
     pub total_amount_currencies: ::core::option::Option<MoneyValue>,
-    ///Общая стоимость фьючерсов в портфеле в рублях
+    ///Общая стоимость фьючерсов в портфеле в рублях.
     #[prost(message, optional, tag = "5")]
     pub total_amount_futures: ::core::option::Option<MoneyValue>,
-    ///Текущая доходность портфеля
+    ///Текущая относительная доходность портфеля, в %.
     #[prost(message, optional, tag = "6")]
     pub expected_yield: ::core::option::Option<Quotation>,
-    ///Список позиций портфеля
+    ///Список позиций портфеля.
     #[prost(message, repeated, tag = "7")]
     pub positions: ::prost::alloc::vec::Vec<PortfolioPosition>,
 }
 ///Запрос позиций портфеля по счёту.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PositionsRequest {
-    ///Идентификатор счёта пользователя
+    ///Идентификатор счёта пользователя.
     #[prost(string, tag = "1")]
     pub account_id: ::prost::alloc::string::String,
 }
 ///Список позиций по счёту.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PositionsResponse {
-    ///Массив валютных позиций портфеля
+    ///Массив валютных позиций портфеля.
     #[prost(message, repeated, tag = "1")]
     pub money: ::prost::alloc::vec::Vec<MoneyValue>,
-    ///Массив заблокированных валютных позиций портфеля
+    ///Массив заблокированных валютных позиций портфеля.
     #[prost(message, repeated, tag = "2")]
     pub blocked: ::prost::alloc::vec::Vec<MoneyValue>,
-    ///Список ценно-бумажных позиций портфеля
+    ///Список ценно-бумажных позиций портфеля.
     #[prost(message, repeated, tag = "3")]
     pub securities: ::prost::alloc::vec::Vec<PositionsSecurities>,
-    ///Признак идущей в данный момент выгрузки лимитов
+    ///Признак идущей в данный момент выгрузки лимитов.
     #[prost(bool, tag = "4")]
     pub limits_loading_in_progress: bool,
-    ///Список фьючерсов портфеля
+    ///Список фьючерсов портфеля.
     #[prost(message, repeated, tag = "5")]
     pub futures: ::prost::alloc::vec::Vec<PositionsFutures>,
 }
 ///Запрос доступного для вывода остатка.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct WithdrawLimitsRequest {
-    ///Идентификатор счёта пользователя
+    ///Идентификатор счёта пользователя.
     #[prost(string, tag = "1")]
     pub account_id: ::prost::alloc::string::String,
 }
 ///Доступный для вывода остаток.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct WithdrawLimitsResponse {
-    ///Массив валютных позиций портфеля
+    ///Массив валютных позиций портфеля.
     #[prost(message, repeated, tag = "1")]
     pub money: ::prost::alloc::vec::Vec<MoneyValue>,
-    ///Массив заблокированных валютных позиций портфеля
+    ///Массив заблокированных валютных позиций портфеля.
     #[prost(message, repeated, tag = "2")]
     pub blocked: ::prost::alloc::vec::Vec<MoneyValue>,
-    ///Заблокировано под гарантийное обеспечение фьючерсов
+    ///Заблокировано под гарантийное обеспечение фьючерсов.
     #[prost(message, repeated, tag = "3")]
     pub blocked_guarantee: ::prost::alloc::vec::Vec<MoneyValue>,
 }
 ///Позиции портфеля.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PortfolioPosition {
-    ///Figi-идентификатора инструмента
+    ///Figi-идентификатора инструмента.
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
-    ///Тип инструмента
+    ///Тип инструмента.
     #[prost(string, tag = "2")]
     pub instrument_type: ::prost::alloc::string::String,
-    ///Количество инструмента в портфеле в штуках
+    ///Количество инструмента в портфеле в штуках.
     #[prost(message, optional, tag = "3")]
     pub quantity: ::core::option::Option<Quotation>,
-    ///Средневзвешенная цена позиции
+    ///Средневзвешенная цена позиции. **Возможна задержка до секунды для пересчёта**.
     #[prost(message, optional, tag = "4")]
     pub average_position_price: ::core::option::Option<MoneyValue>,
-    ///Текущая рассчитанная доходность
+    ///Текущая рассчитанная доходность позиции.
     #[prost(message, optional, tag = "5")]
     pub expected_yield: ::core::option::Option<Quotation>,
-    /// Текущий НКД
+    /// Текущий НКД.
     #[prost(message, optional, tag = "6")]
     pub current_nkd: ::core::option::Option<MoneyValue>,
-    ///Средняя цена лота в позиции в пунктах (для фьючерсов)
+    ///Средняя цена позиции в пунктах (для фьючерсов). **Возможна задержка до секунды для пересчёта**.
     #[prost(message, optional, tag = "7")]
     pub average_position_price_pt: ::core::option::Option<Quotation>,
-    ///Текущая цена инструмента
+    ///Текущая цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента..
     #[prost(message, optional, tag = "8")]
     pub current_price: ::core::option::Option<MoneyValue>,
-    ///Средняя цена лота в позиции по методу FIFO
+    ///Средняя цена позиции по методу FIFO. **Возможна задержка до секунды для пересчёта**.
     #[prost(message, optional, tag = "9")]
     pub average_position_price_fifo: ::core::option::Option<MoneyValue>,
-    ///Количество лотов в портфеле
+    ///Количество лотов в портфеле.
     #[prost(message, optional, tag = "10")]
     pub quantity_lots: ::core::option::Option<Quotation>,
+    ///Заблокировано.
+    #[prost(bool, tag = "21")]
+    pub blocked: bool,
 }
 ///Баланс позиции ценной бумаги.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PositionsSecurities {
-    ///Figi-идентификатор бумаги
+    ///Figi-идентификатор бумаги.
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
-    ///Заблокировано
+    ///Заблокировано.
     #[prost(int64, tag = "2")]
     pub blocked: i64,
-    ///Текущий баланс
+    ///Текущий незаблокированный баланс.
     #[prost(int64, tag = "3")]
     pub balance: i64,
+    ///Заблокировано на бирже.
+    #[prost(bool, tag = "11")]
+    pub exchange_blocked: bool,
+    ///Тип инструмента.
+    #[prost(string, tag = "16")]
+    pub instrument_type: ::prost::alloc::string::String,
 }
 ///Баланс фьючерса.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PositionsFutures {
-    ///Figi-идентификатор фьючерса
+    ///Figi-идентификатор фьючерса.
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
-    ///Заблокировано
+    ///Заблокировано.
     #[prost(int64, tag = "2")]
     pub blocked: i64,
-    ///Текущий баланс
+    ///Текущий незаблокированный баланс.
     #[prost(int64, tag = "3")]
     pub balance: i64,
 }
@@ -2205,7 +3430,7 @@ pub mod broker_report_response {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GenerateBrokerReportRequest {
-    ///Идентификатор счёта клиента
+    ///Идентификатор счёта клиента.
     #[prost(string, tag = "1")]
     pub account_id: ::prost::alloc::string::String,
     ///Начало периода в часовом поясе UTC.
@@ -2217,16 +3442,16 @@ pub struct GenerateBrokerReportRequest {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GenerateBrokerReportResponse {
-    ///Идентификатор задачи формирования брокерского отчёта
+    ///Идентификатор задачи формирования брокерского отчёта.
     #[prost(string, tag = "1")]
     pub task_id: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBrokerReportRequest {
-    ///Идентификатор задачи формирования брокерского отчёта
+    ///Идентификатор задачи формирования брокерского отчёта.
     #[prost(string, tag = "1")]
     pub task_id: ::prost::alloc::string::String,
-    ///Номер страницы отчета (начинается с 1), значение по умолчанию: 0
+    ///Номер страницы отчета (начинается с 1), значение по умолчанию: 0.
     #[prost(int32, tag = "2")]
     pub page: i32,
 }
@@ -2234,76 +3459,76 @@ pub struct GetBrokerReportRequest {
 pub struct GetBrokerReportResponse {
     #[prost(message, repeated, tag = "1")]
     pub broker_report: ::prost::alloc::vec::Vec<BrokerReport>,
-    ///Количество записей в отчете
+    ///Количество записей в отчете.
     #[prost(int32, tag = "2")]
     pub items_count: i32,
-    ///Количество страниц с данными отчета (начинается с 0)
+    ///Количество страниц с данными отчета (начинается с 0).
     #[prost(int32, tag = "3")]
     pub pages_count: i32,
-    ///Текущая страница (начинается с 0)
+    ///Текущая страница (начинается с 0).
     #[prost(int32, tag = "4")]
     pub page: i32,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BrokerReport {
-    ///Номер сделки
+    ///Номер сделки.
     #[prost(string, tag = "1")]
     pub trade_id: ::prost::alloc::string::String,
-    ///Номер поручения
+    ///Номер поручения.
     #[prost(string, tag = "2")]
     pub order_id: ::prost::alloc::string::String,
-    ///Figi-идентификатор инструмента
+    ///Figi-идентификатор инструмента.
     #[prost(string, tag = "3")]
     pub figi: ::prost::alloc::string::String,
-    ///Признак исполнения
+    ///Признак исполнения.
     #[prost(string, tag = "4")]
     pub execute_sign: ::prost::alloc::string::String,
     ///Дата и время заключения в часовом поясе UTC.
     #[prost(message, optional, tag = "5")]
     pub trade_datetime: ::core::option::Option<::prost_types::Timestamp>,
-    ///Торговая площадка
+    ///Торговая площадка.
     #[prost(string, tag = "6")]
     pub exchange: ::prost::alloc::string::String,
-    ///Режим торгов
+    ///Режим торгов.
     #[prost(string, tag = "7")]
     pub class_code: ::prost::alloc::string::String,
-    ///Вид сделки
+    ///Вид сделки.
     #[prost(string, tag = "8")]
     pub direction: ::prost::alloc::string::String,
-    ///Сокращённое наименование актива
+    ///Сокращённое наименование актива.
     #[prost(string, tag = "9")]
     pub name: ::prost::alloc::string::String,
-    ///Код актива
+    ///Код актива.
     #[prost(string, tag = "10")]
     pub ticker: ::prost::alloc::string::String,
-    ///Цена за единицу
+    ///Цена за единицу.
     #[prost(message, optional, tag = "11")]
     pub price: ::core::option::Option<MoneyValue>,
-    ///Количество
+    ///Количество.
     #[prost(int64, tag = "12")]
     pub quantity: i64,
-    ///Сумма (без НКД)
+    ///Сумма (без НКД).
     #[prost(message, optional, tag = "13")]
     pub order_amount: ::core::option::Option<MoneyValue>,
-    ///НКД
+    ///НКД.
     #[prost(message, optional, tag = "14")]
     pub aci_value: ::core::option::Option<Quotation>,
-    ///Сумма сделки
+    ///Сумма сделки.
     #[prost(message, optional, tag = "15")]
     pub total_order_amount: ::core::option::Option<MoneyValue>,
-    ///Комиссия брокера
+    ///Комиссия брокера.
     #[prost(message, optional, tag = "16")]
     pub broker_commission: ::core::option::Option<MoneyValue>,
-    ///Комиссия биржи
+    ///Комиссия биржи.
     #[prost(message, optional, tag = "17")]
     pub exchange_commission: ::core::option::Option<MoneyValue>,
-    ///Комиссия клир. центра
+    ///Комиссия клир. центра.
     #[prost(message, optional, tag = "18")]
     pub exchange_clearing_commission: ::core::option::Option<MoneyValue>,
-    ///Ставка РЕПО (%)
+    ///Ставка РЕПО (%).
     #[prost(message, optional, tag = "19")]
     pub repo_rate: ::core::option::Option<Quotation>,
-    ///Контрагент/Брокер
+    ///Контрагент/Брокер.
     #[prost(string, tag = "20")]
     pub party: ::prost::alloc::string::String,
     ///Дата расчётов в часовом поясе UTC.
@@ -2312,7 +3537,7 @@ pub struct BrokerReport {
     ///Дата поставки в часовом поясе UTC.
     #[prost(message, optional, tag = "22")]
     pub sec_value_date: ::core::option::Option<::prost_types::Timestamp>,
-    ///Статус брокера
+    ///Статус брокера.
     #[prost(string, tag = "23")]
     pub broker_status: ::prost::alloc::string::String,
     ///Тип дог.
@@ -2324,113 +3549,475 @@ pub struct BrokerReport {
     ///Дата дог.
     #[prost(string, tag = "26")]
     pub separate_agreement_date: ::prost::alloc::string::String,
-    ///Тип расчёта по сделке
+    ///Тип расчёта по сделке.
     #[prost(string, tag = "27")]
     pub delivery_type: ::prost::alloc::string::String,
 }
-///Статус запрашиваемых операций
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetDividendsForeignIssuerRequest {
+    #[prost(oneof = "get_dividends_foreign_issuer_request::Payload", tags = "1, 2")]
+    pub payload: ::core::option::Option<get_dividends_foreign_issuer_request::Payload>,
+}
+/// Nested message and enum types in `GetDividendsForeignIssuerRequest`.
+pub mod get_dividends_foreign_issuer_request {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Payload {
+        ///Объект запроса формирования отчёта.
+        #[prost(message, tag = "1")]
+        GenerateDivForeignIssuerReport(super::GenerateDividendsForeignIssuerReportRequest),
+        ///Объект запроса сформированного отчёта.
+        #[prost(message, tag = "2")]
+        GetDivForeignIssuerReport(super::GetDividendsForeignIssuerReportRequest),
+    }
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetDividendsForeignIssuerResponse {
+    #[prost(
+        oneof = "get_dividends_foreign_issuer_response::Payload",
+        tags = "1, 2"
+    )]
+    pub payload: ::core::option::Option<get_dividends_foreign_issuer_response::Payload>,
+}
+/// Nested message and enum types in `GetDividendsForeignIssuerResponse`.
+pub mod get_dividends_foreign_issuer_response {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Payload {
+        ///Объект результата задачи запуска формирования отчёта.
+        #[prost(message, tag = "1")]
+        GenerateDivForeignIssuerReportResponse(super::GenerateDividendsForeignIssuerReportResponse),
+        ///Отчёт "Справка о доходах за пределами РФ".
+        #[prost(message, tag = "2")]
+        DivForeignIssuerReport(super::GetDividendsForeignIssuerReportResponse),
+    }
+}
+///Объект запроса формирования отчёта "Справка о доходах за пределами РФ".
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GenerateDividendsForeignIssuerReportRequest {
+    ///Идентификатор счёта клиента.
+    #[prost(string, tag = "1")]
+    pub account_id: ::prost::alloc::string::String,
+    ///Начало периода (по UTC).
+    #[prost(message, optional, tag = "2")]
+    pub from: ::core::option::Option<::prost_types::Timestamp>,
+    ///Окончание периода (по UTC).
+    #[prost(message, optional, tag = "3")]
+    pub to: ::core::option::Option<::prost_types::Timestamp>,
+}
+/// Объект запроса сформированного отчёта "Справка о доходах за пределами РФ".
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetDividendsForeignIssuerReportRequest {
+    ///Идентификатор задачи формирования отчёта.
+    #[prost(string, tag = "1")]
+    pub task_id: ::prost::alloc::string::String,
+    ///Номер страницы отчета (начинается с 0), значение по умолчанию: 0.
+    #[prost(int32, tag = "2")]
+    pub page: i32,
+}
+/// Объект результата задачи запуска формирования отчёта "Справка о доходах за пределами РФ".
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GenerateDividendsForeignIssuerReportResponse {
+    ///Идентификатор задачи формирования отчёта.
+    #[prost(string, tag = "1")]
+    pub task_id: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetDividendsForeignIssuerReportResponse {
+    #[prost(message, repeated, tag = "1")]
+    pub dividends_foreign_issuer_report: ::prost::alloc::vec::Vec<DividendsForeignIssuerReport>,
+    ///Количество записей в отчете.
+    #[prost(int32, tag = "2")]
+    pub items_count: i32,
+    ///Количество страниц с данными отчета (начинается с 0).
+    #[prost(int32, tag = "3")]
+    pub pages_count: i32,
+    ///Текущая страница (начинается с 0).
+    #[prost(int32, tag = "4")]
+    pub page: i32,
+}
+/// Отчёт "Справка о доходах за пределами РФ".
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct DividendsForeignIssuerReport {
+    ///Дата фиксации реестра.
+    #[prost(message, optional, tag = "1")]
+    pub record_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Дата выплаты.
+    #[prost(message, optional, tag = "2")]
+    pub payment_date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Наименование ценной бумаги.
+    #[prost(string, tag = "3")]
+    pub security_name: ::prost::alloc::string::String,
+    ///ISIN-идентификатор ценной бумаги.
+    #[prost(string, tag = "4")]
+    pub isin: ::prost::alloc::string::String,
+    ///Страна эмитента. Для депозитарных расписок указывается страна эмитента базового актива.
+    #[prost(string, tag = "5")]
+    pub issuer_country: ::prost::alloc::string::String,
+    ///Количество ценных бумаг.
+    #[prost(int64, tag = "6")]
+    pub quantity: i64,
+    ///Выплаты на одну бумагу
+    #[prost(message, optional, tag = "7")]
+    pub dividend: ::core::option::Option<Quotation>,
+    ///Комиссия внешних платёжных агентов.
+    #[prost(message, optional, tag = "8")]
+    pub external_commission: ::core::option::Option<Quotation>,
+    ///Сумма до удержания налога.
+    #[prost(message, optional, tag = "9")]
+    pub dividend_gross: ::core::option::Option<Quotation>,
+    ///Сумма налога, удержанного агентом.
+    #[prost(message, optional, tag = "10")]
+    pub tax: ::core::option::Option<Quotation>,
+    ///Итоговая сумма выплаты.
+    #[prost(message, optional, tag = "11")]
+    pub dividend_amount: ::core::option::Option<Quotation>,
+    ///Валюта.
+    #[prost(string, tag = "12")]
+    pub currency: ::prost::alloc::string::String,
+}
+///Запрос установки stream-соединения.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PortfolioStreamRequest {
+    ///Массив идентификаторов счётов пользователя
+    #[prost(string, repeated, tag = "1")]
+    pub accounts: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+///Информация по позициям и доходностям портфелей.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PortfolioStreamResponse {
+    #[prost(oneof = "portfolio_stream_response::Payload", tags = "1, 2, 3")]
+    pub payload: ::core::option::Option<portfolio_stream_response::Payload>,
+}
+/// Nested message and enum types in `PortfolioStreamResponse`.
+pub mod portfolio_stream_response {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Payload {
+        ///Объект результата подписки.
+        #[prost(message, tag = "1")]
+        Subscriptions(super::PortfolioSubscriptionResult),
+        ///Объект стриминга портфеля.
+        #[prost(message, tag = "2")]
+        Portfolio(super::PortfolioResponse),
+        ///Проверка активности стрима.
+        #[prost(message, tag = "3")]
+        Ping(super::Ping),
+    }
+}
+///Объект результата подписки.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PortfolioSubscriptionResult {
+    ///Массив счетов клиента.
+    #[prost(message, repeated, tag = "1")]
+    pub accounts: ::prost::alloc::vec::Vec<AccountSubscriptionStatus>,
+}
+///Счет клиента.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AccountSubscriptionStatus {
+    ///Идентификатор счёта
+    #[prost(string, tag = "1")]
+    pub account_id: ::prost::alloc::string::String,
+    ///Результат подписки.
+    #[prost(enumeration = "PortfolioSubscriptionStatus", tag = "6")]
+    pub subscription_status: i32,
+}
+///Запрос списка операций по счёту с пагинацией.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetOperationsByCursorRequest {
+    ///Идентификатор счёта клиента.
+    #[prost(string, tag = "1")]
+    pub account_id: ::prost::alloc::string::String,
+    ///Идентификатор инструмента (Figi инструмента или uid инструмента)
+    #[prost(string, tag = "2")]
+    pub instrument_id: ::prost::alloc::string::String,
+    ///Начало периода (по UTC).
+    #[prost(message, optional, tag = "6")]
+    pub from: ::core::option::Option<::prost_types::Timestamp>,
+    ///Окончание периода (по UTC).
+    #[prost(message, optional, tag = "7")]
+    pub to: ::core::option::Option<::prost_types::Timestamp>,
+    ///Идентификатор элемента, с которого начать формировать ответ.
+    #[prost(string, tag = "11")]
+    pub cursor: ::prost::alloc::string::String,
+    ///Лимит количества операций.
+    #[prost(int32, tag = "12")]
+    pub limit: i32,
+    ///Тип операции. Принимает значение из списка OperationType.
+    #[prost(enumeration = "OperationType", repeated, tag = "13")]
+    pub operation_types: ::prost::alloc::vec::Vec<i32>,
+    ///Статус запрашиваемых операций, возможные значения указаны в OperationState.
+    #[prost(enumeration = "OperationState", tag = "14")]
+    pub state: i32,
+    ///Флаг возвращать ли комиссии, по умолчанию false
+    #[prost(bool, tag = "15")]
+    pub without_commissions: bool,
+    ///Флаг ответ без сделок.
+    #[prost(bool, tag = "16")]
+    pub without_trades: bool,
+    ///Флаг не показывать overnight операций.
+    #[prost(bool, tag = "17")]
+    pub without_overnights: bool,
+}
+///Список операций по счёту с пагинацией.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetOperationsByCursorResponse {
+    ///Признак, есть ли следующий элемент.
+    #[prost(bool, tag = "1")]
+    pub has_next: bool,
+    ///Следующий курсор.
+    #[prost(string, tag = "2")]
+    pub next_cursor: ::prost::alloc::string::String,
+    ///Список операций.
+    #[prost(message, repeated, tag = "6")]
+    pub items: ::prost::alloc::vec::Vec<OperationItem>,
+}
+///Данные об операции.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationItem {
+    ///Курсор.
+    #[prost(string, tag = "1")]
+    pub cursor: ::prost::alloc::string::String,
+    ///Номер счета клиента.
+    #[prost(string, tag = "6")]
+    pub broker_account_id: ::prost::alloc::string::String,
+    ///Номер поручения.
+    #[prost(string, tag = "16")]
+    pub id: ::prost::alloc::string::String,
+    ///Номер родительского поручения.
+    #[prost(string, tag = "17")]
+    pub parent_operation_id: ::prost::alloc::string::String,
+    ///Название операции.
+    #[prost(string, tag = "18")]
+    pub name: ::prost::alloc::string::String,
+    ///Дата поручения.
+    #[prost(message, optional, tag = "21")]
+    pub date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Тип операции.
+    #[prost(enumeration = "OperationType", tag = "22")]
+    pub r#type: i32,
+    ///Описание операции.
+    #[prost(string, tag = "23")]
+    pub description: ::prost::alloc::string::String,
+    ///Статус поручения.
+    #[prost(enumeration = "OperationState", tag = "24")]
+    pub state: i32,
+    ///Уникальный идентификатор инструмента.
+    #[prost(string, tag = "31")]
+    pub instrument_uid: ::prost::alloc::string::String,
+    ///Figi.
+    #[prost(string, tag = "32")]
+    pub figi: ::prost::alloc::string::String,
+    ///Тип инструмента.
+    #[prost(string, tag = "33")]
+    pub instrument_type: ::prost::alloc::string::String,
+    ///Тип инструмента.
+    #[prost(enumeration = "InstrumentType", tag = "34")]
+    pub instrument_kind: i32,
+    ///Сумма операции.
+    #[prost(message, optional, tag = "41")]
+    pub payment: ::core::option::Option<MoneyValue>,
+    ///Цена операции за 1 инструмент.
+    #[prost(message, optional, tag = "42")]
+    pub price: ::core::option::Option<MoneyValue>,
+    ///Комиссия.
+    #[prost(message, optional, tag = "43")]
+    pub commission: ::core::option::Option<MoneyValue>,
+    ///Доходность.
+    #[prost(message, optional, tag = "44")]
+    pub r#yield: ::core::option::Option<MoneyValue>,
+    ///Относительная доходность.
+    #[prost(message, optional, tag = "45")]
+    pub yield_relative: ::core::option::Option<Quotation>,
+    ///Накопленный купонный доход.
+    #[prost(message, optional, tag = "46")]
+    pub accrued_int: ::core::option::Option<MoneyValue>,
+    ///Количество единиц инструмента.
+    #[prost(int64, tag = "51")]
+    pub quantity: i64,
+    ///Неисполненный остаток по сделке.
+    #[prost(int64, tag = "52")]
+    pub quantity_rest: i64,
+    ///Исполненный остаток.
+    #[prost(int64, tag = "53")]
+    pub quantity_done: i64,
+    ///Дата и время снятия заявки.
+    #[prost(message, optional, tag = "56")]
+    pub cancel_date_time: ::core::option::Option<::prost_types::Timestamp>,
+    ///Причина отмены операции.
+    #[prost(string, tag = "57")]
+    pub cancel_reason: ::prost::alloc::string::String,
+    ///Массив сделок.
+    #[prost(message, optional, tag = "61")]
+    pub trades_info: ::core::option::Option<OperationItemTrades>,
+}
+///Массив с информацией о сделках.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationItemTrades {
+    #[prost(int32, tag = "1")]
+    pub trades_size: i32,
+    #[prost(message, repeated, tag = "6")]
+    pub trades: ::prost::alloc::vec::Vec<OperationItemTrade>,
+}
+///Сделка по операции.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct OperationItemTrade {
+    ///Номер сделки
+    #[prost(string, tag = "1")]
+    pub num: ::prost::alloc::string::String,
+    ///Дата сделки
+    #[prost(message, optional, tag = "6")]
+    pub date: ::core::option::Option<::prost_types::Timestamp>,
+    ///Количество в единицах.
+    #[prost(int64, tag = "11")]
+    pub quantity: i64,
+    ///Цена.
+    #[prost(message, optional, tag = "16")]
+    pub price: ::core::option::Option<MoneyValue>,
+    ///Доходность.
+    #[prost(message, optional, tag = "21")]
+    pub r#yield: ::core::option::Option<MoneyValue>,
+    ///Относительная доходность.
+    #[prost(message, optional, tag = "22")]
+    pub yield_relative: ::core::option::Option<Quotation>,
+}
+///Статус запрашиваемых операций.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum OperationState {
     ///Статус операции не определён
     Unspecified = 0,
-    ///Исполнена
+    ///Исполнена.
     Executed = 1,
-    ///Отменена
+    ///Отменена.
     Canceled = 2,
+    ///Исполняется.
+    Progress = 3,
 }
-///Тип операции
+///Тип операции.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum OperationType {
-    ///Тип операции не определён
+    ///Тип операции не определён.
     Unspecified = 0,
-    ///Завод денежных средств
+    ///Пополнение брокерского счёта.
     Input = 1,
-    ///Удержание налога по купонам
+    ///Удержание НДФЛ по купонам.
     BondTax = 2,
-    ///Вывод ЦБ
+    ///Вывод ЦБ.
     OutputSecurities = 3,
-    ///Доход по сделке РЕПО овернайт
+    ///Доход по сделке РЕПО овернайт.
     Overnight = 4,
-    ///Удержание налога
+    ///Удержание налога.
     Tax = 5,
-    ///Полное погашение облигаций
+    ///Полное погашение облигаций.
     BondRepaymentFull = 6,
-    ///Продажа ЦБ с карты
+    ///Продажа ЦБ с карты.
     SellCard = 7,
-    ///Удержание налога по дивидендам
+    ///Удержание налога по дивидендам.
     DividendTax = 8,
-    ///Вывод денежных средств
+    ///Вывод денежных средств.
     Output = 9,
-    ///Частичное погашение облигаций
+    ///Частичное погашение облигаций.
     BondRepayment = 10,
-    ///Корректировка налога
+    ///Корректировка налога.
     TaxCorrection = 11,
-    ///Удержание комиссии за обслуживание брокерского счёта
+    ///Удержание комиссии за обслуживание брокерского счёта.
     ServiceFee = 12,
-    ///Удержание налога за материальную выгоду
+    ///Удержание налога за материальную выгоду.
     BenefitTax = 13,
-    ///Удержание комиссии за непокрытую позицию
+    ///Удержание комиссии за непокрытую позицию.
     MarginFee = 14,
-    ///Покупка ЦБ
+    ///Покупка ЦБ.
     Buy = 15,
-    ///Покупка ЦБ с карты
+    ///Покупка ЦБ с карты.
     BuyCard = 16,
-    ///Завод ЦБ
+    ///Перевод ценных бумаг из другого депозитария.
     InputSecurities = 17,
-    ///Продажа в результате Margin-call
+    ///Продажа в результате Margin-call.
     SellMargin = 18,
-    ///Удержание комиссии за операцию
+    ///Удержание комиссии за операцию.
     BrokerFee = 19,
-    ///Покупка в результате Margin-call
+    ///Покупка в результате Margin-call.
     BuyMargin = 20,
-    ///Выплата дивидендов
+    ///Выплата дивидендов.
     Dividend = 21,
-    ///Продажа ЦБ
+    ///Продажа ЦБ.
     Sell = 22,
-    ///Выплата купонов
+    ///Выплата купонов.
     Coupon = 23,
-    ///Удержание комиссии SuccessFee
+    ///Удержание комиссии SuccessFee.
     SuccessFee = 24,
-    ///Передача дивидендного дохода
+    ///Передача дивидендного дохода.
     DividendTransfer = 25,
-    ///Зачисление вариационной маржи
+    ///Зачисление вариационной маржи.
     AccruingVarmargin = 26,
-    ///Списание вариационной маржи
+    ///Списание вариационной маржи.
     WritingOffVarmargin = 27,
-    ///Покупка в рамках экспирации фьючерсного контракта
+    ///Покупка в рамках экспирации фьючерсного контракта.
     DeliveryBuy = 28,
-    ///Продажа в рамках экспирации фьючерсного контракта
+    ///Продажа в рамках экспирации фьючерсного контракта.
     DeliverySell = 29,
-    ///Комиссия за управление по счёту автоследования
+    ///Комиссия за управление по счёту автоследования.
     TrackMfee = 30,
-    ///Комиссия за результат по счёту автоследования
+    ///Комиссия за результат по счёту автоследования.
     TrackPfee = 31,
-    ///Удержание налога по ставке 15%
+    ///Удержание налога по ставке 15%.
     TaxProgressive = 32,
-    ///Удержание налога по купонам по ставке 15%
+    ///Удержание налога по купонам по ставке 15%.
     BondTaxProgressive = 33,
-    ///Удержание налога по дивидендам по ставке 15%
+    ///Удержание налога по дивидендам по ставке 15%.
     DividendTaxProgressive = 34,
-    ///Удержание налога за материальную выгоду по ставке 15%
+    ///Удержание налога за материальную выгоду по ставке 15%.
     BenefitTaxProgressive = 35,
-    ///Корректировка налога по ставке 15%
+    ///Корректировка налога по ставке 15%.
     TaxCorrectionProgressive = 36,
-    ///Удержание налога за возмещение по сделкам РЕПО по ставке 15%
+    ///Удержание налога за возмещение по сделкам РЕПО по ставке 15%.
     TaxRepoProgressive = 37,
-    ///Удержание налога за возмещение по сделкам РЕПО
+    ///Удержание налога за возмещение по сделкам РЕПО.
     TaxRepo = 38,
-    ///Удержание налога по сделкам РЕПО
+    ///Удержание налога по сделкам РЕПО.
     TaxRepoHold = 39,
-    ///Возврат налога по сделкам РЕПО
+    ///Возврат налога по сделкам РЕПО.
     TaxRepoRefund = 40,
-    ///Удержание налога по сделкам РЕПО по ставке 15%
+    ///Удержание налога по сделкам РЕПО по ставке 15%.
     TaxRepoHoldProgressive = 41,
-    ///Возврат налога по сделкам РЕПО по ставке 15%
+    ///Возврат налога по сделкам РЕПО по ставке 15%.
     TaxRepoRefundProgressive = 42,
-    ///Выплата дивидендов на карту
+    ///Выплата дивидендов на карту.
     DivExt = 43,
+    ///Корректировка налога по купонам.
+    TaxCorrectionCoupon = 44,
+}
+///Результат подписки.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum PortfolioSubscriptionStatus {
+    ///Тип не определён.
+    Unspecified = 0,
+    ///Успешно.
+    Success = 1,
+    ///Счёт не найден или недостаточно прав.
+    AccountNotFound = 2,
+    ///Произошла ошибка.
+    InternalError = 3,
+}
+///Тип инструмента.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum InstrumentType {
+    Unspecified = 0,
+    ///Облигация.
+    Bond = 1,
+    ///Акция.
+    Share = 2,
+    ///Валюта.
+    Currency = 3,
+    ///Exchange-traded fund. Фонд.
+    Etf = 4,
+    ///Фьючерс.
+    Futures = 5,
+    ///Структурная нота.
+    Sp = 6,
+    ///Опцион.
+    Option = 7,
 }
 #[doc = r" Generated client implementations."]
 pub mod operations_service_client {
@@ -2560,6 +4147,7 @@ pub mod operations_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+        #[doc = "Метод получения брокерского отчёта."]
         pub async fn get_broker_report(
             &mut self,
             request: impl tonic::IntoRequest<super::BrokerReportRequest>,
@@ -2576,11 +4164,132 @@ pub mod operations_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+        #[doc = "Метод получения отчёта \"Справка о доходах за пределами РФ\"."]
+        pub async fn get_dividends_foreign_issuer(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetDividendsForeignIssuerRequest>,
+        ) -> Result<tonic::Response<super::GetDividendsForeignIssuerResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http :: uri :: PathAndQuery :: from_static ("/tinkoff.public.invest.api.contract.v1.OperationsService/GetDividendsForeignIssuer") ;
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        #[doc = "Метод получения списка операций по счёту с пагинацией."]
+        pub async fn get_operations_by_cursor(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetOperationsByCursorRequest>,
+        ) -> Result<tonic::Response<super::GetOperationsByCursorResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tinkoff.public.invest.api.contract.v1.OperationsService/GetOperationsByCursor",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+    }
+}
+#[doc = r" Generated client implementations."]
+pub mod operations_stream_service_client {
+    #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    use tonic::codegen::*;
+    #[derive(Debug, Clone)]
+    pub struct OperationsStreamServiceClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    impl OperationsStreamServiceClient<tonic::transport::Channel> {
+        #[doc = r" Attempt to create a new client by connecting to a given endpoint."]
+        pub async fn connect<D>(dst: D) -> Result<Self, tonic::transport::Error>
+        where
+            D: std::convert::TryInto<tonic::transport::Endpoint>,
+            D::Error: Into<StdError>,
+        {
+            let conn = tonic::transport::Endpoint::new(dst)?.connect().await?;
+            Ok(Self::new(conn))
+        }
+    }
+    impl<T> OperationsStreamServiceClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::ResponseBody: Body + Send + 'static,
+        T::Error: Into<StdError>,
+        <T::ResponseBody as Body>::Error: Into<StdError> + Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> OperationsStreamServiceClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + Send + Sync,
+        {
+            OperationsStreamServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        #[doc = r" Compress requests with `gzip`."]
+        #[doc = r""]
+        #[doc = r" This requires the server to support it otherwise it might respond with an"]
+        #[doc = r" error."]
+        pub fn send_gzip(mut self) -> Self {
+            self.inner = self.inner.send_gzip();
+            self
+        }
+        #[doc = r" Enable decompressing responses with `gzip`."]
+        pub fn accept_gzip(mut self) -> Self {
+            self.inner = self.inner.accept_gzip();
+            self
+        }
+        #[doc = "Server-side stream обновлений портфеля"]
+        pub async fn portfolio_stream(
+            &mut self,
+            request: impl tonic::IntoRequest<super::PortfolioStreamRequest>,
+        ) -> Result<
+            tonic::Response<tonic::codec::Streaming<super::PortfolioStreamResponse>>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tinkoff.public.invest.api.contract.v1.OperationsStreamService/PortfolioStream",
+            );
+            self.inner
+                .server_streaming(request.into_request(), path, codec)
+                .await
+        }
     }
 }
 ///Запрос установки соединения.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct TradesStreamRequest {}
+pub struct TradesStreamRequest {
+    ///Идентификаторы счетов.
+    #[prost(string, repeated, tag = "1")]
+    pub accounts: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
 ///Информация о торговых поручениях.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TradesStreamResponse {
@@ -2602,21 +4311,24 @@ pub mod trades_stream_response {
 ///Информация об исполнении торгового поручения.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OrderTrades {
-    ///Идентификатор торгового поручения
+    ///Идентификатор торгового поручения.
     #[prost(string, tag = "1")]
     pub order_id: ::prost::alloc::string::String,
     ///Дата и время создания сообщения в часовом поясе UTC.
     #[prost(message, optional, tag = "2")]
     pub created_at: ::core::option::Option<::prost_types::Timestamp>,
-    ///Направление сделки (возможные значения)
+    ///Направление сделки.
     #[prost(enumeration = "OrderDirection", tag = "3")]
     pub direction: i32,
-    ///Figi-идентификатор инструмента
+    ///Figi-идентификатор инструмента.
     #[prost(string, tag = "4")]
     pub figi: ::prost::alloc::string::String,
-    ///Массив сделок
+    ///Массив сделок.
     #[prost(message, repeated, tag = "5")]
     pub trades: ::prost::alloc::vec::Vec<OrderTrade>,
+    ///Идентификатор счёта.
+    #[prost(string, tag = "6")]
+    pub account_id: ::prost::alloc::string::String,
 }
 ///Информация о сделке.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2624,10 +4336,10 @@ pub struct OrderTrade {
     ///Дата и время совершения сделки в часовом поясе UTC.
     #[prost(message, optional, tag = "1")]
     pub date_time: ::core::option::Option<::prost_types::Timestamp>,
-    ///Цена, по которой совершена сделка
+    ///Цена одного инструмента, по которой совершена сделка.
     #[prost(message, optional, tag = "2")]
     pub price: ::core::option::Option<Quotation>,
-    ///Количество лотов в сделке
+    ///Количество лотов в сделке.
     #[prost(int64, tag = "3")]
     pub quantity: i64,
 }
@@ -2640,7 +4352,7 @@ pub struct PostOrderRequest {
     ///Количество лотов.
     #[prost(int64, tag = "2")]
     pub quantity: i64,
-    ///Цена лота.
+    ///Цена одного инструмента. Для получения стоимости лота требуется умножить на лотность инструмента. Игнорируется для рыночных поручений.
     #[prost(message, optional, tag = "3")]
     pub price: ::core::option::Option<Quotation>,
     ///Направление операции.
@@ -2695,7 +4407,7 @@ pub struct PostOrderResponse {
     ///Направление сделки.
     #[prost(enumeration = "OrderDirection", tag = "12")]
     pub direction: i32,
-    ///Начальная цена инструмента заявки.
+    ///Начальная цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "13")]
     pub initial_security_price: ::core::option::Option<MoneyValue>,
     ///Тип заявки.
@@ -2788,7 +4500,7 @@ pub struct OrderState {
     ///Направление заявки.
     #[prost(enumeration = "OrderDirection", tag = "12")]
     pub direction: i32,
-    ///Начальная цена инструмента. Цена инструмента на момент выставления заявки.
+    ///Начальная цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "13")]
     pub initial_security_price: ::core::option::Option<MoneyValue>,
     ///Стадии выполнения заявки.
@@ -2810,7 +4522,7 @@ pub struct OrderState {
 ///Сделки в рамках торгового поручения.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OrderStage {
-    ///Цена.
+    ///Цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента..
     #[prost(message, optional, tag = "1")]
     pub price: ::core::option::Option<MoneyValue>,
     ///Количество лотов.
@@ -2820,7 +4532,29 @@ pub struct OrderStage {
     #[prost(string, tag = "3")]
     pub trade_id: ::prost::alloc::string::String,
 }
-///Направление операции
+///Запрос изменения выставленной заявки.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ReplaceOrderRequest {
+    ///Номер счета.
+    #[prost(string, tag = "1")]
+    pub account_id: ::prost::alloc::string::String,
+    ///Идентификатор заявки на бирже.
+    #[prost(string, tag = "6")]
+    pub order_id: ::prost::alloc::string::String,
+    ///Новый идентификатор запроса выставления поручения для целей идемпотентности. Максимальная длина 36 символов. Перезатирает старый ключ.
+    #[prost(string, tag = "7")]
+    pub idempotency_key: ::prost::alloc::string::String,
+    ///Количество лотов.
+    #[prost(int64, tag = "11")]
+    pub quantity: i64,
+    ///Цена за 1 инструмент.
+    #[prost(message, optional, tag = "12")]
+    pub price: ::core::option::Option<Quotation>,
+    ///Тип цены.
+    #[prost(enumeration = "PriceType", tag = "13")]
+    pub price_type: i32,
+}
+///Направление операции.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum OrderDirection {
@@ -2831,7 +4565,7 @@ pub enum OrderDirection {
     ///Продажа
     Sell = 2,
 }
-///Тип заявки
+///Тип заявки.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum OrderType {
@@ -2857,6 +4591,17 @@ pub enum OrderExecutionReportStatus {
     ExecutionReportStatusNew = 4,
     ///Частично исполнена
     ExecutionReportStatusPartiallyfill = 5,
+}
+///Тип цены.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum PriceType {
+    ///Значение не определено.
+    Unspecified = 0,
+    ///Цена в пунктах (только для фьючерсов и облигаций).
+    Point = 1,
+    ///Цена в валюте расчётов по инструменту.
+    Currency = 2,
 }
 #[doc = r" Generated client implementations."]
 pub mod orders_stream_service_client {
@@ -3070,6 +4815,23 @@ pub mod orders_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
+        #[doc = "Метод изменения выставленной заявки."]
+        pub async fn replace_order(
+            &mut self,
+            request: impl tonic::IntoRequest<super::ReplaceOrderRequest>,
+        ) -> Result<tonic::Response<super::PostOrderResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tinkoff.public.invest.api.contract.v1.OrdersService/ReplaceOrder",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
     }
 }
 ///Запрос получения счетов пользователя.
@@ -3178,9 +4940,12 @@ pub struct GetInfoResponse {
     ///Признак квалифицированного инвестора.
     #[prost(bool, tag = "2")]
     pub qual_status: bool,
-    ///Набор требующих тестирования инструментов и возможностей, с которыми может работать пользователь.
+    ///Набор требующих тестирования инструментов и возможностей, с которыми может работать пользователь. \[Подробнее\](<https://tinkoff.github.io/investAPI/faq_users/>).
     #[prost(string, repeated, tag = "3")]
     pub qualified_for_work_with: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    ///Наименование тарифа пользователя.
+    #[prost(string, tag = "4")]
+    pub tariff: ::prost::alloc::string::String,
 }
 ///Тип счёта.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -3641,31 +5406,31 @@ pub mod sandbox_service_client {
         }
     }
 }
-///Запрос выставления стоп-заявки
+///Запрос выставления стоп-заявки.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PostStopOrderRequest {
-    ///Figi-идентификатор инструмента
+    ///Figi-идентификатор инструмента.
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
-    ///Количество лотов
+    ///Количество лотов.
     #[prost(int64, tag = "2")]
     pub quantity: i64,
-    ///Цена лота
+    ///Цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "3")]
     pub price: ::core::option::Option<Quotation>,
-    ///Стоп-цена заявки
+    ///Стоп-цена заявки за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "4")]
     pub stop_price: ::core::option::Option<Quotation>,
-    ///Направление операции
+    ///Направление операции.
     #[prost(enumeration = "StopOrderDirection", tag = "5")]
     pub direction: i32,
-    ///Номер счёта
+    ///Номер счёта.
     #[prost(string, tag = "6")]
     pub account_id: ::prost::alloc::string::String,
-    ///Тип экспирации заявки
+    ///Тип экспирации заявки.
     #[prost(enumeration = "StopOrderExpirationType", tag = "7")]
     pub expiration_type: i32,
-    ///Тип заявки
+    ///Тип заявки.
     #[prost(enumeration = "StopOrderType", tag = "8")]
     pub stop_order_type: i32,
     ///Дата и время окончания действия стоп-заявки в часовом поясе UTC. **Для ExpirationType = GoodTillDate заполнение обязательно**.
@@ -3682,21 +5447,21 @@ pub struct PostStopOrderResponse {
 ///Запрос получения списка активных стоп-заявок.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetStopOrdersRequest {
-    ///Идентификатор счёта клиента
+    ///Идентификатор счёта клиента.
     #[prost(string, tag = "1")]
     pub account_id: ::prost::alloc::string::String,
 }
 ///Список активных стоп-заявок.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetStopOrdersResponse {
-    ///Массив стоп-заявок по счёту
+    ///Массив стоп-заявок по счёту.
     #[prost(message, repeated, tag = "1")]
     pub stop_orders: ::prost::alloc::vec::Vec<StopOrder>,
 }
 ///Запрос отмены выставленной стоп-заявки.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CancelStopOrderRequest {
-    ///Идентификатор счёта клиента
+    ///Идентификатор счёта клиента.
     #[prost(string, tag = "1")]
     pub account_id: ::prost::alloc::string::String,
     ///Уникальный идентификатор стоп-заявки.
@@ -3713,22 +5478,22 @@ pub struct CancelStopOrderResponse {
 ///Информация о стоп-заявке.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct StopOrder {
-    ///Идентификатор-идентификатор стоп-заявки
+    ///Идентификатор-идентификатор стоп-заявки.
     #[prost(string, tag = "1")]
     pub stop_order_id: ::prost::alloc::string::String,
-    ///Запрошено лотов
+    ///Запрошено лотов.
     #[prost(int64, tag = "2")]
     pub lots_requested: i64,
-    ///Figi-идентификатор инструмента
+    ///Figi-идентификатор инструмента.
     #[prost(string, tag = "3")]
     pub figi: ::prost::alloc::string::String,
-    ///Направление операции
+    ///Направление операции.
     #[prost(enumeration = "StopOrderDirection", tag = "4")]
     pub direction: i32,
-    ///Валюта стоп-заявки
+    ///Валюта стоп-заявки.
     #[prost(string, tag = "5")]
     pub currency: ::prost::alloc::string::String,
-    ///Тип стоп-заявки
+    ///Тип стоп-заявки.
     #[prost(enumeration = "StopOrderType", tag = "6")]
     pub order_type: i32,
     ///Дата и время выставления заявки в часовом поясе UTC.
@@ -3740,10 +5505,10 @@ pub struct StopOrder {
     ///Дата и время снятия заявки в часовом поясе UTC.
     #[prost(message, optional, tag = "9")]
     pub expiration_time: ::core::option::Option<::prost_types::Timestamp>,
-    ///Цена заявки
+    ///Цена заявки за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "10")]
     pub price: ::core::option::Option<MoneyValue>,
-    ///Цена активации стоп-заявки
+    ///Цена активации стоп-заявки за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
     #[prost(message, optional, tag = "11")]
     pub stop_price: ::core::option::Option<MoneyValue>,
 }
@@ -3751,11 +5516,11 @@ pub struct StopOrder {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum StopOrderDirection {
-    ///Значение не указано
+    ///Значение не указано.
     Unspecified = 0,
-    ///Покупка
+    ///Покупка.
     Buy = 1,
-    ///Продажа
+    ///Продажа.
     Sell = 2,
 }
 ///Тип экспирации стоп-заявке.
@@ -3773,13 +5538,13 @@ pub enum StopOrderExpirationType {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum StopOrderType {
-    ///Значение не указано
+    ///Значение не указано.
     Unspecified = 0,
-    ///Take-profit заявка
+    ///Take-profit заявка.
     TakeProfit = 1,
-    ///Stop-loss заявка
+    ///Stop-loss заявка.
     StopLoss = 2,
-    ///Stop-limit заявка
+    ///Stop-limit заявка.
     StopLimit = 3,
 }
 #[doc = r" Generated client implementations."]
