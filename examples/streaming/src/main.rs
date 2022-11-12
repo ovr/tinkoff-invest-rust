@@ -1,6 +1,10 @@
-use std::{env, pin::Pin, task::{Context, Poll}};
+use std::{
+    env,
+    pin::Pin,
+    task::{Context, Poll},
+};
 
-use futures::{StreamExt, TryStreamExt, Stream};
+use futures::{Stream, StreamExt, TryStreamExt};
 use futures_util::stream;
 use tinkoff_invest_api::{
     tcs::{
@@ -11,7 +15,6 @@ use tinkoff_invest_api::{
     },
     TIResult, TinkoffInvestService,
 };
-use tonic;
 
 #[tokio::main]
 async fn main() -> TIResult<()> {
@@ -23,10 +26,13 @@ async fn main() -> TIResult<()> {
     let request = tinkoff_invest_api::tcs::MarketDataRequest {
         payload: Some(Payload::SubscribeCandlesRequest(SubscribeCandlesRequest {
             subscription_action: SubscriptionAction::Subscribe as i32,
-            instruments: vec![
-                CandleInstrument {figi:"BBG00YFSF9D7".to_string(), interval: SubscriptionInterval::OneMinute as i32 },
-            ],
-        }))
+            instruments: vec![CandleInstrument {
+                figi: "BBG00YFSF9D7".to_string(),
+                interval: SubscriptionInterval::OneMinute as i32,
+                instrument_id: "figi".to_string(),
+            }],
+            waiting_close: true,
+        })),
     };
     tx.send(request).unwrap();
 

@@ -12,11 +12,7 @@ First you need to install:
 
 ```toml
 [dependencies]
-tinkoff-invest-rust = { version = "0.1" }
-
-[patch.crates-io]
-# Awaiting release with https://github.com/hyperium/tonic/commit/468e4221f0c496d9ffb4de24d3658b9267e884b1
-tonic = { git = "https://github.com/hyperium/tonic", rev = "d6c0fc112b2288a080fd0a727453b24d666e3d79" }
+tinkoff-invest-rust = { version = "0.2" }
 ```
 
 Then, on your main.rs:
