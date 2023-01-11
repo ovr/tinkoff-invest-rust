@@ -1,4 +1,5 @@
 /// Денежная сумма в определенной валюте
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MoneyValue {
     /// строковый ISO-код валюты
@@ -12,6 +13,7 @@ pub struct MoneyValue {
     pub nano: i32,
 }
 /// Котировка - денежная сумма без указания валюты
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Quotation {
     /// целая часть суммы, может быть отрицательным числом
@@ -22,6 +24,7 @@ pub struct Quotation {
     pub nano: i32,
 }
 /// Проверка активности стрима.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Ping {
     /// Время проверки.
@@ -123,8 +126,44 @@ impl SecurityTradingStatus {
             }
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "SECURITY_TRADING_STATUS_UNSPECIFIED" => Some(Self::Unspecified),
+            "SECURITY_TRADING_STATUS_NOT_AVAILABLE_FOR_TRADING" => {
+                Some(Self::NotAvailableForTrading)
+            }
+            "SECURITY_TRADING_STATUS_OPENING_PERIOD" => Some(Self::OpeningPeriod),
+            "SECURITY_TRADING_STATUS_CLOSING_PERIOD" => Some(Self::ClosingPeriod),
+            "SECURITY_TRADING_STATUS_BREAK_IN_TRADING" => Some(Self::BreakInTrading),
+            "SECURITY_TRADING_STATUS_NORMAL_TRADING" => Some(Self::NormalTrading),
+            "SECURITY_TRADING_STATUS_CLOSING_AUCTION" => Some(Self::ClosingAuction),
+            "SECURITY_TRADING_STATUS_DARK_POOL_AUCTION" => Some(Self::DarkPoolAuction),
+            "SECURITY_TRADING_STATUS_DISCRETE_AUCTION" => Some(Self::DiscreteAuction),
+            "SECURITY_TRADING_STATUS_OPENING_AUCTION_PERIOD" => {
+                Some(Self::OpeningAuctionPeriod)
+            }
+            "SECURITY_TRADING_STATUS_TRADING_AT_CLOSING_AUCTION_PRICE" => {
+                Some(Self::TradingAtClosingAuctionPrice)
+            }
+            "SECURITY_TRADING_STATUS_SESSION_ASSIGNED" => Some(Self::SessionAssigned),
+            "SECURITY_TRADING_STATUS_SESSION_CLOSE" => Some(Self::SessionClose),
+            "SECURITY_TRADING_STATUS_SESSION_OPEN" => Some(Self::SessionOpen),
+            "SECURITY_TRADING_STATUS_DEALER_NORMAL_TRADING" => {
+                Some(Self::DealerNormalTrading)
+            }
+            "SECURITY_TRADING_STATUS_DEALER_BREAK_IN_TRADING" => {
+                Some(Self::DealerBreakInTrading)
+            }
+            "SECURITY_TRADING_STATUS_DEALER_NOT_AVAILABLE_FOR_TRADING" => {
+                Some(Self::DealerNotAvailableForTrading)
+            }
+            _ => None,
+        }
+    }
 }
 /// Запрос расписания торгов.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TradingSchedulesRequest {
     /// Наименование биржи или расчетного календаря. </br>Если не передаётся, возвращается информация по всем доступным торговым площадкам.
@@ -138,6 +177,7 @@ pub struct TradingSchedulesRequest {
     pub to: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Список торговых площадок.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TradingSchedulesResponse {
     /// Список торговых площадок и режимов торгов.
@@ -145,6 +185,7 @@ pub struct TradingSchedulesResponse {
     pub exchanges: ::prost::alloc::vec::Vec<TradingSchedule>,
 }
 /// Данные по торговой площадке.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TradingSchedule {
     /// Наименование торговой площадки.
@@ -155,6 +196,7 @@ pub struct TradingSchedule {
     pub days: ::prost::alloc::vec::Vec<TradingDay>,
 }
 /// Информация о времени торгов.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TradingDay {
     /// Дата.
@@ -200,6 +242,7 @@ pub struct TradingDay {
     pub premarket_end_time: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Запрос получения инструмента по идентификатору.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InstrumentRequest {
     /// Тип идентификатора инструмента. Возможные значения: figi, ticker. Подробнее об идентификации инструментов: [Идентификация инструментов](<https://tinkoff.github.io/investAPI/faq_identification/>)
@@ -213,6 +256,7 @@ pub struct InstrumentRequest {
     pub id: ::prost::alloc::string::String,
 }
 /// Запрос получения инструментов.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InstrumentsRequest {
     /// Статус запрашиваемых инструментов. Возможные значения: \[InstrumentStatus\](#instrumentstatus)
@@ -220,6 +264,7 @@ pub struct InstrumentsRequest {
     pub instrument_status: i32,
 }
 /// Информация об облигации.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BondResponse {
     /// Информация об облигации.
@@ -227,6 +272,7 @@ pub struct BondResponse {
     pub instrument: ::core::option::Option<Bond>,
 }
 /// Список облигаций.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BondsResponse {
     /// Массив облигаций.
@@ -234,6 +280,7 @@ pub struct BondsResponse {
     pub instruments: ::prost::alloc::vec::Vec<Bond>,
 }
 /// Запрос купонов по облигации.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBondCouponsRequest {
     /// Figi-идентификатор инструмента.
@@ -247,12 +294,14 @@ pub struct GetBondCouponsRequest {
     pub to: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Купоны по облигации.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBondCouponsResponse {
     #[prost(message, repeated, tag = "1")]
     pub events: ::prost::alloc::vec::Vec<Coupon>,
 }
 /// Объект передачи информации о купоне облигации.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Coupon {
     /// Figi-идентификатор инструмента.
@@ -284,6 +333,7 @@ pub struct Coupon {
     pub coupon_period: i32,
 }
 /// Данные по валюте.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CurrencyResponse {
     /// Информация о валюте.
@@ -291,6 +341,7 @@ pub struct CurrencyResponse {
     pub instrument: ::core::option::Option<Currency>,
 }
 /// Данные по валютам.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CurrenciesResponse {
     /// Массив валют.
@@ -298,6 +349,7 @@ pub struct CurrenciesResponse {
     pub instruments: ::prost::alloc::vec::Vec<Currency>,
 }
 /// Данные по фонду.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EtfResponse {
     /// Информация о фонде.
@@ -305,6 +357,7 @@ pub struct EtfResponse {
     pub instrument: ::core::option::Option<Etf>,
 }
 /// Данные по фондам.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EtfsResponse {
     /// Массив фондов.
@@ -312,6 +365,7 @@ pub struct EtfsResponse {
     pub instruments: ::prost::alloc::vec::Vec<Etf>,
 }
 /// Данные по фьючерсу.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FutureResponse {
     /// Информация о фьючерсу.
@@ -319,6 +373,7 @@ pub struct FutureResponse {
     pub instrument: ::core::option::Option<Future>,
 }
 /// Данные по фьючерсам.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FuturesResponse {
     /// Массив фьючерсов.
@@ -326,6 +381,7 @@ pub struct FuturesResponse {
     pub instruments: ::prost::alloc::vec::Vec<Future>,
 }
 /// Данные по опциону.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OptionResponse {
     /// Информация по опциону.
@@ -333,6 +389,7 @@ pub struct OptionResponse {
     pub instrument: ::core::option::Option<Option>,
 }
 /// Данные по опционам.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OptionsResponse {
     /// Массив данных по опциону.
@@ -340,6 +397,7 @@ pub struct OptionsResponse {
     pub instruments: ::prost::alloc::vec::Vec<Option>,
 }
 /// Опцион.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Option {
     /// Уникальный идентификатор инструмента.
@@ -476,6 +534,7 @@ pub struct Option {
     pub api_trade_available_flag: bool,
 }
 /// Данные по акции.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ShareResponse {
     /// Информация об акции.
@@ -483,6 +542,7 @@ pub struct ShareResponse {
     pub instrument: ::core::option::Option<Share>,
 }
 /// Данные по акциям.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SharesResponse {
     /// Массив акций.
@@ -490,6 +550,7 @@ pub struct SharesResponse {
     pub instruments: ::prost::alloc::vec::Vec<Share>,
 }
 /// Объект передачи информации об облигации.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Bond {
     /// Figi-идентификатор инструмента.
@@ -635,6 +696,7 @@ pub struct Bond {
     pub first_1day_candle_date: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Объект передачи информации о валюте.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Currency {
     /// Figi-идентификатор инструмента.
@@ -741,6 +803,7 @@ pub struct Currency {
     pub first_1day_candle_date: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Объект передачи информации об инвестиционном фонде.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Etf {
     /// Figi-идентификатор инструмента.
@@ -859,6 +922,7 @@ pub struct Etf {
     pub first_1day_candle_date: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Объект передачи информации о фьючерсе.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Future {
     /// Figi-идентификатор инструмента.
@@ -983,6 +1047,7 @@ pub struct Future {
     pub first_1day_candle_date: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Объект передачи информации об акции.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Share {
     /// Figi-идентификатор инструмента.
@@ -1104,6 +1169,7 @@ pub struct Share {
     pub first_1day_candle_date: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Запрос НКД по облигации
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetAccruedInterestsRequest {
     /// Figi-идентификатор инструмента.
@@ -1117,6 +1183,7 @@ pub struct GetAccruedInterestsRequest {
     pub to: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// НКД облигации
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetAccruedInterestsResponse {
     /// Массив операций начисления купонов.
@@ -1124,6 +1191,7 @@ pub struct GetAccruedInterestsResponse {
     pub accrued_interests: ::prost::alloc::vec::Vec<AccruedInterest>,
 }
 /// Операция начисления купонов.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AccruedInterest {
     /// Дата и время выплаты в часовом поясе UTC.
@@ -1140,6 +1208,7 @@ pub struct AccruedInterest {
     pub nominal: ::core::option::Option<Quotation>,
 }
 /// Запрос информации о фьючерсе
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetFuturesMarginRequest {
     /// Идентификатор инструмента.
@@ -1147,6 +1216,7 @@ pub struct GetFuturesMarginRequest {
     pub figi: ::prost::alloc::string::String,
 }
 /// Данные по фьючерсу
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetFuturesMarginResponse {
     /// Гарантийное обеспечение при покупке.
@@ -1163,6 +1233,7 @@ pub struct GetFuturesMarginResponse {
     pub min_price_increment_amount: ::core::option::Option<Quotation>,
 }
 /// Данные по инструменту.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InstrumentResponse {
     /// Основная информация об инструменте.
@@ -1170,6 +1241,7 @@ pub struct InstrumentResponse {
     pub instrument: ::core::option::Option<Instrument>,
 }
 /// Объект передачи основной информации об инструменте.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Instrument {
     /// Figi-идентификатор инструмента.
@@ -1273,6 +1345,7 @@ pub struct Instrument {
     pub first_1day_candle_date: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Запрос дивидендов.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetDividendsRequest {
     /// Figi-идентификатор инструмента.
@@ -1286,12 +1359,14 @@ pub struct GetDividendsRequest {
     pub to: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Дивиденды.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetDividendsResponse {
     #[prost(message, repeated, tag = "1")]
     pub dividends: ::prost::alloc::vec::Vec<Dividend>,
 }
 /// Информация о выплате.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Dividend {
     /// Величина дивиденда на 1 ценную бумагу (включая валюту).
@@ -1326,6 +1401,7 @@ pub struct Dividend {
     pub created_at: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Запрос актива по идентификатору.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AssetRequest {
     /// uid-идентификатор актива.
@@ -1333,6 +1409,7 @@ pub struct AssetRequest {
     pub id: ::prost::alloc::string::String,
 }
 /// Данные по активу.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AssetResponse {
     /// Актив.
@@ -1340,15 +1417,18 @@ pub struct AssetResponse {
     pub asset: ::core::option::Option<AssetFull>,
 }
 /// Запрос списка активов.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AssetsRequest {}
 /// Список активов.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AssetsResponse {
     /// Активы.
     #[prost(message, repeated, tag = "1")]
     pub assets: ::prost::alloc::vec::Vec<Asset>,
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AssetFull {
     /// Уникальный идентификатор актива.
@@ -1404,6 +1484,7 @@ pub struct AssetFull {
 }
 /// Nested message and enum types in `AssetFull`.
 pub mod asset_full {
+    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Ext {
         /// Валюта. Обязательно и заполняется только для type = "ASSET_TYPE_CURRENCY".
@@ -1415,6 +1496,7 @@ pub mod asset_full {
     }
 }
 /// Информация об активе.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Asset {
     /// Уникальный идентификатор актива.
@@ -1431,6 +1513,7 @@ pub struct Asset {
     pub instruments: ::prost::alloc::vec::Vec<AssetInstrument>,
 }
 /// Валюта.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AssetCurrency {
     /// ISO-код валюты.
@@ -1438,6 +1521,7 @@ pub struct AssetCurrency {
     pub base_currency: ::prost::alloc::string::String,
 }
 /// Ценная бумага.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AssetSecurity {
     /// ISIN-идентификатор ценной бумаги.
@@ -1451,6 +1535,7 @@ pub struct AssetSecurity {
 }
 /// Nested message and enum types in `AssetSecurity`.
 pub mod asset_security {
+    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Ext {
         /// Акция. Заполняется только для акций (тип актива asset.type = "ASSET_TYPE_SECURITY" и security.type = share).
@@ -1471,6 +1556,7 @@ pub mod asset_security {
     }
 }
 /// Акция.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AssetShare {
     /// Тип акции.
@@ -1520,6 +1606,7 @@ pub struct AssetShare {
     pub total_float: ::core::option::Option<Quotation>,
 }
 /// Облигация.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AssetBond {
     /// Текущий номинал.
@@ -1587,6 +1674,7 @@ pub struct AssetBond {
     pub issue_size_plan: ::core::option::Option<Quotation>,
 }
 /// Структурная нота.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AssetStructuredProduct {
     /// Наименование заемщика.
@@ -1630,6 +1718,7 @@ pub struct AssetStructuredProduct {
     pub issue_kind: ::prost::alloc::string::String,
 }
 /// Фонд.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AssetEtf {
     /// Суммарные расходы фонда (в %).
@@ -1727,6 +1816,7 @@ pub struct AssetEtf {
     pub nominal_currency: ::prost::alloc::string::String,
 }
 /// Клиринговый сертификат участия.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AssetClearingCertificate {
     /// Номинал.
@@ -1737,6 +1827,7 @@ pub struct AssetClearingCertificate {
     pub nominal_currency: ::prost::alloc::string::String,
 }
 /// Бренд.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Brand {
     /// uid идентификатор бренда.
@@ -1765,6 +1856,7 @@ pub struct Brand {
     pub country_of_risk_name: ::prost::alloc::string::String,
 }
 /// Идентификаторы инструмента.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AssetInstrument {
     /// uid идентификатор инструмента.
@@ -1787,6 +1879,7 @@ pub struct AssetInstrument {
     pub links: ::prost::alloc::vec::Vec<InstrumentLink>,
 }
 /// Связь с другим инструментом.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InstrumentLink {
     /// Тип связи.
@@ -1797,9 +1890,11 @@ pub struct InstrumentLink {
     pub instrument_uid: ::prost::alloc::string::String,
 }
 /// Запрос списка избранных инструментов, входные параметры не требуются.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetFavoritesRequest {}
 /// В ответ передаётся список избранных инструментов в качестве массива.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetFavoritesResponse {
     /// Массив инструментов
@@ -1807,6 +1902,7 @@ pub struct GetFavoritesResponse {
     pub favorite_instruments: ::prost::alloc::vec::Vec<FavoriteInstrument>,
 }
 /// Массив избранных инструментов.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FavoriteInstrument {
     /// Figi-идентификатор инструмента.
@@ -1832,6 +1928,7 @@ pub struct FavoriteInstrument {
     pub api_trade_available_flag: bool,
 }
 /// Запрос редактирования списка избранных инструментов.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EditFavoritesRequest {
     /// Массив инструментов.
@@ -1842,6 +1939,7 @@ pub struct EditFavoritesRequest {
     pub action_type: i32,
 }
 /// Массив инструментов для редактирования списка избранных инструментов.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EditFavoritesRequestInstrument {
     /// Figi-идентификатор инструмента.
@@ -1849,6 +1947,7 @@ pub struct EditFavoritesRequestInstrument {
     pub figi: ::prost::alloc::string::String,
 }
 /// Результат редактирования списка избранных инструментов.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EditFavoritesResponse {
     /// Массив инструментов
@@ -1856,9 +1955,11 @@ pub struct EditFavoritesResponse {
     pub favorite_instruments: ::prost::alloc::vec::Vec<FavoriteInstrument>,
 }
 /// Запрос справочника стран.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetCountriesRequest {}
 /// Справочник стран.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetCountriesResponse {
     /// Массив стран.
@@ -1866,6 +1967,7 @@ pub struct GetCountriesResponse {
     pub countries: ::prost::alloc::vec::Vec<CountryResponse>,
 }
 /// Данные о стране.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CountryResponse {
     /// Двухбуквенный код страны.
@@ -1882,6 +1984,7 @@ pub struct CountryResponse {
     pub name_brief: ::prost::alloc::string::String,
 }
 /// Запрос на поиск инструментов.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FindInstrumentRequest {
     /// Строка поиска.
@@ -1889,6 +1992,7 @@ pub struct FindInstrumentRequest {
     pub query: ::prost::alloc::string::String,
 }
 /// Результат поиска инструментов.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct FindInstrumentResponse {
     /// Массив инструментов, удовлетворяющих условиям поиска.
@@ -1896,6 +2000,7 @@ pub struct FindInstrumentResponse {
     pub instruments: ::prost::alloc::vec::Vec<InstrumentShort>,
 }
 /// Краткая информация об инструменте.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InstrumentShort {
     /// Isin инструмента.
@@ -1945,9 +2050,11 @@ pub struct InstrumentShort {
     pub blocked_tca_flag: bool,
 }
 /// Запрос списка брендов.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBrandsRequest {}
 /// Запрос бренда.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBrandRequest {
     /// Uid-идентификатор бренда.
@@ -1955,6 +2062,7 @@ pub struct GetBrandRequest {
     pub id: ::prost::alloc::string::String,
 }
 /// Список брендов.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBrandsResponse {
     /// Массив брендов.
@@ -1999,6 +2107,20 @@ impl CouponType {
             CouponType::Other => "COUPON_TYPE_OTHER",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "COUPON_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "COUPON_TYPE_CONSTANT" => Some(Self::Constant),
+            "COUPON_TYPE_FLOATING" => Some(Self::Floating),
+            "COUPON_TYPE_DISCOUNT" => Some(Self::Discount),
+            "COUPON_TYPE_MORTGAGE" => Some(Self::Mortgage),
+            "COUPON_TYPE_FIX" => Some(Self::Fix),
+            "COUPON_TYPE_VARIABLE" => Some(Self::Variable),
+            "COUPON_TYPE_OTHER" => Some(Self::Other),
+            _ => None,
+        }
+    }
 }
 /// Тип опциона по направлению сделки.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -2021,6 +2143,15 @@ impl OptionDirection {
             OptionDirection::Unspecified => "OPTION_DIRECTION_UNSPECIFIED",
             OptionDirection::Put => "OPTION_DIRECTION_PUT",
             OptionDirection::Call => "OPTION_DIRECTION_CALL",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "OPTION_DIRECTION_UNSPECIFIED" => Some(Self::Unspecified),
+            "OPTION_DIRECTION_PUT" => Some(Self::Put),
+            "OPTION_DIRECTION_CALL" => Some(Self::Call),
+            _ => None,
         }
     }
 }
@@ -2047,6 +2178,15 @@ impl OptionPaymentType {
             OptionPaymentType::Marginal => "OPTION_PAYMENT_TYPE_MARGINAL",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "OPTION_PAYMENT_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "OPTION_PAYMENT_TYPE_PREMIUM" => Some(Self::Premium),
+            "OPTION_PAYMENT_TYPE_MARGINAL" => Some(Self::Marginal),
+            _ => None,
+        }
+    }
 }
 /// Тип опциона по стилю.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -2069,6 +2209,15 @@ impl OptionStyle {
             OptionStyle::Unspecified => "OPTION_STYLE_UNSPECIFIED",
             OptionStyle::American => "OPTION_STYLE_AMERICAN",
             OptionStyle::European => "OPTION_STYLE_EUROPEAN",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "OPTION_STYLE_UNSPECIFIED" => Some(Self::Unspecified),
+            "OPTION_STYLE_AMERICAN" => Some(Self::American),
+            "OPTION_STYLE_EUROPEAN" => Some(Self::European),
+            _ => None,
         }
     }
 }
@@ -2101,6 +2250,21 @@ impl OptionSettlementType {
             }
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "OPTION_EXECUTION_TYPE_UNSPECIFIED" => {
+                Some(Self::OptionExecutionTypeUnspecified)
+            }
+            "OPTION_EXECUTION_TYPE_PHYSICAL_DELIVERY" => {
+                Some(Self::OptionExecutionTypePhysicalDelivery)
+            }
+            "OPTION_EXECUTION_TYPE_CASH_SETTLEMENT" => {
+                Some(Self::OptionExecutionTypeCashSettlement)
+            }
+            _ => None,
+        }
+    }
 }
 /// Тип идентификатора инструмента. Подробнее об идентификации инструментов: [Идентификация инструментов](<https://tinkoff.github.io/investAPI/faq_identification/>)
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -2131,6 +2295,17 @@ impl InstrumentIdType {
             InstrumentIdType::PositionUid => "INSTRUMENT_ID_TYPE_POSITION_UID",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "INSTRUMENT_ID_UNSPECIFIED" => Some(Self::InstrumentIdUnspecified),
+            "INSTRUMENT_ID_TYPE_FIGI" => Some(Self::Figi),
+            "INSTRUMENT_ID_TYPE_TICKER" => Some(Self::Ticker),
+            "INSTRUMENT_ID_TYPE_UID" => Some(Self::Uid),
+            "INSTRUMENT_ID_TYPE_POSITION_UID" => Some(Self::PositionUid),
+            _ => None,
+        }
+    }
 }
 /// Статус запрашиваемых инструментов.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -2153,6 +2328,15 @@ impl InstrumentStatus {
             InstrumentStatus::Unspecified => "INSTRUMENT_STATUS_UNSPECIFIED",
             InstrumentStatus::Base => "INSTRUMENT_STATUS_BASE",
             InstrumentStatus::All => "INSTRUMENT_STATUS_ALL",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "INSTRUMENT_STATUS_UNSPECIFIED" => Some(Self::Unspecified),
+            "INSTRUMENT_STATUS_BASE" => Some(Self::Base),
+            "INSTRUMENT_STATUS_ALL" => Some(Self::All),
+            _ => None,
         }
     }
 }
@@ -2197,6 +2381,21 @@ impl ShareType {
             ShareType::Reit => "SHARE_TYPE_REIT",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "SHARE_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "SHARE_TYPE_COMMON" => Some(Self::Common),
+            "SHARE_TYPE_PREFERRED" => Some(Self::Preferred),
+            "SHARE_TYPE_ADR" => Some(Self::Adr),
+            "SHARE_TYPE_GDR" => Some(Self::Gdr),
+            "SHARE_TYPE_MLP" => Some(Self::Mlp),
+            "SHARE_TYPE_NY_REG_SHRS" => Some(Self::NyRegShrs),
+            "SHARE_TYPE_CLOSED_END_FUND" => Some(Self::ClosedEndFund),
+            "SHARE_TYPE_REIT" => Some(Self::Reit),
+            _ => None,
+        }
+    }
 }
 /// Тип актива.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -2227,6 +2426,17 @@ impl AssetType {
             AssetType::Security => "ASSET_TYPE_SECURITY",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "ASSET_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "ASSET_TYPE_CURRENCY" => Some(Self::Currency),
+            "ASSET_TYPE_COMMODITY" => Some(Self::Commodity),
+            "ASSET_TYPE_INDEX" => Some(Self::Index),
+            "ASSET_TYPE_SECURITY" => Some(Self::Security),
+            _ => None,
+        }
+    }
 }
 /// Тип структурной ноты.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -2249,6 +2459,15 @@ impl StructuredProductType {
             StructuredProductType::SpTypeUnspecified => "SP_TYPE_UNSPECIFIED",
             StructuredProductType::SpTypeDeliverable => "SP_TYPE_DELIVERABLE",
             StructuredProductType::SpTypeNonDeliverable => "SP_TYPE_NON_DELIVERABLE",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "SP_TYPE_UNSPECIFIED" => Some(Self::SpTypeUnspecified),
+            "SP_TYPE_DELIVERABLE" => Some(Self::SpTypeDeliverable),
+            "SP_TYPE_NON_DELIVERABLE" => Some(Self::SpTypeNonDeliverable),
+            _ => None,
         }
     }
 }
@@ -2277,6 +2496,15 @@ impl EditFavoritesActionType {
             EditFavoritesActionType::Del => "EDIT_FAVORITES_ACTION_TYPE_DEL",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "EDIT_FAVORITES_ACTION_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "EDIT_FAVORITES_ACTION_TYPE_ADD" => Some(Self::Add),
+            "EDIT_FAVORITES_ACTION_TYPE_DEL" => Some(Self::Del),
+            _ => None,
+        }
+    }
 }
 /// Реальная площадка исполнения расчётов.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -2302,6 +2530,16 @@ impl RealExchange {
             RealExchange::Moex => "REAL_EXCHANGE_MOEX",
             RealExchange::Rts => "REAL_EXCHANGE_RTS",
             RealExchange::Otc => "REAL_EXCHANGE_OTC",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "REAL_EXCHANGE_UNSPECIFIED" => Some(Self::Unspecified),
+            "REAL_EXCHANGE_MOEX" => Some(Self::Moex),
+            "REAL_EXCHANGE_RTS" => Some(Self::Rts),
+            "REAL_EXCHANGE_OTC" => Some(Self::Otc),
+            _ => None,
         }
     }
 }
@@ -2374,7 +2612,7 @@ pub mod instruments_service_client {
             self.inner = self.inner.accept_compressed(encoding);
             self
         }
-        ///Метод получения расписания торгов торговых площадок.
+        /// Метод получения расписания торгов торговых площадок.
         pub async fn trading_schedules(
             &mut self,
             request: impl tonic::IntoRequest<super::TradingSchedulesRequest>,
@@ -2394,7 +2632,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения облигации по её идентификатору.
+        /// Метод получения облигации по её идентификатору.
         pub async fn bond_by(
             &mut self,
             request: impl tonic::IntoRequest<super::InstrumentRequest>,
@@ -2414,7 +2652,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения списка облигаций.
+        /// Метод получения списка облигаций.
         pub async fn bonds(
             &mut self,
             request: impl tonic::IntoRequest<super::InstrumentsRequest>,
@@ -2434,7 +2672,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения графика выплат купонов по облигации.
+        /// Метод получения графика выплат купонов по облигации.
         pub async fn get_bond_coupons(
             &mut self,
             request: impl tonic::IntoRequest<super::GetBondCouponsRequest>,
@@ -2454,7 +2692,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения валюты по её идентификатору.
+        /// Метод получения валюты по её идентификатору.
         pub async fn currency_by(
             &mut self,
             request: impl tonic::IntoRequest<super::InstrumentRequest>,
@@ -2474,7 +2712,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения списка валют.
+        /// Метод получения списка валют.
         pub async fn currencies(
             &mut self,
             request: impl tonic::IntoRequest<super::InstrumentsRequest>,
@@ -2494,7 +2732,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения инвестиционного фонда по его идентификатору.
+        /// Метод получения инвестиционного фонда по его идентификатору.
         pub async fn etf_by(
             &mut self,
             request: impl tonic::IntoRequest<super::InstrumentRequest>,
@@ -2514,7 +2752,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения списка инвестиционных фондов.
+        /// Метод получения списка инвестиционных фондов.
         pub async fn etfs(
             &mut self,
             request: impl tonic::IntoRequest<super::InstrumentsRequest>,
@@ -2534,7 +2772,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения фьючерса по его идентификатору.
+        /// Метод получения фьючерса по его идентификатору.
         pub async fn future_by(
             &mut self,
             request: impl tonic::IntoRequest<super::InstrumentRequest>,
@@ -2554,7 +2792,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения списка фьючерсов.
+        /// Метод получения списка фьючерсов.
         pub async fn futures(
             &mut self,
             request: impl tonic::IntoRequest<super::InstrumentsRequest>,
@@ -2574,7 +2812,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения опциона по его идентификатору.
+        /// Метод получения опциона по его идентификатору.
         pub async fn option_by(
             &mut self,
             request: impl tonic::IntoRequest<super::InstrumentRequest>,
@@ -2594,7 +2832,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения списка опционов.
+        /// Метод получения списка опционов.
         pub async fn options(
             &mut self,
             request: impl tonic::IntoRequest<super::InstrumentsRequest>,
@@ -2614,7 +2852,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения акции по её идентификатору.
+        /// Метод получения акции по её идентификатору.
         pub async fn share_by(
             &mut self,
             request: impl tonic::IntoRequest<super::InstrumentRequest>,
@@ -2634,7 +2872,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения списка акций.
+        /// Метод получения списка акций.
         pub async fn shares(
             &mut self,
             request: impl tonic::IntoRequest<super::InstrumentsRequest>,
@@ -2654,7 +2892,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения накопленного купонного дохода по облигации.
+        /// Метод получения накопленного купонного дохода по облигации.
         pub async fn get_accrued_interests(
             &mut self,
             request: impl tonic::IntoRequest<super::GetAccruedInterestsRequest>,
@@ -2674,7 +2912,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения размера гарантийного обеспечения по фьючерсам.
+        /// Метод получения размера гарантийного обеспечения по фьючерсам.
         pub async fn get_futures_margin(
             &mut self,
             request: impl tonic::IntoRequest<super::GetFuturesMarginRequest>,
@@ -2694,7 +2932,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения основной информации об инструменте.
+        /// Метод получения основной информации об инструменте.
         pub async fn get_instrument_by(
             &mut self,
             request: impl tonic::IntoRequest<super::InstrumentRequest>,
@@ -2714,7 +2952,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод для получения событий выплаты дивидендов по инструменту.
+        /// Метод для получения событий выплаты дивидендов по инструменту.
         pub async fn get_dividends(
             &mut self,
             request: impl tonic::IntoRequest<super::GetDividendsRequest>,
@@ -2734,7 +2972,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения актива по его идентификатору.
+        /// Метод получения актива по его идентификатору.
         pub async fn get_asset_by(
             &mut self,
             request: impl tonic::IntoRequest<super::AssetRequest>,
@@ -2754,7 +2992,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения списка активов.
+        /// Метод получения списка активов.
         pub async fn get_assets(
             &mut self,
             request: impl tonic::IntoRequest<super::AssetsRequest>,
@@ -2774,7 +3012,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения списка избранных инструментов.
+        /// Метод получения списка избранных инструментов.
         pub async fn get_favorites(
             &mut self,
             request: impl tonic::IntoRequest<super::GetFavoritesRequest>,
@@ -2794,7 +3032,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод редактирования списка избранных инструментов.
+        /// Метод редактирования списка избранных инструментов.
         pub async fn edit_favorites(
             &mut self,
             request: impl tonic::IntoRequest<super::EditFavoritesRequest>,
@@ -2814,7 +3052,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения списка стран.
+        /// Метод получения списка стран.
         pub async fn get_countries(
             &mut self,
             request: impl tonic::IntoRequest<super::GetCountriesRequest>,
@@ -2834,7 +3072,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод поиска инструмента.
+        /// Метод поиска инструмента.
         pub async fn find_instrument(
             &mut self,
             request: impl tonic::IntoRequest<super::FindInstrumentRequest>,
@@ -2854,7 +3092,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения списка брендов.
+        /// Метод получения списка брендов.
         pub async fn get_brands(
             &mut self,
             request: impl tonic::IntoRequest<super::GetBrandsRequest>,
@@ -2874,7 +3112,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения бренда по его идентификатору.
+        /// Метод получения бренда по его идентификатору.
         pub async fn get_brand_by(
             &mut self,
             request: impl tonic::IntoRequest<super::GetBrandRequest>,
@@ -2897,6 +3135,7 @@ pub mod instruments_service_client {
     }
 }
 /// Запрос подписки или отписки на определённые биржевые данные.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MarketDataRequest {
     #[prost(oneof = "market_data_request::Payload", tags = "1, 2, 3, 4, 5, 6")]
@@ -2904,6 +3143,7 @@ pub struct MarketDataRequest {
 }
 /// Nested message and enum types in `MarketDataRequest`.
 pub mod market_data_request {
+    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Payload {
         /// Запрос подписки на свечи.
@@ -2926,6 +3166,7 @@ pub mod market_data_request {
         GetMySubscriptions(super::GetMySubscriptions),
     }
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MarketDataServerSideStreamRequest {
     /// Запрос подписки на свечи.
@@ -2945,6 +3186,7 @@ pub struct MarketDataServerSideStreamRequest {
     pub subscribe_last_price_request: ::core::option::Option<SubscribeLastPriceRequest>,
 }
 /// Пакет биржевой информации по подписке.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MarketDataResponse {
     #[prost(
@@ -2955,6 +3197,7 @@ pub struct MarketDataResponse {
 }
 /// Nested message and enum types in `MarketDataResponse`.
 pub mod market_data_response {
+    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Payload {
         /// Результат подписки на свечи.
@@ -2993,6 +3236,7 @@ pub mod market_data_response {
     }
 }
 /// subscribeCandles | Изменения статуса подписки на свечи.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SubscribeCandlesRequest {
     /// Изменение статуса подписки.
@@ -3006,6 +3250,7 @@ pub struct SubscribeCandlesRequest {
     pub waiting_close: bool,
 }
 /// Запрос изменения статус подписки на свечи.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CandleInstrument {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
@@ -3019,6 +3264,7 @@ pub struct CandleInstrument {
     pub instrument_id: ::prost::alloc::string::String,
 }
 /// Результат изменения статус подписки на свечи.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SubscribeCandlesResponse {
     /// Уникальный идентификатор запроса, подробнее: \[tracking_id\](<https://tinkoff.github.io/investAPI/grpc#tracking-id>).
@@ -3029,6 +3275,7 @@ pub struct SubscribeCandlesResponse {
     pub candles_subscriptions: ::prost::alloc::vec::Vec<CandleSubscription>,
 }
 /// Статус подписки на свечи.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CandleSubscription {
     /// Figi-идентификатор инструмента.
@@ -3045,6 +3292,7 @@ pub struct CandleSubscription {
     pub instrument_uid: ::prost::alloc::string::String,
 }
 /// Запрос на изменение статуса подписки на стаканы.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SubscribeOrderBookRequest {
     /// Изменение статуса подписки.
@@ -3055,6 +3303,7 @@ pub struct SubscribeOrderBookRequest {
     pub instruments: ::prost::alloc::vec::Vec<OrderBookInstrument>,
 }
 /// Запрос подписки на стаканы.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OrderBookInstrument {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
@@ -3068,6 +3317,7 @@ pub struct OrderBookInstrument {
     pub instrument_id: ::prost::alloc::string::String,
 }
 /// Результат изменения статуса подписки на стаканы.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SubscribeOrderBookResponse {
     /// Уникальный идентификатор запроса, подробнее: \[tracking_id\](<https://tinkoff.github.io/investAPI/grpc#tracking-id>).
@@ -3078,6 +3328,7 @@ pub struct SubscribeOrderBookResponse {
     pub order_book_subscriptions: ::prost::alloc::vec::Vec<OrderBookSubscription>,
 }
 /// Статус подписки.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OrderBookSubscription {
     /// Figi-идентификатор инструмента.
@@ -3094,6 +3345,7 @@ pub struct OrderBookSubscription {
     pub instrument_uid: ::prost::alloc::string::String,
 }
 /// Изменение статуса подписки на поток обезличенных сделок.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SubscribeTradesRequest {
     /// Изменение статуса подписки.
@@ -3104,6 +3356,7 @@ pub struct SubscribeTradesRequest {
     pub instruments: ::prost::alloc::vec::Vec<TradeInstrument>,
 }
 /// Запрос подписки на поток обезличенных сделок.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TradeInstrument {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
@@ -3114,6 +3367,7 @@ pub struct TradeInstrument {
     pub instrument_id: ::prost::alloc::string::String,
 }
 /// Результат изменения статуса подписки на поток обезличенных сделок.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SubscribeTradesResponse {
     /// Уникальный идентификатор запроса, подробнее: \[tracking_id\](<https://tinkoff.github.io/investAPI/grpc#tracking-id>).
@@ -3124,6 +3378,7 @@ pub struct SubscribeTradesResponse {
     pub trade_subscriptions: ::prost::alloc::vec::Vec<TradeSubscription>,
 }
 /// Статус подписки.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TradeSubscription {
     /// Figi-идентификатор инструмента.
@@ -3137,6 +3392,7 @@ pub struct TradeSubscription {
     pub instrument_uid: ::prost::alloc::string::String,
 }
 /// Изменение статуса подписки на торговый статус инструмента.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SubscribeInfoRequest {
     /// Изменение статуса подписки.
@@ -3147,6 +3403,7 @@ pub struct SubscribeInfoRequest {
     pub instruments: ::prost::alloc::vec::Vec<InfoInstrument>,
 }
 /// Запрос подписки на торговый статус.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InfoInstrument {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
@@ -3157,6 +3414,7 @@ pub struct InfoInstrument {
     pub instrument_id: ::prost::alloc::string::String,
 }
 /// Результат изменения статуса подписки на торговый статус.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SubscribeInfoResponse {
     /// Уникальный идентификатор запроса, подробнее: \[tracking_id\](<https://tinkoff.github.io/investAPI/grpc#tracking-id>).
@@ -3167,6 +3425,7 @@ pub struct SubscribeInfoResponse {
     pub info_subscriptions: ::prost::alloc::vec::Vec<InfoSubscription>,
 }
 /// Статус подписки.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InfoSubscription {
     /// Figi-идентификатор инструмента.
@@ -3180,6 +3439,7 @@ pub struct InfoSubscription {
     pub instrument_uid: ::prost::alloc::string::String,
 }
 /// Изменение статуса подписки на цену последней сделки по инструменту.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SubscribeLastPriceRequest {
     /// Изменение статуса подписки.
@@ -3190,6 +3450,7 @@ pub struct SubscribeLastPriceRequest {
     pub instruments: ::prost::alloc::vec::Vec<LastPriceInstrument>,
 }
 /// Запрос подписки на последнюю цену.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct LastPriceInstrument {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
@@ -3200,6 +3461,7 @@ pub struct LastPriceInstrument {
     pub instrument_id: ::prost::alloc::string::String,
 }
 /// Результат изменения статуса подписки на цену последней сделки.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SubscribeLastPriceResponse {
     /// Уникальный идентификатор запроса, подробнее: \[tracking_id\](<https://tinkoff.github.io/investAPI/grpc#tracking-id>).
@@ -3210,6 +3472,7 @@ pub struct SubscribeLastPriceResponse {
     pub last_price_subscriptions: ::prost::alloc::vec::Vec<LastPriceSubscription>,
 }
 /// Статус подписки на цену последней сделки.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct LastPriceSubscription {
     /// Figi-идентификатор инструмента.
@@ -3223,6 +3486,7 @@ pub struct LastPriceSubscription {
     pub instrument_uid: ::prost::alloc::string::String,
 }
 /// Пакет свечей в рамках стрима.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Candle {
     /// Figi-идентификатор инструмента.
@@ -3257,6 +3521,7 @@ pub struct Candle {
     pub instrument_uid: ::prost::alloc::string::String,
 }
 /// Пакет стаканов в рамках стрима.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OrderBook {
     /// Figi-идентификатор инструмента.
@@ -3288,6 +3553,7 @@ pub struct OrderBook {
     pub instrument_uid: ::prost::alloc::string::String,
 }
 /// Массив предложений/спроса.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Order {
     /// Цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента. Для перевод цен в валюту рекомендуем использовать [информацию со страницы](<https://tinkoff.github.io/investAPI/faq_marketdata/>)
@@ -3298,6 +3564,7 @@ pub struct Order {
     pub quantity: i64,
 }
 /// Информация о сделке.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Trade {
     /// Figi-идентификатор инструмента.
@@ -3320,6 +3587,7 @@ pub struct Trade {
     pub instrument_uid: ::prost::alloc::string::String,
 }
 /// Пакет изменения торгового статуса.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TradingStatus {
     /// Figi-идентификатор инструмента.
@@ -3342,6 +3610,7 @@ pub struct TradingStatus {
     pub instrument_uid: ::prost::alloc::string::String,
 }
 /// Запрос исторических свечей.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetCandlesRequest {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
@@ -3361,6 +3630,7 @@ pub struct GetCandlesRequest {
     pub instrument_id: ::prost::alloc::string::String,
 }
 /// Список свечей.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetCandlesResponse {
     /// Массив свечей.
@@ -3368,6 +3638,7 @@ pub struct GetCandlesResponse {
     pub candles: ::prost::alloc::vec::Vec<HistoricCandle>,
 }
 /// Информация о свече.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct HistoricCandle {
     /// Цена открытия за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента. Для перевод цен в валюту рекомендуем использовать [информацию со страницы](<https://tinkoff.github.io/investAPI/faq_marketdata/>)
@@ -3393,6 +3664,7 @@ pub struct HistoricCandle {
     pub is_complete: bool,
 }
 /// Запрос получения цен последних сделок.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetLastPricesRequest {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
@@ -3403,6 +3675,7 @@ pub struct GetLastPricesRequest {
     pub instrument_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Список цен последних сделок.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetLastPricesResponse {
     /// Массив цен последних сделок.
@@ -3410,6 +3683,7 @@ pub struct GetLastPricesResponse {
     pub last_prices: ::prost::alloc::vec::Vec<LastPrice>,
 }
 /// Информация о цене последней сделки.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct LastPrice {
     /// Figi инструмента.
@@ -3426,6 +3700,7 @@ pub struct LastPrice {
     pub instrument_uid: ::prost::alloc::string::String,
 }
 /// Запрос стакана.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetOrderBookRequest {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
@@ -3439,6 +3714,7 @@ pub struct GetOrderBookRequest {
     pub instrument_id: ::prost::alloc::string::String,
 }
 /// Информация о стакане.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetOrderBookResponse {
     /// Figi-идентификатор инструмента.
@@ -3479,6 +3755,7 @@ pub struct GetOrderBookResponse {
     pub instrument_uid: ::prost::alloc::string::String,
 }
 /// Запрос получения торгового статуса.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetTradingStatusRequest {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
@@ -3489,6 +3766,7 @@ pub struct GetTradingStatusRequest {
     pub instrument_id: ::prost::alloc::string::String,
 }
 /// Информация о торговом статусе.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetTradingStatusResponse {
     /// Figi-идентификатор инструмента.
@@ -3511,6 +3789,7 @@ pub struct GetTradingStatusResponse {
     pub instrument_uid: ::prost::alloc::string::String,
 }
 /// Запрос обезличенных сделок за последний час.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetLastTradesRequest {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
@@ -3527,6 +3806,7 @@ pub struct GetLastTradesRequest {
     pub instrument_id: ::prost::alloc::string::String,
 }
 /// Обезличенных сделок за последний час.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetLastTradesResponse {
     /// Массив сделок.
@@ -3534,9 +3814,11 @@ pub struct GetLastTradesResponse {
     pub trades: ::prost::alloc::vec::Vec<Trade>,
 }
 /// Запрос активных подписок.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetMySubscriptions {}
 /// Запрос цен закрытия торговой сессии по инструментам.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetClosePricesRequest {
     /// Массив по инструментам.
@@ -3544,6 +3826,7 @@ pub struct GetClosePricesRequest {
     pub instruments: ::prost::alloc::vec::Vec<InstrumentClosePriceRequest>,
 }
 /// Запрос цен закрытия торговой сессии по инструменту.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InstrumentClosePriceRequest {
     /// Идентификатор инструмента, принимает значение figi или instrument_uid.
@@ -3551,6 +3834,7 @@ pub struct InstrumentClosePriceRequest {
     pub instrument_id: ::prost::alloc::string::String,
 }
 /// Цены закрытия торговой сессии по инструментам.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetClosePricesResponse {
     /// Массив по инструментам.
@@ -3558,6 +3842,7 @@ pub struct GetClosePricesResponse {
     pub close_prices: ::prost::alloc::vec::Vec<InstrumentClosePriceResponse>,
 }
 /// Цена закрытия торговой сессии по инструменту.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InstrumentClosePriceResponse {
     /// Figi инструмента.
@@ -3596,6 +3881,15 @@ impl SubscriptionAction {
             SubscriptionAction::Unsubscribe => "SUBSCRIPTION_ACTION_UNSUBSCRIBE",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "SUBSCRIPTION_ACTION_UNSPECIFIED" => Some(Self::Unspecified),
+            "SUBSCRIPTION_ACTION_SUBSCRIBE" => Some(Self::Subscribe),
+            "SUBSCRIPTION_ACTION_UNSUBSCRIBE" => Some(Self::Unsubscribe),
+            _ => None,
+        }
+    }
 }
 /// Интервал свечи.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -3618,6 +3912,15 @@ impl SubscriptionInterval {
             SubscriptionInterval::Unspecified => "SUBSCRIPTION_INTERVAL_UNSPECIFIED",
             SubscriptionInterval::OneMinute => "SUBSCRIPTION_INTERVAL_ONE_MINUTE",
             SubscriptionInterval::FiveMinutes => "SUBSCRIPTION_INTERVAL_FIVE_MINUTES",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "SUBSCRIPTION_INTERVAL_UNSPECIFIED" => Some(Self::Unspecified),
+            "SUBSCRIPTION_INTERVAL_ONE_MINUTE" => Some(Self::OneMinute),
+            "SUBSCRIPTION_INTERVAL_FIVE_MINUTES" => Some(Self::FiveMinutes),
+            _ => None,
         }
     }
 }
@@ -3672,6 +3975,23 @@ impl SubscriptionStatus {
             }
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "SUBSCRIPTION_STATUS_UNSPECIFIED" => Some(Self::Unspecified),
+            "SUBSCRIPTION_STATUS_SUCCESS" => Some(Self::Success),
+            "SUBSCRIPTION_STATUS_INSTRUMENT_NOT_FOUND" => Some(Self::InstrumentNotFound),
+            "SUBSCRIPTION_STATUS_SUBSCRIPTION_ACTION_IS_INVALID" => {
+                Some(Self::SubscriptionActionIsInvalid)
+            }
+            "SUBSCRIPTION_STATUS_DEPTH_IS_INVALID" => Some(Self::DepthIsInvalid),
+            "SUBSCRIPTION_STATUS_INTERVAL_IS_INVALID" => Some(Self::IntervalIsInvalid),
+            "SUBSCRIPTION_STATUS_LIMIT_IS_EXCEEDED" => Some(Self::LimitIsExceeded),
+            "SUBSCRIPTION_STATUS_INTERNAL_ERROR" => Some(Self::InternalError),
+            "SUBSCRIPTION_STATUS_TOO_MANY_REQUESTS" => Some(Self::TooManyRequests),
+            _ => None,
+        }
+    }
 }
 /// Направление сделки.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -3694,6 +4014,15 @@ impl TradeDirection {
             TradeDirection::Unspecified => "TRADE_DIRECTION_UNSPECIFIED",
             TradeDirection::Buy => "TRADE_DIRECTION_BUY",
             TradeDirection::Sell => "TRADE_DIRECTION_SELL",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "TRADE_DIRECTION_UNSPECIFIED" => Some(Self::Unspecified),
+            "TRADE_DIRECTION_BUY" => Some(Self::Buy),
+            "TRADE_DIRECTION_SELL" => Some(Self::Sell),
+            _ => None,
         }
     }
 }
@@ -3727,6 +4056,18 @@ impl CandleInterval {
             CandleInterval::CandleInterval15Min => "CANDLE_INTERVAL_15_MIN",
             CandleInterval::Hour => "CANDLE_INTERVAL_HOUR",
             CandleInterval::Day => "CANDLE_INTERVAL_DAY",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "CANDLE_INTERVAL_UNSPECIFIED" => Some(Self::Unspecified),
+            "CANDLE_INTERVAL_1_MIN" => Some(Self::CandleInterval1Min),
+            "CANDLE_INTERVAL_5_MIN" => Some(Self::CandleInterval5Min),
+            "CANDLE_INTERVAL_15_MIN" => Some(Self::CandleInterval15Min),
+            "CANDLE_INTERVAL_HOUR" => Some(Self::Hour),
+            "CANDLE_INTERVAL_DAY" => Some(Self::Day),
+            _ => None,
         }
     }
 }
@@ -3799,7 +4140,7 @@ pub mod market_data_service_client {
             self.inner = self.inner.accept_compressed(encoding);
             self
         }
-        ///Метод запроса исторических свечей по инструменту.
+        /// Метод запроса исторических свечей по инструменту.
         pub async fn get_candles(
             &mut self,
             request: impl tonic::IntoRequest<super::GetCandlesRequest>,
@@ -3819,7 +4160,7 @@ pub mod market_data_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод запроса цен последних сделок по инструментам.
+        /// Метод запроса цен последних сделок по инструментам.
         pub async fn get_last_prices(
             &mut self,
             request: impl tonic::IntoRequest<super::GetLastPricesRequest>,
@@ -3839,7 +4180,7 @@ pub mod market_data_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения стакана по инструменту.
+        /// Метод получения стакана по инструменту.
         pub async fn get_order_book(
             &mut self,
             request: impl tonic::IntoRequest<super::GetOrderBookRequest>,
@@ -3859,7 +4200,7 @@ pub mod market_data_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод запроса статуса торгов по инструментам.
+        /// Метод запроса статуса торгов по инструментам.
         pub async fn get_trading_status(
             &mut self,
             request: impl tonic::IntoRequest<super::GetTradingStatusRequest>,
@@ -3879,7 +4220,7 @@ pub mod market_data_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод запроса обезличенных сделок за последний час.
+        /// Метод запроса обезличенных сделок за последний час.
         pub async fn get_last_trades(
             &mut self,
             request: impl tonic::IntoRequest<super::GetLastTradesRequest>,
@@ -3899,7 +4240,7 @@ pub mod market_data_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод запроса цен закрытия торговой сессии по инструментам.
+        /// Метод запроса цен закрытия торговой сессии по инструментам.
         pub async fn get_close_prices(
             &mut self,
             request: impl tonic::IntoRequest<super::GetClosePricesRequest>,
@@ -3992,7 +4333,7 @@ pub mod market_data_stream_service_client {
             self.inner = self.inner.accept_compressed(encoding);
             self
         }
-        ///Bi-directional стрим предоставления биржевой информации.
+        /// Bi-directional стрим предоставления биржевой информации.
         pub async fn market_data_stream(
             &mut self,
             request: impl tonic::IntoStreamingRequest<Message = super::MarketDataRequest>,
@@ -4015,7 +4356,7 @@ pub mod market_data_stream_service_client {
             );
             self.inner.streaming(request.into_streaming_request(), path, codec).await
         }
-        ///Server-side стрим предоставления биржевой информации.
+        /// Server-side стрим предоставления биржевой информации.
         pub async fn market_data_server_side_stream(
             &mut self,
             request: impl tonic::IntoRequest<super::MarketDataServerSideStreamRequest>,
@@ -4041,6 +4382,7 @@ pub mod market_data_stream_service_client {
     }
 }
 /// Запрос получения списка операций по счёту.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OperationsRequest {
     /// Идентификатор счёта клиента.
@@ -4060,6 +4402,7 @@ pub struct OperationsRequest {
     pub figi: ::prost::alloc::string::String,
 }
 /// Список операций.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OperationsResponse {
     /// Массив операций.
@@ -4067,6 +4410,7 @@ pub struct OperationsResponse {
     pub operations: ::prost::alloc::vec::Vec<Operation>,
 }
 /// Данные по операции.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Operation {
     /// Идентификатор операции.
@@ -4116,6 +4460,7 @@ pub struct Operation {
     pub asset_uid: ::prost::alloc::string::String,
 }
 /// Сделка по операции.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OperationTrade {
     /// Идентификатор сделки.
@@ -4132,6 +4477,7 @@ pub struct OperationTrade {
     pub price: ::core::option::Option<MoneyValue>,
 }
 /// Запрос получения текущего портфеля по счёту.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PortfolioRequest {
     /// Идентификатор счёта пользователя.
@@ -4175,9 +4521,19 @@ pub mod portfolio_request {
                 CurrencyRequest::Eur => "EUR",
             }
         }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "RUB" => Some(Self::Rub),
+                "USD" => Some(Self::Usd),
+                "EUR" => Some(Self::Eur),
+                _ => None,
+            }
+        }
     }
 }
 /// Текущий портфель по счёту.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PortfolioResponse {
     /// Общая стоимость акций в портфеле.
@@ -4218,6 +4574,7 @@ pub struct PortfolioResponse {
     pub virtual_positions: ::prost::alloc::vec::Vec<VirtualPortfolioPosition>,
 }
 /// Запрос позиций портфеля по счёту.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PositionsRequest {
     /// Идентификатор счёта пользователя.
@@ -4225,6 +4582,7 @@ pub struct PositionsRequest {
     pub account_id: ::prost::alloc::string::String,
 }
 /// Список позиций по счёту.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PositionsResponse {
     /// Массив валютных позиций портфеля.
@@ -4247,6 +4605,7 @@ pub struct PositionsResponse {
     pub options: ::prost::alloc::vec::Vec<PositionsOptions>,
 }
 /// Запрос доступного для вывода остатка.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct WithdrawLimitsRequest {
     /// Идентификатор счёта пользователя.
@@ -4254,6 +4613,7 @@ pub struct WithdrawLimitsRequest {
     pub account_id: ::prost::alloc::string::String,
 }
 /// Доступный для вывода остаток.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct WithdrawLimitsResponse {
     /// Массив валютных позиций портфеля.
@@ -4267,6 +4627,7 @@ pub struct WithdrawLimitsResponse {
     pub blocked_guarantee: ::prost::alloc::vec::Vec<MoneyValue>,
 }
 /// Позиции портфеля.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PortfolioPosition {
     /// Figi-идентификатора инструмента.
@@ -4315,6 +4676,7 @@ pub struct PortfolioPosition {
     #[prost(message, optional, tag = "27")]
     pub expected_yield_fifo: ::core::option::Option<Quotation>,
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VirtualPortfolioPosition {
     /// position_uid-идентификатора инструмента
@@ -4352,6 +4714,7 @@ pub struct VirtualPortfolioPosition {
     pub average_position_price_fifo: ::core::option::Option<MoneyValue>,
 }
 /// Баланс позиции ценной бумаги.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PositionsSecurities {
     /// Figi-идентификатор бумаги.
@@ -4377,6 +4740,7 @@ pub struct PositionsSecurities {
     pub instrument_type: ::prost::alloc::string::String,
 }
 /// Баланс фьючерса.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PositionsFutures {
     /// Figi-идентификатор фьючерса.
@@ -4396,6 +4760,7 @@ pub struct PositionsFutures {
     pub instrument_uid: ::prost::alloc::string::String,
 }
 /// Баланс опциона.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PositionsOptions {
     /// Уникальный идентификатор позиции опциона.
@@ -4411,6 +4776,7 @@ pub struct PositionsOptions {
     #[prost(int64, tag = "21")]
     pub balance: i64,
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BrokerReportRequest {
     #[prost(oneof = "broker_report_request::Payload", tags = "1, 2")]
@@ -4418,6 +4784,7 @@ pub struct BrokerReportRequest {
 }
 /// Nested message and enum types in `BrokerReportRequest`.
 pub mod broker_report_request {
+    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Payload {
         #[prost(message, tag = "1")]
@@ -4426,6 +4793,7 @@ pub mod broker_report_request {
         GetBrokerReportRequest(super::GetBrokerReportRequest),
     }
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BrokerReportResponse {
     #[prost(oneof = "broker_report_response::Payload", tags = "1, 2")]
@@ -4433,6 +4801,7 @@ pub struct BrokerReportResponse {
 }
 /// Nested message and enum types in `BrokerReportResponse`.
 pub mod broker_report_response {
+    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Payload {
         #[prost(message, tag = "1")]
@@ -4441,6 +4810,7 @@ pub mod broker_report_response {
         GetBrokerReportResponse(super::GetBrokerReportResponse),
     }
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GenerateBrokerReportRequest {
     /// Идентификатор счёта клиента.
@@ -4453,12 +4823,14 @@ pub struct GenerateBrokerReportRequest {
     #[prost(message, optional, tag = "3")]
     pub to: ::core::option::Option<::prost_types::Timestamp>,
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GenerateBrokerReportResponse {
     /// Идентификатор задачи формирования брокерского отчёта.
     #[prost(string, tag = "1")]
     pub task_id: ::prost::alloc::string::String,
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBrokerReportRequest {
     /// Идентификатор задачи формирования брокерского отчёта.
@@ -4468,6 +4840,7 @@ pub struct GetBrokerReportRequest {
     #[prost(int32, tag = "2")]
     pub page: i32,
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetBrokerReportResponse {
     #[prost(message, repeated, tag = "1")]
@@ -4482,6 +4855,7 @@ pub struct GetBrokerReportResponse {
     #[prost(int32, tag = "4")]
     pub page: i32,
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct BrokerReport {
     /// Номер сделки.
@@ -4566,6 +4940,7 @@ pub struct BrokerReport {
     #[prost(string, tag = "27")]
     pub delivery_type: ::prost::alloc::string::String,
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetDividendsForeignIssuerRequest {
     #[prost(oneof = "get_dividends_foreign_issuer_request::Payload", tags = "1, 2")]
@@ -4573,6 +4948,7 @@ pub struct GetDividendsForeignIssuerRequest {
 }
 /// Nested message and enum types in `GetDividendsForeignIssuerRequest`.
 pub mod get_dividends_foreign_issuer_request {
+    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Payload {
         /// Объект запроса формирования отчёта.
@@ -4585,6 +4961,7 @@ pub mod get_dividends_foreign_issuer_request {
         GetDivForeignIssuerReport(super::GetDividendsForeignIssuerReportRequest),
     }
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetDividendsForeignIssuerResponse {
     #[prost(oneof = "get_dividends_foreign_issuer_response::Payload", tags = "1, 2")]
@@ -4592,6 +4969,7 @@ pub struct GetDividendsForeignIssuerResponse {
 }
 /// Nested message and enum types in `GetDividendsForeignIssuerResponse`.
 pub mod get_dividends_foreign_issuer_response {
+    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Payload {
         /// Объект результата задачи запуска формирования отчёта.
@@ -4605,6 +4983,7 @@ pub mod get_dividends_foreign_issuer_response {
     }
 }
 /// Объект запроса формирования отчёта "Справка о доходах за пределами РФ".
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GenerateDividendsForeignIssuerReportRequest {
     /// Идентификатор счёта клиента.
@@ -4618,6 +4997,7 @@ pub struct GenerateDividendsForeignIssuerReportRequest {
     pub to: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Объект запроса сформированного отчёта "Справка о доходах за пределами РФ".
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetDividendsForeignIssuerReportRequest {
     /// Идентификатор задачи формирования отчёта.
@@ -4628,12 +5008,14 @@ pub struct GetDividendsForeignIssuerReportRequest {
     pub page: i32,
 }
 /// Объект результата задачи запуска формирования отчёта "Справка о доходах за пределами РФ".
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GenerateDividendsForeignIssuerReportResponse {
     /// Идентификатор задачи формирования отчёта.
     #[prost(string, tag = "1")]
     pub task_id: ::prost::alloc::string::String,
 }
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetDividendsForeignIssuerReportResponse {
     #[prost(message, repeated, tag = "1")]
@@ -4651,6 +5033,7 @@ pub struct GetDividendsForeignIssuerReportResponse {
     pub page: i32,
 }
 /// Отчёт "Справка о доходах за пределами РФ".
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct DividendsForeignIssuerReport {
     /// Дата фиксации реестра.
@@ -4691,6 +5074,7 @@ pub struct DividendsForeignIssuerReport {
     pub currency: ::prost::alloc::string::String,
 }
 /// Запрос установки stream-соединения.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PortfolioStreamRequest {
     /// Массив идентификаторов счётов пользователя
@@ -4698,6 +5082,7 @@ pub struct PortfolioStreamRequest {
     pub accounts: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Информация по позициям и доходностям портфелей.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PortfolioStreamResponse {
     #[prost(oneof = "portfolio_stream_response::Payload", tags = "1, 2, 3")]
@@ -4705,6 +5090,7 @@ pub struct PortfolioStreamResponse {
 }
 /// Nested message and enum types in `PortfolioStreamResponse`.
 pub mod portfolio_stream_response {
+    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Payload {
         /// Объект результата подписки.
@@ -4719,6 +5105,7 @@ pub mod portfolio_stream_response {
     }
 }
 /// Объект результата подписки.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PortfolioSubscriptionResult {
     /// Массив счетов клиента.
@@ -4726,6 +5113,7 @@ pub struct PortfolioSubscriptionResult {
     pub accounts: ::prost::alloc::vec::Vec<AccountSubscriptionStatus>,
 }
 /// Счет клиента.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AccountSubscriptionStatus {
     /// Идентификатор счёта
@@ -4736,6 +5124,7 @@ pub struct AccountSubscriptionStatus {
     pub subscription_status: i32,
 }
 /// Запрос списка операций по счёту с пагинацией.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetOperationsByCursorRequest {
     /// Идентификатор счёта клиента. Обязательный параметр для данного метода, остальные параметры опциональны.
@@ -4773,6 +5162,7 @@ pub struct GetOperationsByCursorRequest {
     pub without_overnights: bool,
 }
 /// Список операций по счёту с пагинацией.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetOperationsByCursorResponse {
     /// Признак, есть ли следующий элемент.
@@ -4786,6 +5176,7 @@ pub struct GetOperationsByCursorResponse {
     pub items: ::prost::alloc::vec::Vec<OperationItem>,
 }
 /// Данные об операции.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OperationItem {
     /// Курсор.
@@ -4868,12 +5259,14 @@ pub struct OperationItem {
     pub asset_uid: ::prost::alloc::string::String,
 }
 /// Массив с информацией о сделках.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OperationItemTrades {
     #[prost(message, repeated, tag = "6")]
     pub trades: ::prost::alloc::vec::Vec<OperationItemTrade>,
 }
 /// Сделка по операции.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OperationItemTrade {
     /// Номер сделки
@@ -4896,6 +5289,7 @@ pub struct OperationItemTrade {
     pub yield_relative: ::core::option::Option<Quotation>,
 }
 /// Запрос установки stream-соединения позиций.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PositionsStreamRequest {
     /// Массив идентификаторов счётов пользователя
@@ -4903,6 +5297,7 @@ pub struct PositionsStreamRequest {
     pub accounts: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Информация по изменению позиций портфеля.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PositionsStreamResponse {
     #[prost(oneof = "positions_stream_response::Payload", tags = "1, 2, 3")]
@@ -4910,6 +5305,7 @@ pub struct PositionsStreamResponse {
 }
 /// Nested message and enum types in `PositionsStreamResponse`.
 pub mod positions_stream_response {
+    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Payload {
         /// Объект результата подписки.
@@ -4924,6 +5320,7 @@ pub mod positions_stream_response {
     }
 }
 /// Объект результата подписки.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PositionsSubscriptionResult {
     /// Массив счетов клиента.
@@ -4931,6 +5328,7 @@ pub struct PositionsSubscriptionResult {
     pub accounts: ::prost::alloc::vec::Vec<PositionsSubscriptionStatus>,
 }
 /// Счет клиента.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PositionsSubscriptionStatus {
     /// Идентификатор счёта
@@ -4941,6 +5339,7 @@ pub struct PositionsSubscriptionStatus {
     pub subscription_status: i32,
 }
 /// Данные о позиции портфеля.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PositionData {
     /// Идентификатор счёта.
@@ -4963,6 +5362,7 @@ pub struct PositionData {
     pub date: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Валютная позиция портфеля.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PositionsMoney {
     /// Доступное количество валютный позиций.
@@ -4996,6 +5396,16 @@ impl OperationState {
             OperationState::Executed => "OPERATION_STATE_EXECUTED",
             OperationState::Canceled => "OPERATION_STATE_CANCELED",
             OperationState::Progress => "OPERATION_STATE_PROGRESS",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "OPERATION_STATE_UNSPECIFIED" => Some(Self::Unspecified),
+            "OPERATION_STATE_EXECUTED" => Some(Self::Executed),
+            "OPERATION_STATE_CANCELED" => Some(Self::Canceled),
+            "OPERATION_STATE_PROGRESS" => Some(Self::Progress),
+            _ => None,
         }
     }
 }
@@ -5209,6 +5619,82 @@ impl OperationType {
             OperationType::OptionExpiration => "OPERATION_TYPE_OPTION_EXPIRATION",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "OPERATION_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "OPERATION_TYPE_INPUT" => Some(Self::Input),
+            "OPERATION_TYPE_BOND_TAX" => Some(Self::BondTax),
+            "OPERATION_TYPE_OUTPUT_SECURITIES" => Some(Self::OutputSecurities),
+            "OPERATION_TYPE_OVERNIGHT" => Some(Self::Overnight),
+            "OPERATION_TYPE_TAX" => Some(Self::Tax),
+            "OPERATION_TYPE_BOND_REPAYMENT_FULL" => Some(Self::BondRepaymentFull),
+            "OPERATION_TYPE_SELL_CARD" => Some(Self::SellCard),
+            "OPERATION_TYPE_DIVIDEND_TAX" => Some(Self::DividendTax),
+            "OPERATION_TYPE_OUTPUT" => Some(Self::Output),
+            "OPERATION_TYPE_BOND_REPAYMENT" => Some(Self::BondRepayment),
+            "OPERATION_TYPE_TAX_CORRECTION" => Some(Self::TaxCorrection),
+            "OPERATION_TYPE_SERVICE_FEE" => Some(Self::ServiceFee),
+            "OPERATION_TYPE_BENEFIT_TAX" => Some(Self::BenefitTax),
+            "OPERATION_TYPE_MARGIN_FEE" => Some(Self::MarginFee),
+            "OPERATION_TYPE_BUY" => Some(Self::Buy),
+            "OPERATION_TYPE_BUY_CARD" => Some(Self::BuyCard),
+            "OPERATION_TYPE_INPUT_SECURITIES" => Some(Self::InputSecurities),
+            "OPERATION_TYPE_SELL_MARGIN" => Some(Self::SellMargin),
+            "OPERATION_TYPE_BROKER_FEE" => Some(Self::BrokerFee),
+            "OPERATION_TYPE_BUY_MARGIN" => Some(Self::BuyMargin),
+            "OPERATION_TYPE_DIVIDEND" => Some(Self::Dividend),
+            "OPERATION_TYPE_SELL" => Some(Self::Sell),
+            "OPERATION_TYPE_COUPON" => Some(Self::Coupon),
+            "OPERATION_TYPE_SUCCESS_FEE" => Some(Self::SuccessFee),
+            "OPERATION_TYPE_DIVIDEND_TRANSFER" => Some(Self::DividendTransfer),
+            "OPERATION_TYPE_ACCRUING_VARMARGIN" => Some(Self::AccruingVarmargin),
+            "OPERATION_TYPE_WRITING_OFF_VARMARGIN" => Some(Self::WritingOffVarmargin),
+            "OPERATION_TYPE_DELIVERY_BUY" => Some(Self::DeliveryBuy),
+            "OPERATION_TYPE_DELIVERY_SELL" => Some(Self::DeliverySell),
+            "OPERATION_TYPE_TRACK_MFEE" => Some(Self::TrackMfee),
+            "OPERATION_TYPE_TRACK_PFEE" => Some(Self::TrackPfee),
+            "OPERATION_TYPE_TAX_PROGRESSIVE" => Some(Self::TaxProgressive),
+            "OPERATION_TYPE_BOND_TAX_PROGRESSIVE" => Some(Self::BondTaxProgressive),
+            "OPERATION_TYPE_DIVIDEND_TAX_PROGRESSIVE" => {
+                Some(Self::DividendTaxProgressive)
+            }
+            "OPERATION_TYPE_BENEFIT_TAX_PROGRESSIVE" => Some(Self::BenefitTaxProgressive),
+            "OPERATION_TYPE_TAX_CORRECTION_PROGRESSIVE" => {
+                Some(Self::TaxCorrectionProgressive)
+            }
+            "OPERATION_TYPE_TAX_REPO_PROGRESSIVE" => Some(Self::TaxRepoProgressive),
+            "OPERATION_TYPE_TAX_REPO" => Some(Self::TaxRepo),
+            "OPERATION_TYPE_TAX_REPO_HOLD" => Some(Self::TaxRepoHold),
+            "OPERATION_TYPE_TAX_REPO_REFUND" => Some(Self::TaxRepoRefund),
+            "OPERATION_TYPE_TAX_REPO_HOLD_PROGRESSIVE" => {
+                Some(Self::TaxRepoHoldProgressive)
+            }
+            "OPERATION_TYPE_TAX_REPO_REFUND_PROGRESSIVE" => {
+                Some(Self::TaxRepoRefundProgressive)
+            }
+            "OPERATION_TYPE_DIV_EXT" => Some(Self::DivExt),
+            "OPERATION_TYPE_TAX_CORRECTION_COUPON" => Some(Self::TaxCorrectionCoupon),
+            "OPERATION_TYPE_CASH_FEE" => Some(Self::CashFee),
+            "OPERATION_TYPE_OUT_FEE" => Some(Self::OutFee),
+            "OPERATION_TYPE_OUT_STAMP_DUTY" => Some(Self::OutStampDuty),
+            "OPERATION_TYPE_OUTPUT_SWIFT" => Some(Self::OutputSwift),
+            "OPERATION_TYPE_INPUT_SWIFT" => Some(Self::InputSwift),
+            "OPERATION_TYPE_OUTPUT_ACQUIRING" => Some(Self::OutputAcquiring),
+            "OPERATION_TYPE_INPUT_ACQUIRING" => Some(Self::InputAcquiring),
+            "OPERATION_TYPE_OUTPUT_PENALTY" => Some(Self::OutputPenalty),
+            "OPERATION_TYPE_ADVICE_FEE" => Some(Self::AdviceFee),
+            "OPERATION_TYPE_TRANS_IIS_BS" => Some(Self::TransIisBs),
+            "OPERATION_TYPE_TRANS_BS_BS" => Some(Self::TransBsBs),
+            "OPERATION_TYPE_OUT_MULTI" => Some(Self::OutMulti),
+            "OPERATION_TYPE_INP_MULTI" => Some(Self::InpMulti),
+            "OPERATION_TYPE_OVER_PLACEMENT" => Some(Self::OverPlacement),
+            "OPERATION_TYPE_OVER_COM" => Some(Self::OverCom),
+            "OPERATION_TYPE_OVER_INCOME" => Some(Self::OverIncome),
+            "OPERATION_TYPE_OPTION_EXPIRATION" => Some(Self::OptionExpiration),
+            _ => None,
+        }
+    }
 }
 /// Результат подписки.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -5242,6 +5728,18 @@ impl PortfolioSubscriptionStatus {
             PortfolioSubscriptionStatus::InternalError => {
                 "PORTFOLIO_SUBSCRIPTION_STATUS_INTERNAL_ERROR"
             }
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "PORTFOLIO_SUBSCRIPTION_STATUS_UNSPECIFIED" => Some(Self::Unspecified),
+            "PORTFOLIO_SUBSCRIPTION_STATUS_SUCCESS" => Some(Self::Success),
+            "PORTFOLIO_SUBSCRIPTION_STATUS_ACCOUNT_NOT_FOUND" => {
+                Some(Self::AccountNotFound)
+            }
+            "PORTFOLIO_SUBSCRIPTION_STATUS_INTERNAL_ERROR" => Some(Self::InternalError),
+            _ => None,
         }
     }
 }
@@ -5282,6 +5780,20 @@ impl InstrumentType {
             InstrumentType::Option => "INSTRUMENT_TYPE_OPTION",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "INSTRUMENT_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "INSTRUMENT_TYPE_BOND" => Some(Self::Bond),
+            "INSTRUMENT_TYPE_SHARE" => Some(Self::Share),
+            "INSTRUMENT_TYPE_CURRENCY" => Some(Self::Currency),
+            "INSTRUMENT_TYPE_ETF" => Some(Self::Etf),
+            "INSTRUMENT_TYPE_FUTURES" => Some(Self::Futures),
+            "INSTRUMENT_TYPE_SP" => Some(Self::Sp),
+            "INSTRUMENT_TYPE_OPTION" => Some(Self::Option),
+            _ => None,
+        }
+    }
 }
 /// Результат подписки.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -5315,6 +5827,24 @@ impl PositionsAccountSubscriptionStatus {
             PositionsAccountSubscriptionStatus::PositionsSubscriptionStatusInternalError => {
                 "POSITIONS_SUBSCRIPTION_STATUS_INTERNAL_ERROR"
             }
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "POSITIONS_SUBSCRIPTION_STATUS_UNSPECIFIED" => {
+                Some(Self::PositionsSubscriptionStatusUnspecified)
+            }
+            "POSITIONS_SUBSCRIPTION_STATUS_SUCCESS" => {
+                Some(Self::PositionsSubscriptionStatusSuccess)
+            }
+            "POSITIONS_SUBSCRIPTION_STATUS_ACCOUNT_NOT_FOUND" => {
+                Some(Self::PositionsSubscriptionStatusAccountNotFound)
+            }
+            "POSITIONS_SUBSCRIPTION_STATUS_INTERNAL_ERROR" => {
+                Some(Self::PositionsSubscriptionStatusInternalError)
+            }
+            _ => None,
         }
     }
 }
@@ -5387,7 +5917,7 @@ pub mod operations_service_client {
             self.inner = self.inner.accept_compressed(encoding);
             self
         }
-        ///Метод получения списка операций по счёту.При работе с данным методом необходимо учитывать
+        /// Метод получения списка операций по счёту.При работе с данным методом необходимо учитывать
         /// [особенности взаимодействия](/investAPI/operations_problems) с данным методом.
         pub async fn get_operations(
             &mut self,
@@ -5408,7 +5938,7 @@ pub mod operations_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения портфеля по счёту.
+        /// Метод получения портфеля по счёту.
         pub async fn get_portfolio(
             &mut self,
             request: impl tonic::IntoRequest<super::PortfolioRequest>,
@@ -5428,7 +5958,7 @@ pub mod operations_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения списка позиций по счёту.
+        /// Метод получения списка позиций по счёту.
         pub async fn get_positions(
             &mut self,
             request: impl tonic::IntoRequest<super::PositionsRequest>,
@@ -5448,7 +5978,7 @@ pub mod operations_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения доступного остатка для вывода средств.
+        /// Метод получения доступного остатка для вывода средств.
         pub async fn get_withdraw_limits(
             &mut self,
             request: impl tonic::IntoRequest<super::WithdrawLimitsRequest>,
@@ -5468,7 +5998,7 @@ pub mod operations_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения брокерского отчёта.
+        /// Метод получения брокерского отчёта.
         pub async fn get_broker_report(
             &mut self,
             request: impl tonic::IntoRequest<super::BrokerReportRequest>,
@@ -5488,7 +6018,7 @@ pub mod operations_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения отчёта "Справка о доходах за пределами РФ".
+        /// Метод получения отчёта "Справка о доходах за пределами РФ".
         pub async fn get_dividends_foreign_issuer(
             &mut self,
             request: impl tonic::IntoRequest<super::GetDividendsForeignIssuerRequest>,
@@ -5511,7 +6041,7 @@ pub mod operations_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения списка операций по счёту с пагинацией. При работе с данным методом необходимо учитывать
+        /// Метод получения списка операций по счёту с пагинацией. При работе с данным методом необходимо учитывать
         /// [особенности взаимодействия](/investAPI/operations_problems) с данным методом.
         pub async fn get_operations_by_cursor(
             &mut self,
@@ -5608,7 +6138,7 @@ pub mod operations_stream_service_client {
             self.inner = self.inner.accept_compressed(encoding);
             self
         }
-        ///Server-side stream обновлений портфеля
+        /// Server-side stream обновлений портфеля
         pub async fn portfolio_stream(
             &mut self,
             request: impl tonic::IntoRequest<super::PortfolioStreamRequest>,
@@ -5631,7 +6161,7 @@ pub mod operations_stream_service_client {
             );
             self.inner.server_streaming(request.into_request(), path, codec).await
         }
-        ///Server-side stream обновлений информации по изменению позиций портфеля
+        /// Server-side stream обновлений информации по изменению позиций портфеля
         pub async fn positions_stream(
             &mut self,
             request: impl tonic::IntoRequest<super::PositionsStreamRequest>,
@@ -5657,6 +6187,7 @@ pub mod operations_stream_service_client {
     }
 }
 /// Запрос установки соединения.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TradesStreamRequest {
     /// Идентификаторы счетов.
@@ -5664,6 +6195,7 @@ pub struct TradesStreamRequest {
     pub accounts: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Информация о торговых поручениях.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TradesStreamResponse {
     #[prost(oneof = "trades_stream_response::Payload", tags = "1, 2")]
@@ -5671,6 +6203,7 @@ pub struct TradesStreamResponse {
 }
 /// Nested message and enum types in `TradesStreamResponse`.
 pub mod trades_stream_response {
+    #[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Payload {
         /// Информация об исполнении торгового поручения.
@@ -5682,6 +6215,7 @@ pub mod trades_stream_response {
     }
 }
 /// Информация об исполнении торгового поручения.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OrderTrades {
     /// Идентификатор торгового поручения.
@@ -5707,6 +6241,7 @@ pub struct OrderTrades {
     pub instrument_uid: ::prost::alloc::string::String,
 }
 /// Информация о сделке.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OrderTrade {
     /// Дата и время совершения сделки в часовом поясе UTC.
@@ -5723,6 +6258,7 @@ pub struct OrderTrade {
     pub trade_id: ::prost::alloc::string::String,
 }
 /// Запрос выставления торгового поручения.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PostOrderRequest {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
@@ -5751,6 +6287,7 @@ pub struct PostOrderRequest {
     pub instrument_id: ::prost::alloc::string::String,
 }
 /// Информация о выставлении поручения.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PostOrderResponse {
     /// Идентификатор заявки.
@@ -5806,6 +6343,7 @@ pub struct PostOrderResponse {
     pub instrument_uid: ::prost::alloc::string::String,
 }
 /// Запрос отмены торгового поручения.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CancelOrderRequest {
     /// Номер счёта.
@@ -5816,6 +6354,7 @@ pub struct CancelOrderRequest {
     pub order_id: ::prost::alloc::string::String,
 }
 /// Результат отмены торгового поручения.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CancelOrderResponse {
     /// Дата и время отмены заявки в часовом поясе UTC.
@@ -5823,6 +6362,7 @@ pub struct CancelOrderResponse {
     pub time: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Запрос получения статуса торгового поручения.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetOrderStateRequest {
     /// Номер счёта.
@@ -5833,6 +6373,7 @@ pub struct GetOrderStateRequest {
     pub order_id: ::prost::alloc::string::String,
 }
 /// Запрос получения списка активных торговых поручений.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetOrdersRequest {
     /// Номер счёта.
@@ -5840,6 +6381,7 @@ pub struct GetOrdersRequest {
     pub account_id: ::prost::alloc::string::String,
 }
 /// Список активных торговых поручений.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetOrdersResponse {
     /// Массив активных заявок.
@@ -5847,6 +6389,7 @@ pub struct GetOrdersResponse {
     pub orders: ::prost::alloc::vec::Vec<OrderState>,
 }
 /// Информация о торговом поручении.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OrderState {
     /// Идентификатор заявки.
@@ -5908,6 +6451,7 @@ pub struct OrderState {
     pub instrument_uid: ::prost::alloc::string::String,
 }
 /// Сделки в рамках торгового поручения.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OrderStage {
     /// Цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
@@ -5921,6 +6465,7 @@ pub struct OrderStage {
     pub trade_id: ::prost::alloc::string::String,
 }
 /// Запрос изменения выставленной заявки.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ReplaceOrderRequest {
     /// Номер счета.
@@ -5965,6 +6510,15 @@ impl OrderDirection {
             OrderDirection::Sell => "ORDER_DIRECTION_SELL",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "ORDER_DIRECTION_UNSPECIFIED" => Some(Self::Unspecified),
+            "ORDER_DIRECTION_BUY" => Some(Self::Buy),
+            "ORDER_DIRECTION_SELL" => Some(Self::Sell),
+            _ => None,
+        }
+    }
 }
 /// Тип заявки.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -5987,6 +6541,15 @@ impl OrderType {
             OrderType::Unspecified => "ORDER_TYPE_UNSPECIFIED",
             OrderType::Limit => "ORDER_TYPE_LIMIT",
             OrderType::Market => "ORDER_TYPE_MARKET",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "ORDER_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "ORDER_TYPE_LIMIT" => Some(Self::Limit),
+            "ORDER_TYPE_MARKET" => Some(Self::Market),
+            _ => None,
         }
     }
 }
@@ -6033,6 +6596,26 @@ impl OrderExecutionReportStatus {
             }
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "EXECUTION_REPORT_STATUS_UNSPECIFIED" => {
+                Some(Self::ExecutionReportStatusUnspecified)
+            }
+            "EXECUTION_REPORT_STATUS_FILL" => Some(Self::ExecutionReportStatusFill),
+            "EXECUTION_REPORT_STATUS_REJECTED" => {
+                Some(Self::ExecutionReportStatusRejected)
+            }
+            "EXECUTION_REPORT_STATUS_CANCELLED" => {
+                Some(Self::ExecutionReportStatusCancelled)
+            }
+            "EXECUTION_REPORT_STATUS_NEW" => Some(Self::ExecutionReportStatusNew),
+            "EXECUTION_REPORT_STATUS_PARTIALLYFILL" => {
+                Some(Self::ExecutionReportStatusPartiallyfill)
+            }
+            _ => None,
+        }
+    }
 }
 /// Тип цены.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -6055,6 +6638,15 @@ impl PriceType {
             PriceType::Unspecified => "PRICE_TYPE_UNSPECIFIED",
             PriceType::Point => "PRICE_TYPE_POINT",
             PriceType::Currency => "PRICE_TYPE_CURRENCY",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "PRICE_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "PRICE_TYPE_POINT" => Some(Self::Point),
+            "PRICE_TYPE_CURRENCY" => Some(Self::Currency),
+            _ => None,
         }
     }
 }
@@ -6127,7 +6719,7 @@ pub mod orders_stream_service_client {
             self.inner = self.inner.accept_compressed(encoding);
             self
         }
-        ///Stream сделок пользователя
+        /// Stream сделок пользователя
         pub async fn trades_stream(
             &mut self,
             request: impl tonic::IntoRequest<super::TradesStreamRequest>,
@@ -6221,7 +6813,7 @@ pub mod orders_service_client {
             self.inner = self.inner.accept_compressed(encoding);
             self
         }
-        ///Метод выставления заявки.
+        /// Метод выставления заявки.
         pub async fn post_order(
             &mut self,
             request: impl tonic::IntoRequest<super::PostOrderRequest>,
@@ -6241,7 +6833,7 @@ pub mod orders_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод отмены биржевой заявки.
+        /// Метод отмены биржевой заявки.
         pub async fn cancel_order(
             &mut self,
             request: impl tonic::IntoRequest<super::CancelOrderRequest>,
@@ -6261,7 +6853,7 @@ pub mod orders_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения статуса торгового поручения.
+        /// Метод получения статуса торгового поручения.
         pub async fn get_order_state(
             &mut self,
             request: impl tonic::IntoRequest<super::GetOrderStateRequest>,
@@ -6281,7 +6873,7 @@ pub mod orders_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения списка активных заявок по счёту.
+        /// Метод получения списка активных заявок по счёту.
         pub async fn get_orders(
             &mut self,
             request: impl tonic::IntoRequest<super::GetOrdersRequest>,
@@ -6301,7 +6893,7 @@ pub mod orders_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод изменения выставленной заявки.
+        /// Метод изменения выставленной заявки.
         pub async fn replace_order(
             &mut self,
             request: impl tonic::IntoRequest<super::ReplaceOrderRequest>,
@@ -6324,9 +6916,11 @@ pub mod orders_service_client {
     }
 }
 /// Запрос получения счетов пользователя.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetAccountsRequest {}
 /// Список счетов пользователя.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetAccountsResponse {
     /// Массив счетов клиента.
@@ -6334,6 +6928,7 @@ pub struct GetAccountsResponse {
     pub accounts: ::prost::alloc::vec::Vec<Account>,
 }
 /// Информация о счёте.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Account {
     /// Идентификатор счёта.
@@ -6359,6 +6954,7 @@ pub struct Account {
     pub access_level: i32,
 }
 /// Запрос маржинальных показателей по счёту
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetMarginAttributesRequest {
     /// Идентификатор счёта пользователя.
@@ -6366,6 +6962,7 @@ pub struct GetMarginAttributesRequest {
     pub account_id: ::prost::alloc::string::String,
 }
 /// Маржинальные показатели по счёту.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetMarginAttributesResponse {
     /// Ликвидная стоимость портфеля. Подробнее: [что такое ликвидный портфель?](<https://help.tinkoff.ru/margin-trade/short/liquid-portfolio/>).
@@ -6388,9 +6985,11 @@ pub struct GetMarginAttributesResponse {
     pub corrected_margin: ::core::option::Option<MoneyValue>,
 }
 /// Запрос текущих лимитов пользователя.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetUserTariffRequest {}
 /// Текущие лимиты пользователя.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetUserTariffResponse {
     /// Массив лимитов пользователя по unary-запросам.
@@ -6401,6 +7000,7 @@ pub struct GetUserTariffResponse {
     pub stream_limits: ::prost::alloc::vec::Vec<StreamLimit>,
 }
 /// Лимит unary-методов.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct UnaryLimit {
     /// Количество unary-запросов в минуту.
@@ -6411,6 +7011,7 @@ pub struct UnaryLimit {
     pub methods: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Лимит stream-соединений.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct StreamLimit {
     /// Максимальное количество stream-соединений.
@@ -6421,9 +7022,11 @@ pub struct StreamLimit {
     pub streams: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Запрос информации о пользователе.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetInfoRequest {}
 /// Информация о пользователе.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetInfoResponse {
     /// Признак премиум клиента.
@@ -6467,6 +7070,16 @@ impl AccountType {
             AccountType::InvestBox => "ACCOUNT_TYPE_INVEST_BOX",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "ACCOUNT_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "ACCOUNT_TYPE_TINKOFF" => Some(Self::Tinkoff),
+            "ACCOUNT_TYPE_TINKOFF_IIS" => Some(Self::TinkoffIis),
+            "ACCOUNT_TYPE_INVEST_BOX" => Some(Self::InvestBox),
+            _ => None,
+        }
+    }
 }
 /// Статус счёта.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -6492,6 +7105,16 @@ impl AccountStatus {
             AccountStatus::New => "ACCOUNT_STATUS_NEW",
             AccountStatus::Open => "ACCOUNT_STATUS_OPEN",
             AccountStatus::Closed => "ACCOUNT_STATUS_CLOSED",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "ACCOUNT_STATUS_UNSPECIFIED" => Some(Self::Unspecified),
+            "ACCOUNT_STATUS_NEW" => Some(Self::New),
+            "ACCOUNT_STATUS_OPEN" => Some(Self::Open),
+            "ACCOUNT_STATUS_CLOSED" => Some(Self::Closed),
+            _ => None,
         }
     }
 }
@@ -6523,6 +7146,20 @@ impl AccessLevel {
             }
             AccessLevel::AccountAccessLevelReadOnly => "ACCOUNT_ACCESS_LEVEL_READ_ONLY",
             AccessLevel::AccountAccessLevelNoAccess => "ACCOUNT_ACCESS_LEVEL_NO_ACCESS",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "ACCOUNT_ACCESS_LEVEL_UNSPECIFIED" => {
+                Some(Self::AccountAccessLevelUnspecified)
+            }
+            "ACCOUNT_ACCESS_LEVEL_FULL_ACCESS" => {
+                Some(Self::AccountAccessLevelFullAccess)
+            }
+            "ACCOUNT_ACCESS_LEVEL_READ_ONLY" => Some(Self::AccountAccessLevelReadOnly),
+            "ACCOUNT_ACCESS_LEVEL_NO_ACCESS" => Some(Self::AccountAccessLevelNoAccess),
+            _ => None,
         }
     }
 }
@@ -6595,7 +7232,7 @@ pub mod users_service_client {
             self.inner = self.inner.accept_compressed(encoding);
             self
         }
-        ///Метод получения счетов пользователя.
+        /// Метод получения счетов пользователя.
         pub async fn get_accounts(
             &mut self,
             request: impl tonic::IntoRequest<super::GetAccountsRequest>,
@@ -6615,7 +7252,7 @@ pub mod users_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Расчёт маржинальных показателей по счёту.
+        /// Расчёт маржинальных показателей по счёту.
         pub async fn get_margin_attributes(
             &mut self,
             request: impl tonic::IntoRequest<super::GetMarginAttributesRequest>,
@@ -6635,7 +7272,7 @@ pub mod users_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Запрос тарифа пользователя.
+        /// Запрос тарифа пользователя.
         pub async fn get_user_tariff(
             &mut self,
             request: impl tonic::IntoRequest<super::GetUserTariffRequest>,
@@ -6655,7 +7292,7 @@ pub mod users_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения информации о пользователе.
+        /// Метод получения информации о пользователе.
         pub async fn get_info(
             &mut self,
             request: impl tonic::IntoRequest<super::GetInfoRequest>,
@@ -6680,9 +7317,11 @@ pub mod users_service_client {
 /// Запрос открытия счёта в песочнице.
 ///
 /// пустой запрос
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OpenSandboxAccountRequest {}
 /// Номер открытого счёта в песочнице.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OpenSandboxAccountResponse {
     /// Номер счёта
@@ -6690,6 +7329,7 @@ pub struct OpenSandboxAccountResponse {
     pub account_id: ::prost::alloc::string::String,
 }
 /// Запрос закрытия счёта в песочнице.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CloseSandboxAccountRequest {
     /// Номер счёта
@@ -6699,9 +7339,11 @@ pub struct CloseSandboxAccountRequest {
 /// Результат закрытия счёта в песочнице.
 ///
 /// пустой ответ
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CloseSandboxAccountResponse {}
 /// Запрос пополнения счёта в песочнице.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SandboxPayInRequest {
     /// Номер счёта
@@ -6712,6 +7354,7 @@ pub struct SandboxPayInRequest {
     pub amount: ::core::option::Option<MoneyValue>,
 }
 /// Результат пополнения счёта, текущий баланс.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SandboxPayInResponse {
     /// Текущий баланс счёта
@@ -6787,7 +7430,7 @@ pub mod sandbox_service_client {
             self.inner = self.inner.accept_compressed(encoding);
             self
         }
-        ///Метод регистрации счёта в песочнице.
+        /// Метод регистрации счёта в песочнице.
         pub async fn open_sandbox_account(
             &mut self,
             request: impl tonic::IntoRequest<super::OpenSandboxAccountRequest>,
@@ -6807,7 +7450,7 @@ pub mod sandbox_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения счетов в песочнице.
+        /// Метод получения счетов в песочнице.
         pub async fn get_sandbox_accounts(
             &mut self,
             request: impl tonic::IntoRequest<super::GetAccountsRequest>,
@@ -6827,7 +7470,7 @@ pub mod sandbox_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод закрытия счёта в песочнице.
+        /// Метод закрытия счёта в песочнице.
         pub async fn close_sandbox_account(
             &mut self,
             request: impl tonic::IntoRequest<super::CloseSandboxAccountRequest>,
@@ -6847,7 +7490,7 @@ pub mod sandbox_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод выставления торгового поручения в песочнице.
+        /// Метод выставления торгового поручения в песочнице.
         pub async fn post_sandbox_order(
             &mut self,
             request: impl tonic::IntoRequest<super::PostOrderRequest>,
@@ -6867,7 +7510,7 @@ pub mod sandbox_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод изменения выставленной заявки.
+        /// Метод изменения выставленной заявки.
         pub async fn replace_sandbox_order(
             &mut self,
             request: impl tonic::IntoRequest<super::ReplaceOrderRequest>,
@@ -6887,7 +7530,7 @@ pub mod sandbox_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения списка активных заявок по счёту в песочнице.
+        /// Метод получения списка активных заявок по счёту в песочнице.
         pub async fn get_sandbox_orders(
             &mut self,
             request: impl tonic::IntoRequest<super::GetOrdersRequest>,
@@ -6907,7 +7550,7 @@ pub mod sandbox_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод отмены торгового поручения в песочнице.
+        /// Метод отмены торгового поручения в песочнице.
         pub async fn cancel_sandbox_order(
             &mut self,
             request: impl tonic::IntoRequest<super::CancelOrderRequest>,
@@ -6927,7 +7570,7 @@ pub mod sandbox_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения статуса заявки в песочнице.
+        /// Метод получения статуса заявки в песочнице.
         pub async fn get_sandbox_order_state(
             &mut self,
             request: impl tonic::IntoRequest<super::GetOrderStateRequest>,
@@ -6947,7 +7590,7 @@ pub mod sandbox_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения позиций по виртуальному счёту песочницы.
+        /// Метод получения позиций по виртуальному счёту песочницы.
         pub async fn get_sandbox_positions(
             &mut self,
             request: impl tonic::IntoRequest<super::PositionsRequest>,
@@ -6967,7 +7610,7 @@ pub mod sandbox_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения операций в песочнице по номеру счёта.
+        /// Метод получения операций в песочнице по номеру счёта.
         pub async fn get_sandbox_operations(
             &mut self,
             request: impl tonic::IntoRequest<super::OperationsRequest>,
@@ -6987,7 +7630,7 @@ pub mod sandbox_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения операций в песочнице по номеру счета с пагинацией.
+        /// Метод получения операций в песочнице по номеру счета с пагинацией.
         pub async fn get_sandbox_operations_by_cursor(
             &mut self,
             request: impl tonic::IntoRequest<super::GetOperationsByCursorRequest>,
@@ -7010,7 +7653,7 @@ pub mod sandbox_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения портфолио в песочнице.
+        /// Метод получения портфолио в песочнице.
         pub async fn get_sandbox_portfolio(
             &mut self,
             request: impl tonic::IntoRequest<super::PortfolioRequest>,
@@ -7030,7 +7673,7 @@ pub mod sandbox_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод пополнения счёта в песочнице.
+        /// Метод пополнения счёта в песочнице.
         pub async fn sandbox_pay_in(
             &mut self,
             request: impl tonic::IntoRequest<super::SandboxPayInRequest>,
@@ -7050,7 +7693,7 @@ pub mod sandbox_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения доступного остатка для вывода средств в песочнице.
+        /// Метод получения доступного остатка для вывода средств в песочнице.
         pub async fn get_sandbox_withdraw_limits(
             &mut self,
             request: impl tonic::IntoRequest<super::WithdrawLimitsRequest>,
@@ -7073,6 +7716,7 @@ pub mod sandbox_service_client {
     }
 }
 /// Запрос выставления стоп-заявки.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PostStopOrderRequest {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
@@ -7107,6 +7751,7 @@ pub struct PostStopOrderRequest {
     pub instrument_id: ::prost::alloc::string::String,
 }
 /// Результат выставления стоп-заявки.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PostStopOrderResponse {
     /// Уникальный идентификатор стоп-заявки.
@@ -7114,6 +7759,7 @@ pub struct PostStopOrderResponse {
     pub stop_order_id: ::prost::alloc::string::String,
 }
 /// Запрос получения списка активных стоп-заявок.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetStopOrdersRequest {
     /// Идентификатор счёта клиента.
@@ -7121,6 +7767,7 @@ pub struct GetStopOrdersRequest {
     pub account_id: ::prost::alloc::string::String,
 }
 /// Список активных стоп-заявок.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetStopOrdersResponse {
     /// Массив стоп-заявок по счёту.
@@ -7128,6 +7775,7 @@ pub struct GetStopOrdersResponse {
     pub stop_orders: ::prost::alloc::vec::Vec<StopOrder>,
 }
 /// Запрос отмены выставленной стоп-заявки.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CancelStopOrderRequest {
     /// Идентификатор счёта клиента.
@@ -7138,6 +7786,7 @@ pub struct CancelStopOrderRequest {
     pub stop_order_id: ::prost::alloc::string::String,
 }
 /// Результат отмены выставленной стоп-заявки.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CancelStopOrderResponse {
     /// Время отмены заявки в часовом поясе UTC.
@@ -7145,6 +7794,7 @@ pub struct CancelStopOrderResponse {
     pub time: ::core::option::Option<::prost_types::Timestamp>,
 }
 /// Информация о стоп-заявке.
+#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct StopOrder {
     /// Идентификатор-идентификатор стоп-заявки.
@@ -7207,6 +7857,15 @@ impl StopOrderDirection {
             StopOrderDirection::Sell => "STOP_ORDER_DIRECTION_SELL",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "STOP_ORDER_DIRECTION_UNSPECIFIED" => Some(Self::Unspecified),
+            "STOP_ORDER_DIRECTION_BUY" => Some(Self::Buy),
+            "STOP_ORDER_DIRECTION_SELL" => Some(Self::Sell),
+            _ => None,
+        }
+    }
 }
 /// Тип экспирации стоп-заявке.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -7237,6 +7896,15 @@ impl StopOrderExpirationType {
             }
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "STOP_ORDER_EXPIRATION_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "STOP_ORDER_EXPIRATION_TYPE_GOOD_TILL_CANCEL" => Some(Self::GoodTillCancel),
+            "STOP_ORDER_EXPIRATION_TYPE_GOOD_TILL_DATE" => Some(Self::GoodTillDate),
+            _ => None,
+        }
+    }
 }
 /// Тип стоп-заявки.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -7262,6 +7930,16 @@ impl StopOrderType {
             StopOrderType::TakeProfit => "STOP_ORDER_TYPE_TAKE_PROFIT",
             StopOrderType::StopLoss => "STOP_ORDER_TYPE_STOP_LOSS",
             StopOrderType::StopLimit => "STOP_ORDER_TYPE_STOP_LIMIT",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "STOP_ORDER_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "STOP_ORDER_TYPE_TAKE_PROFIT" => Some(Self::TakeProfit),
+            "STOP_ORDER_TYPE_STOP_LOSS" => Some(Self::StopLoss),
+            "STOP_ORDER_TYPE_STOP_LIMIT" => Some(Self::StopLimit),
+            _ => None,
         }
     }
 }
@@ -7334,7 +8012,7 @@ pub mod stop_orders_service_client {
             self.inner = self.inner.accept_compressed(encoding);
             self
         }
-        ///Метод выставления стоп-заявки.
+        /// Метод выставления стоп-заявки.
         pub async fn post_stop_order(
             &mut self,
             request: impl tonic::IntoRequest<super::PostStopOrderRequest>,
@@ -7354,7 +8032,7 @@ pub mod stop_orders_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод получения списка активных стоп заявок по счёту.
+        /// Метод получения списка активных стоп заявок по счёту.
         pub async fn get_stop_orders(
             &mut self,
             request: impl tonic::IntoRequest<super::GetStopOrdersRequest>,
@@ -7374,7 +8052,7 @@ pub mod stop_orders_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        ///Метод отмены стоп-заявки.
+        /// Метод отмены стоп-заявки.
         pub async fn cancel_stop_order(
             &mut self,
             request: impl tonic::IntoRequest<super::CancelStopOrderRequest>,

@@ -18,6 +18,3 @@ futures = {version = "0.3", default-features = false, features = ["alloc"]}
 tokio = {version = "1.20", features = ["rt-multi-thread", "time", "fs", "macros", "net"]}
 tokio-stream = {version = "0.1", features = ["net"]}
 futures-util = {version = "0.3.21"}
-
-[build-dependencies]
-tonic-build = { version = "0.8.0", features = [] }
