@@ -12,7 +12,7 @@ First you need to install:
 
 ```toml
 [dependencies]
-tinkoff-invest-rust = { version = "0.2" }
+tinkoff-invest-api = { version = "0.2" }
 ```
 
 Then, on your main.rs:
