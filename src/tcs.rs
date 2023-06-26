@@ -325,6 +325,17 @@ pub struct InstrumentsRequest {
     #[prost(enumeration = "InstrumentStatus", tag = "1")]
     pub instrument_status: i32,
 }
+/// Параметры фильтрации опционов
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FilterOptionsRequest {
+    /// Идентификатор базового актива опциона.  Обязательный параметр.
+    #[prost(string, tag = "1")]
+    pub basic_asset_uid: ::prost::alloc::string::String,
+    /// Идентификатор позиции базового актива опциона
+    #[prost(string, tag = "2")]
+    pub basic_asset_position_uid: ::prost::alloc::string::String,
+}
 /// Информация об облигации.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -480,7 +491,7 @@ pub struct Option {
     /// Текущий режим торгов инструмента.
     #[prost(enumeration = "SecurityTradingStatus", tag = "21")]
     pub trading_status: i32,
-    /// Реальная площадка исполнения расчётов. Допустимые значения: [REAL_EXCHANGE_MOEX, REAL_EXCHANGE_RTS]
+    /// Реальная площадка исполнения расчётов (биржа). Допустимые значения: [REAL_EXCHANGE_MOEX, REAL_EXCHANGE_RTS]
     #[prost(enumeration = "RealExchange", tag = "31")]
     pub real_exchange: i32,
     /// Направление опциона.
@@ -510,7 +521,7 @@ pub struct Option {
     /// Основной актив.
     #[prost(string, tag = "132")]
     pub basic_asset: ::prost::alloc::string::String,
-    /// Биржа.
+    /// Tорговая площадка (секция биржи).
     #[prost(string, tag = "141")]
     pub exchange: ::prost::alloc::string::String,
     /// Код страны рисков.
@@ -528,22 +539,22 @@ pub struct Option {
     /// Размер основного актива.
     #[prost(message, optional, tag = "211")]
     pub basic_asset_size: ::core::option::Option<Quotation>,
-    /// Коэффициент ставки риска длинной позиции по клиенту.
+    /// Коэффициент ставки риска длинной позиции по клиенту. 2 – клиент со стандартным уровнем риска (КСУР). 1 – клиент с повышенным уровнем риска (КПУР)
     #[prost(message, optional, tag = "221")]
     pub klong: ::core::option::Option<Quotation>,
-    /// Коэффициент ставки риска короткой позиции по клиенту.
+    /// Коэффициент ставки риска короткой позиции по клиенту. 2 – клиент со стандартным уровнем риска (КСУР). 1 – клиент с повышенным уровнем риска (КПУР)
     #[prost(message, optional, tag = "222")]
     pub kshort: ::core::option::Option<Quotation>,
-    /// Ставка риска минимальной маржи лонг.
+    /// Ставка риска начальной маржи для КСУР лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
     #[prost(message, optional, tag = "223")]
     pub dlong: ::core::option::Option<Quotation>,
-    /// Ставка риска минимальной маржи шорт.
+    /// Ставка риска начальной маржи для КСУР шорт.  Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
     #[prost(message, optional, tag = "224")]
     pub dshort: ::core::option::Option<Quotation>,
-    /// Ставка риска начальной маржи лонг.
+    /// Ставка риска начальной маржи для КПУР лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
     #[prost(message, optional, tag = "225")]
     pub dlong_min: ::core::option::Option<Quotation>,
-    /// Ставка риска начальной маржи шорт.
+    /// Ставка риска начальной маржи для КПУР шорт.  Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
     #[prost(message, optional, tag = "226")]
     pub dshort_min: ::core::option::Option<Quotation>,
     /// Минимальный шаг цены.
@@ -633,22 +644,22 @@ pub struct Bond {
     /// Валюта расчётов.
     #[prost(string, tag = "6")]
     pub currency: ::prost::alloc::string::String,
-    /// Коэффициент ставки риска длинной позиции по инструменту.
+    /// Коэффициент ставки риска длинной позиции по клиенту. 2 – клиент со стандартным уровнем риска (КСУР). 1 – клиент с повышенным уровнем риска (КПУР)
     #[prost(message, optional, tag = "7")]
     pub klong: ::core::option::Option<Quotation>,
-    /// Коэффициент ставки риска короткой позиции по инструменту.
+    /// Коэффициент ставки риска короткой позиции по клиенту. 2 – клиент со стандартным уровнем риска (КСУР). 1 – клиент с повышенным уровнем риска (КПУР)
     #[prost(message, optional, tag = "8")]
     pub kshort: ::core::option::Option<Quotation>,
-    /// Ставка риска минимальной маржи в лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
+    /// Ставка риска начальной маржи для КСУР лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
     #[prost(message, optional, tag = "9")]
     pub dlong: ::core::option::Option<Quotation>,
-    /// Ставка риска минимальной маржи в шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
+    /// Ставка риска начальной маржи для КСУР шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
     #[prost(message, optional, tag = "10")]
     pub dshort: ::core::option::Option<Quotation>,
-    /// Ставка риска начальной маржи в лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
+    /// Ставка риска начальной маржи для КПУР лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
     #[prost(message, optional, tag = "11")]
     pub dlong_min: ::core::option::Option<Quotation>,
-    /// Ставка риска начальной маржи в шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
+    /// Ставка риска начальной маржи для КПУР шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
     #[prost(message, optional, tag = "12")]
     pub dshort_min: ::core::option::Option<Quotation>,
     /// Признак доступности для операций в шорт.
@@ -657,7 +668,7 @@ pub struct Bond {
     /// Название инструмента.
     #[prost(string, tag = "15")]
     pub name: ::prost::alloc::string::String,
-    /// Торговая площадка.
+    /// Tорговая площадка (секция биржи).
     #[prost(string, tag = "16")]
     pub exchange: ::prost::alloc::string::String,
     /// Количество выплат по купонам в год.
@@ -732,7 +743,7 @@ pub struct Bond {
     /// Уникальный идентификатор инструмента.
     #[prost(string, tag = "40")]
     pub uid: ::prost::alloc::string::String,
-    /// Реальная площадка исполнения расчётов.
+    /// Реальная площадка исполнения расчётов. (биржа)
     #[prost(enumeration = "RealExchange", tag = "41")]
     pub real_exchange: i32,
     /// Уникальный идентификатор позиции инструмента.
@@ -753,6 +764,9 @@ pub struct Bond {
     /// Признак субординированной облигации.
     #[prost(bool, tag = "55")]
     pub subordinated_flag: bool,
+    /// Флаг достаточной ликвидности
+    #[prost(bool, tag = "56")]
+    pub liquidity_flag: bool,
     /// Дата первой минутной свечи.
     #[prost(message, optional, tag = "61")]
     pub first_1min_candle_date: ::core::option::Option<::prost_types::Timestamp>,
@@ -785,22 +799,22 @@ pub struct Currency {
     /// Валюта расчётов.
     #[prost(string, tag = "6")]
     pub currency: ::prost::alloc::string::String,
-    /// Коэффициент ставки риска длинной позиции по инструменту.
+    /// Коэффициент ставки риска длинной позиции по клиенту. 2 – клиент со стандартным уровнем риска (КСУР). 1 – клиент с повышенным уровнем риска (КПУР)
     #[prost(message, optional, tag = "7")]
     pub klong: ::core::option::Option<Quotation>,
-    /// Коэффициент ставки риска короткой позиции по инструменту.
+    /// Коэффициент ставки риска короткой позиции по клиенту. 2 – клиент со стандартным уровнем риска (КСУР). 1 – клиент с повышенным уровнем риска (КПУР)
     #[prost(message, optional, tag = "8")]
     pub kshort: ::core::option::Option<Quotation>,
-    /// Ставка риска минимальной маржи в лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
+    /// Ставка риска начальной маржи для КСУР лонг.Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
     #[prost(message, optional, tag = "9")]
     pub dlong: ::core::option::Option<Quotation>,
-    /// Ставка риска минимальной маржи в шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
+    /// Ставка риска начальной маржи для КСУР шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
     #[prost(message, optional, tag = "10")]
     pub dshort: ::core::option::Option<Quotation>,
-    /// Ставка риска начальной маржи в лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
+    /// Ставка риска начальной маржи для КПУР лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
     #[prost(message, optional, tag = "11")]
     pub dlong_min: ::core::option::Option<Quotation>,
-    /// Ставка риска начальной маржи в шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
+    /// Ставка риска начальной маржи для КПУР шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
     #[prost(message, optional, tag = "12")]
     pub dshort_min: ::core::option::Option<Quotation>,
     /// Признак доступности для операций в шорт.
@@ -809,7 +823,7 @@ pub struct Currency {
     /// Название инструмента.
     #[prost(string, tag = "15")]
     pub name: ::prost::alloc::string::String,
-    /// Торговая площадка.
+    /// Tорговая площадка (секция биржи)
     #[prost(string, tag = "16")]
     pub exchange: ::prost::alloc::string::String,
     /// Номинал.
@@ -845,7 +859,7 @@ pub struct Currency {
     /// Уникальный идентификатор инструмента.
     #[prost(string, tag = "27")]
     pub uid: ::prost::alloc::string::String,
-    /// Реальная площадка исполнения расчётов.
+    /// Реальная площадка исполнения расчётов (биржа).
     #[prost(enumeration = "RealExchange", tag = "28")]
     pub real_exchange: i32,
     /// Уникальный идентификатор позиции инструмента.
@@ -892,22 +906,22 @@ pub struct Etf {
     /// Валюта расчётов.
     #[prost(string, tag = "6")]
     pub currency: ::prost::alloc::string::String,
-    /// Коэффициент ставки риска длинной позиции по инструменту.
+    /// Коэффициент ставки риска длинной позиции по клиенту. 2 – клиент со стандартным уровнем риска (КСУР). 1 – клиент с повышенным уровнем риска (КПУР)
     #[prost(message, optional, tag = "7")]
     pub klong: ::core::option::Option<Quotation>,
-    /// Коэффициент ставки риска короткой позиции по инструменту.
+    /// Коэффициент ставки риска короткой позиции по клиенту. 2 – клиент со стандартным уровнем риска (КСУР). 1 – клиент с повышенным уровнем риска (КПУР)
     #[prost(message, optional, tag = "8")]
     pub kshort: ::core::option::Option<Quotation>,
-    /// Ставка риска минимальной маржи в лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
+    /// Ставка риска начальной маржи для КСУР лонг.Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
     #[prost(message, optional, tag = "9")]
     pub dlong: ::core::option::Option<Quotation>,
-    /// Ставка риска минимальной маржи в шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
+    /// Ставка риска начальной маржи для КСУР шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
     #[prost(message, optional, tag = "10")]
     pub dshort: ::core::option::Option<Quotation>,
-    /// Ставка риска начальной маржи в лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
+    /// Ставка риска начальной маржи для КПУР лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
     #[prost(message, optional, tag = "11")]
     pub dlong_min: ::core::option::Option<Quotation>,
-    /// Ставка риска начальной маржи в шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
+    /// Ставка риска начальной маржи для КПУР шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
     #[prost(message, optional, tag = "12")]
     pub dshort_min: ::core::option::Option<Quotation>,
     /// Признак доступности для операций в шорт.
@@ -916,7 +930,7 @@ pub struct Etf {
     /// Название инструмента.
     #[prost(string, tag = "15")]
     pub name: ::prost::alloc::string::String,
-    /// Торговая площадка.
+    /// Tорговая площадка (секция биржи).
     #[prost(string, tag = "16")]
     pub exchange: ::prost::alloc::string::String,
     /// Размер фиксированной комиссии фонда.
@@ -964,7 +978,7 @@ pub struct Etf {
     /// Уникальный идентификатор инструмента.
     #[prost(string, tag = "31")]
     pub uid: ::prost::alloc::string::String,
-    /// Реальная площадка исполнения расчётов.
+    /// Реальная площадка исполнения расчётов (биржа).
     #[prost(enumeration = "RealExchange", tag = "32")]
     pub real_exchange: i32,
     /// Уникальный идентификатор позиции инструмента.
@@ -982,6 +996,9 @@ pub struct Etf {
     /// Флаг заблокированного ТКС.
     #[prost(bool, tag = "44")]
     pub blocked_tca_flag: bool,
+    /// Флаг достаточной ликвидности
+    #[prost(bool, tag = "45")]
+    pub liquidity_flag: bool,
     /// Дата первой минутной свечи.
     #[prost(message, optional, tag = "56")]
     pub first_1min_candle_date: ::core::option::Option<::prost_types::Timestamp>,
@@ -1008,22 +1025,22 @@ pub struct Future {
     /// Валюта расчётов.
     #[prost(string, tag = "5")]
     pub currency: ::prost::alloc::string::String,
-    /// Коэффициент ставки риска длинной позиции по клиенту.
+    /// Коэффициент ставки риска длинной позиции по клиенту. 2 – клиент со стандартным уровнем риска (КСУР). 1 – клиент с повышенным уровнем риска (КПУР)
     #[prost(message, optional, tag = "6")]
     pub klong: ::core::option::Option<Quotation>,
-    /// Коэффициент ставки риска короткой позиции по клиенту.
+    /// Коэффициент ставки риска короткой позиции по клиенту. 2 – клиент со стандартным уровнем риска (КСУР). 1 – клиент с повышенным уровнем риска (КПУР)
     #[prost(message, optional, tag = "7")]
     pub kshort: ::core::option::Option<Quotation>,
-    /// Ставка риска минимальной маржи в лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
+    /// Ставка риска начальной маржи для КСУР лонг.Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
     #[prost(message, optional, tag = "8")]
     pub dlong: ::core::option::Option<Quotation>,
-    /// Ставка риска минимальной маржи в шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
+    /// Ставка риска начальной маржи для КСУР шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
     #[prost(message, optional, tag = "9")]
     pub dshort: ::core::option::Option<Quotation>,
-    /// Ставка риска начальной маржи в лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
+    /// Ставка риска начальной маржи для КПУР лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
     #[prost(message, optional, tag = "10")]
     pub dlong_min: ::core::option::Option<Quotation>,
-    /// Ставка риска начальной маржи в шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
+    /// Ставка риска начальной маржи для КПУР шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
     #[prost(message, optional, tag = "11")]
     pub dshort_min: ::core::option::Option<Quotation>,
     /// Признак доступности для операций шорт.
@@ -1032,7 +1049,7 @@ pub struct Future {
     /// Название инструмента.
     #[prost(string, tag = "13")]
     pub name: ::prost::alloc::string::String,
-    /// Торговая площадка.
+    /// Tорговая площадка (секция биржи).
     #[prost(string, tag = "14")]
     pub exchange: ::prost::alloc::string::String,
     /// Дата начала обращения контракта в часовом поясе UTC.
@@ -1086,7 +1103,7 @@ pub struct Future {
     /// Уникальный идентификатор инструмента.
     #[prost(string, tag = "31")]
     pub uid: ::prost::alloc::string::String,
-    /// Реальная площадка исполнения расчётов.
+    /// Реальная площадка исполнения расчётов (биржа).
     #[prost(enumeration = "RealExchange", tag = "32")]
     pub real_exchange: i32,
     /// Уникальный идентификатор позиции инструмента.
@@ -1136,22 +1153,22 @@ pub struct Share {
     /// Валюта расчётов.
     #[prost(string, tag = "6")]
     pub currency: ::prost::alloc::string::String,
-    /// Коэффициент ставки риска длинной позиции по инструменту.
+    /// Коэффициент ставки риска длинной позиции по клиенту. 2 – клиент со стандартным уровнем риска (КСУР). 1 – клиент с повышенным уровнем риска (КПУР)
     #[prost(message, optional, tag = "7")]
     pub klong: ::core::option::Option<Quotation>,
-    /// Коэффициент ставки риска короткой позиции по инструменту.
+    /// Коэффициент ставки риска короткой позиции по клиенту. 2 – клиент со стандартным уровнем риска (КСУР). 1 – клиент с повышенным уровнем риска (КПУР)
     #[prost(message, optional, tag = "8")]
     pub kshort: ::core::option::Option<Quotation>,
-    /// Ставка риска минимальной маржи в лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
+    /// Ставка риска начальной маржи для КСУР лонг.Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
     #[prost(message, optional, tag = "9")]
     pub dlong: ::core::option::Option<Quotation>,
-    /// Ставка риска минимальной маржи в шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
+    /// Ставка риска начальной маржи для КСУР шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
     #[prost(message, optional, tag = "10")]
     pub dshort: ::core::option::Option<Quotation>,
-    /// Ставка риска начальной маржи в лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
+    /// Ставка риска начальной маржи для КПУР лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
     #[prost(message, optional, tag = "11")]
     pub dlong_min: ::core::option::Option<Quotation>,
-    /// Ставка риска начальной маржи в шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
+    /// Ставка риска начальной маржи для КПУР шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
     #[prost(message, optional, tag = "12")]
     pub dshort_min: ::core::option::Option<Quotation>,
     /// Признак доступности для операций в шорт.
@@ -1160,7 +1177,7 @@ pub struct Share {
     /// Название инструмента.
     #[prost(string, tag = "15")]
     pub name: ::prost::alloc::string::String,
-    /// Торговая площадка.
+    /// Tорговая площадка (секция биржи).
     #[prost(string, tag = "16")]
     pub exchange: ::prost::alloc::string::String,
     /// Дата IPO акции в часовом поясе UTC.
@@ -1211,7 +1228,7 @@ pub struct Share {
     /// Уникальный идентификатор инструмента.
     #[prost(string, tag = "33")]
     pub uid: ::prost::alloc::string::String,
-    /// Реальная площадка исполнения расчётов.
+    /// Реальная площадка исполнения расчётов (биржа).
     #[prost(enumeration = "RealExchange", tag = "34")]
     pub real_exchange: i32,
     /// Уникальный идентификатор позиции инструмента.
@@ -1229,6 +1246,9 @@ pub struct Share {
     /// Флаг заблокированного ТКС
     #[prost(bool, tag = "49")]
     pub blocked_tca_flag: bool,
+    /// Флаг достаточной ликвидности
+    #[prost(bool, tag = "50")]
+    pub liquidity_flag: bool,
     /// Дата первой минутной свечи.
     #[prost(message, optional, tag = "56")]
     pub first_1min_candle_date: ::core::option::Option<::prost_types::Timestamp>,
@@ -1330,22 +1350,22 @@ pub struct Instrument {
     /// Валюта расчётов.
     #[prost(string, tag = "6")]
     pub currency: ::prost::alloc::string::String,
-    /// Коэффициент ставки риска длинной позиции по инструменту.
+    /// Коэффициент ставки риска длинной позиции по клиенту. 2 – клиент со стандартным уровнем риска (КСУР). 1 – клиент с повышенным уровнем риска (КПУР)
     #[prost(message, optional, tag = "7")]
     pub klong: ::core::option::Option<Quotation>,
-    /// Коэффициент ставки риска короткой позиции по инструменту.
+    /// Коэффициент ставки риска короткой позиции по клиенту. 2 – клиент со стандартным уровнем риска (КСУР). 1 – клиент с повышенным уровнем риска (КПУР)
     #[prost(message, optional, tag = "8")]
     pub kshort: ::core::option::Option<Quotation>,
-    /// Ставка риска минимальной маржи в лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
+    /// ССтавка риска начальной маржи для КСУР лонг.Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
     #[prost(message, optional, tag = "9")]
     pub dlong: ::core::option::Option<Quotation>,
-    /// Ставка риска минимальной маржи в шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
+    /// Ставка риска начальной маржи для КСУР шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
     #[prost(message, optional, tag = "10")]
     pub dshort: ::core::option::Option<Quotation>,
-    /// Ставка риска начальной маржи в лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
+    /// Ставка риска начальной маржи для КПУР лонг. Подробнее: [ставка риска в лонг](<https://help.tinkoff.ru/margin-trade/long/risk-rate/>)
     #[prost(message, optional, tag = "11")]
     pub dlong_min: ::core::option::Option<Quotation>,
-    /// Ставка риска начальной маржи в шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
+    /// Ставка риска начальной маржи для КПУР шорт. Подробнее: [ставка риска в шорт](<https://help.tinkoff.ru/margin-trade/short/risk-rate/>)
     #[prost(message, optional, tag = "12")]
     pub dshort_min: ::core::option::Option<Quotation>,
     /// Признак доступности для операций в шорт.
@@ -1354,7 +1374,7 @@ pub struct Instrument {
     /// Название инструмента.
     #[prost(string, tag = "14")]
     pub name: ::prost::alloc::string::String,
-    /// Торговая площадка.
+    /// Tорговая площадка (секция биржи).
     #[prost(string, tag = "15")]
     pub exchange: ::prost::alloc::string::String,
     /// Код страны риска, т.е. страны, в которой компания ведёт основной бизнес.
@@ -1387,7 +1407,7 @@ pub struct Instrument {
     /// Уникальный идентификатор инструмента.
     #[prost(string, tag = "25")]
     pub uid: ::prost::alloc::string::String,
-    /// Реальная площадка исполнения расчётов.
+    /// Реальная площадка исполнения расчётов (биржа).
     #[prost(enumeration = "RealExchange", tag = "26")]
     pub real_exchange: i32,
     /// Уникальный идентификатор позиции инструмента.
@@ -1490,7 +1510,10 @@ pub struct AssetResponse {
 /// Запрос списка активов.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AssetsRequest {}
+pub struct AssetsRequest {
+    #[prost(enumeration = "InstrumentType", tag = "1")]
+    pub instrument_type: i32,
+}
 /// Список активов.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1954,6 +1977,9 @@ pub struct AssetInstrument {
     /// Тип инструмента.
     #[prost(enumeration = "InstrumentType", tag = "10")]
     pub instrument_kind: i32,
+    /// id позиции.
+    #[prost(string, tag = "11")]
+    pub position_uid: ::prost::alloc::string::String,
 }
 /// Связь с другим инструментом.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -2070,6 +2096,12 @@ pub struct FindInstrumentRequest {
     /// Строка поиска.
     #[prost(string, tag = "1")]
     pub query: ::prost::alloc::string::String,
+    /// Фильтр по типу инструмента.
+    #[prost(enumeration = "InstrumentType", tag = "2")]
+    pub instrument_kind: i32,
+    /// Фильтр для отображения только торговых инструментов.
+    #[prost(bool, tag = "3")]
+    pub api_trade_available_flag: bool,
 }
 /// Результат поиска инструментов.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -2951,7 +2983,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        /// Метод получения списка опционов.
+        /// Deprecated Метод получения списка опционов.
         pub async fn options(
             &mut self,
             request: impl tonic::IntoRequest<super::InstrumentsRequest>,
@@ -2968,6 +3000,26 @@ pub mod instruments_service_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/tinkoff.public.invest.api.contract.v1.InstrumentsService/Options",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// Метод получения списка опционов.
+        pub async fn options_by(
+            &mut self,
+            request: impl tonic::IntoRequest<super::FilterOptionsRequest>,
+        ) -> Result<tonic::Response<super::OptionsResponse>, tonic::Status> {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/tinkoff.public.invest.api.contract.v1.InstrumentsService/OptionsBy",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
@@ -3111,7 +3163,7 @@ pub mod instruments_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        /// Метод получения списка активов.
+        /// Метод получения списка активов. Метод работает для всех инструментов, за исключением срочных - опционов и фьючерсов.
         pub async fn get_assets(
             &mut self,
             request: impl tonic::IntoRequest<super::AssetsRequest>,
@@ -3373,6 +3425,7 @@ pub struct SubscribeCandlesRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CandleInstrument {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
+    #[deprecated]
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
     /// Интервал свечей.
@@ -3426,6 +3479,7 @@ pub struct SubscribeOrderBookRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OrderBookInstrument {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
+    #[deprecated]
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
     /// Глубина стакана.
@@ -3479,6 +3533,7 @@ pub struct SubscribeTradesRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TradeInstrument {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
+    #[deprecated]
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
     /// Идентификатор инструмента, принимает значение figi или instrument_uid
@@ -3526,6 +3581,7 @@ pub struct SubscribeInfoRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct InfoInstrument {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
+    #[deprecated]
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
     /// Идентификатор инструмента, принимает значение figi или instrument_uid
@@ -3573,6 +3629,7 @@ pub struct SubscribeLastPriceRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct LastPriceInstrument {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
+    #[deprecated]
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
     /// Идентификатор инструмента, принимает значение figi или instrument_uid
@@ -3733,6 +3790,7 @@ pub struct TradingStatus {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetCandlesRequest {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
+    #[deprecated]
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
     /// Начало запрашиваемого периода в часовом поясе UTC.
@@ -3787,6 +3845,7 @@ pub struct HistoricCandle {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetLastPricesRequest {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
+    #[deprecated]
     #[prost(string, repeated, tag = "1")]
     pub figi: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// Массив идентификаторов инструмента, принимает значения figi или instrument_uid.
@@ -3823,6 +3882,7 @@ pub struct LastPrice {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetOrderBookRequest {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
+    #[deprecated]
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
     /// Глубина стакана.
@@ -3878,6 +3938,7 @@ pub struct GetOrderBookResponse {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetTradingStatusRequest {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
+    #[deprecated]
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
     /// Идентификатор инструмента, принимает значение figi или instrument_uid.
@@ -3928,6 +3989,7 @@ pub struct GetTradingStatusResponse {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetLastTradesRequest {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
+    #[deprecated]
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
     /// Начало запрашиваемого периода в часовом поясе UTC.
@@ -4167,31 +4229,31 @@ impl TradeDirection {
 pub enum CandleInterval {
     /// Интервал не определён.
     Unspecified = 0,
-    /// 1 минута.
+    /// от 1 минуты до 1 дня.
     CandleInterval1Min = 1,
-    /// 5 минут.
+    /// от 5 минут до 1 дня.
     CandleInterval5Min = 2,
-    /// 15 минут.
+    /// от 15 минут до 1 дня.
     CandleInterval15Min = 3,
-    /// 1 час.
+    /// от 1 часа до 1 недели.
     Hour = 4,
-    /// 1 день.
+    /// от 1 дня до 1 года.
     Day = 5,
-    /// 2 минуты.
+    /// от 2 минут до 1 дня.
     CandleInterval2Min = 6,
-    /// 3 минуты.
+    /// от 3 минут до 1 дня.
     CandleInterval3Min = 7,
-    /// 10 минут.
+    /// от 10 минут до 1 дня.
     CandleInterval10Min = 8,
-    /// 30 минут.
+    /// от 30 минут до 2 дней.
     CandleInterval30Min = 9,
-    /// 2 часа.
+    /// от 2 часов до 1 месяца.
     CandleInterval2Hour = 10,
-    /// 4 часа.
+    /// от 4 часов до 1 месяца.
     CandleInterval4Hour = 11,
-    /// 1 неделя.
+    /// от 1 недели до 2 лет.
     Week = 12,
-    /// 1 месяц.
+    /// от 1 месяца до 10 лет.
     Month = 13,
 }
 impl CandleInterval {
@@ -4842,6 +4904,7 @@ pub struct PortfolioPosition {
     #[prost(message, optional, tag = "6")]
     pub current_nkd: ::core::option::Option<MoneyValue>,
     /// Deprecated Средняя цена позиции в пунктах (для фьючерсов). **Возможна задержка до секунды для пересчёта**.
+    #[deprecated]
     #[prost(message, optional, tag = "7")]
     pub average_position_price_pt: ::core::option::Option<Quotation>,
     /// Текущая цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
@@ -4851,6 +4914,7 @@ pub struct PortfolioPosition {
     #[prost(message, optional, tag = "9")]
     pub average_position_price_fifo: ::core::option::Option<MoneyValue>,
     /// Deprecated Количество лотов в портфеле.
+    #[deprecated]
     #[prost(message, optional, tag = "10")]
     pub quantity_lots: ::core::option::Option<Quotation>,
     /// Заблокировано на бирже.
@@ -6409,6 +6473,7 @@ pub struct OrderTrade {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PostOrderRequest {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
+    #[deprecated]
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
     /// Количество лотов.
@@ -6426,7 +6491,7 @@ pub struct PostOrderRequest {
     /// Тип заявки.
     #[prost(enumeration = "OrderType", tag = "6")]
     pub order_type: i32,
-    /// Идентификатор запроса выставления поручения для целей идемпотентности. Максимальная длина 36 символов.
+    /// Идентификатор запроса выставления поручения для целей идемпотентности в формате UID. Максимальная длина 36 символов.
     #[prost(string, tag = "7")]
     pub order_id: ::prost::alloc::string::String,
     /// Идентификатор инструмента, принимает значения Figi или Instrument_uid.
@@ -6437,7 +6502,7 @@ pub struct PostOrderRequest {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PostOrderResponse {
-    /// Идентификатор заявки.
+    /// Биржевой идентификатор заявки.
     #[prost(string, tag = "1")]
     pub order_id: ::prost::alloc::string::String,
     /// Текущий статус заявки.
@@ -6539,7 +6604,7 @@ pub struct GetOrdersResponse {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct OrderState {
-    /// Идентификатор заявки.
+    /// Биржевой идентификатор заявки.
     #[prost(string, tag = "1")]
     pub order_id: ::prost::alloc::string::String,
     /// Текущий статус заявки.
@@ -6596,6 +6661,9 @@ pub struct OrderState {
     /// UID идентификатор инструмента.
     #[prost(string, tag = "19")]
     pub instrument_uid: ::prost::alloc::string::String,
+    /// Идентификатор ключа идемпотентности, переданный клиентом, в формате UID. Максимальная длина 36 символов.
+    #[prost(string, tag = "20")]
+    pub order_request_id: ::prost::alloc::string::String,
 }
 /// Сделки в рамках торгового поручения.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -6677,6 +6745,8 @@ pub enum OrderType {
     Limit = 1,
     /// Рыночная
     Market = 2,
+    /// Лучшая цена
+    Bestprice = 3,
 }
 impl OrderType {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -6688,6 +6758,7 @@ impl OrderType {
             OrderType::Unspecified => "ORDER_TYPE_UNSPECIFIED",
             OrderType::Limit => "ORDER_TYPE_LIMIT",
             OrderType::Market => "ORDER_TYPE_MARKET",
+            OrderType::Bestprice => "ORDER_TYPE_BESTPRICE",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -6696,6 +6767,7 @@ impl OrderType {
             "ORDER_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
             "ORDER_TYPE_LIMIT" => Some(Self::Limit),
             "ORDER_TYPE_MARKET" => Some(Self::Market),
+            "ORDER_TYPE_BESTPRICE" => Some(Self::Bestprice),
             _ => None,
         }
     }
@@ -7167,6 +7239,9 @@ pub struct StreamLimit {
     /// Названия stream-методов.
     #[prost(string, repeated, tag = "2")]
     pub streams: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Текущее количество открытых stream-соединений.
+    #[prost(int32, tag = "3")]
+    pub open: i32,
 }
 /// Запрос информации о пользователе.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -7717,7 +7792,7 @@ pub mod sandbox_service_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        /// Метод получения статуса заявки в песочнице.
+        /// Метод получения статуса заявки в песочнице. Заявки хранятся в таблице 7 дней.
         pub async fn get_sandbox_order_state(
             &mut self,
             request: impl tonic::IntoRequest<super::GetOrderStateRequest>,
@@ -7867,6 +7942,7 @@ pub mod sandbox_service_client {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PostStopOrderRequest {
     /// Deprecated Figi-идентификатор инструмента. Необходимо использовать instrument_id.
+    #[deprecated]
     #[prost(string, tag = "1")]
     pub figi: ::prost::alloc::string::String,
     /// Количество лотов.
