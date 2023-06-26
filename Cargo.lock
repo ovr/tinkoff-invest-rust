@@ -757,7 +757,7 @@ checksum = "20518fe4a4c9acf048008599e464deb21beeae3d3578418951a189c235a7a9a8"
 
 [[package]]
 name = "tinkoff-invest-api"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "async-stream",
  "futures",
